@@ -1,0 +1,270 @@
+import { StyleSheet } from 'react-native';
+
+const styles = StyleSheet.create({
+
+    "screen-container": {
+        direction:"rtl",
+        flex: 1,
+        alignItems: 'center',
+        backgroundColor:"white",
+    },
+
+    "navbar": {
+        width:"100%",
+        backgroundColor: "#C03E3E",
+        paddingVertical: 8,
+        paddingHorizontal:25,
+        flexDirection:"row",
+        justifyContent:"space-between",
+        gap:25
+    },
+
+    "btn":
+    {
+        flexDirection:"row",
+        alignItems:"center",
+        justifyContent:"center",
+        borderRadius:5,
+        padding:10,
+        gap:10
+    },
+
+    "btn-text":
+    {
+        fontSize:20,
+        color:"white"
+    },
+
+    "hr":
+    {
+        width:"100%",
+        borderColor:"black",
+        borderWidth:StyleSheet.hairlineWidth
+    },
+
+
+    "pos-abs": {position:"absolute"},
+
+    "w-100": {width:"100%"},
+    "w-50": {width:"50%"},
+
+    "h-100": {height:"100%"},
+    "h-50": {height:"50%"},
+
+    "bg-white":
+    {
+        backgroundColor:"white"
+    },
+    "bg-black":
+    {
+        backgroundColor:"black"
+    },
+    "bg-primary":
+    {
+        backgroundColor:"#2620ede"
+    },
+    "bg-danger":
+    {
+        backgroundColor:"#c41d1d"
+    },
+   
+
+    "col-white":
+    {
+        color:"white"
+    },
+    "col-primary":
+    {
+        color: "#2620ede"
+    },
+    "col-danger":
+    {
+        color: "#c41d1d"
+    },
+
+    "col-accent":
+    {
+      color: "#C03E3E"
+    },
+
+
+    "w-100":
+    {
+        width: "100%"
+    },
+
+    "flex-row":
+    {
+        flexDirection:"row"
+    },
+
+    "al-items-c":
+    {
+        alignItems:"center"
+    },
+
+    "al-items-s":
+    {
+        alignItems:"flex-start"
+    },
+
+    "al-items-e":
+    {
+        alignItems:"flex-end"
+    },
+
+    
+    "j-content-c":
+    {
+        justifyContent:"center"
+    },
+
+    "j-content-s":
+    {
+        justifyContent:"flex-start"
+    },
+
+    "j-content-e":
+    {
+        justifyContent:"flex-end"
+    },
+
+    "gap-1":
+    {
+        gap: 5
+    },
+    "gap-2":
+    {
+        gap: 10
+    },
+    "gap-3":
+    {
+        gap: 20
+    },
+
+    "shadow":
+    {
+        shadowColor:"black",
+        elevation:5
+    },
+
+    "rounded":
+    {
+        borderRadius:5
+    },
+
+    "border-1":
+    {
+        borderWidth:1
+    },
+
+    "border-2":
+    {
+        borderWidth:2
+    },
+
+    "border-black":
+    {
+        borderColor:"black"
+    },
+
+    "border-light":
+    {
+        borderColor:"lightgray"
+    },
+
+    "fs-1":
+    {
+      fontSize: 30
+    },
+    "fs-2":
+    {
+      fontSize: 25
+    },
+    "fs-3":
+    {
+      fontSize: 20
+    },
+    "fs-4":
+    {
+      fontSize: 15
+    },
+
+    "p-1": { "padding": 10 },
+    "p-2": { "padding": 20 },
+    "p-3": { "padding": 30 },
+    "p-4": { "padding": 50 },
+    "pt-1": { "paddingTop": 10 },
+    "pt-2": { "paddingTop": 20 },
+    "pt-3": { "paddingTop": 30 },
+    "pt-4": { "paddingTop": 50 },
+    "pb-1": { "paddingBottom": 10 },
+    "pb-2": { "paddingBottom": 20 },
+    "pb-3": { "paddingBottom": 30 },
+    "pb-4": { "paddingBottom": 50 },
+    "pl-1": { "paddingLeft": 10 },
+    "pl-2": { "paddingLeft": 20 },
+    "pl-3": { "paddingLeft": 30 },
+    "pl-4": { "paddingLeft": 50 },
+    "pr-1": { "paddingRight": 10 },
+    "pr-2": { "paddingRight": 20 },
+    "pr-3": { "paddingRight": 30 },
+    "pr-4": { "paddingRight": 50 },
+    "px-1": { "paddingHorizontal": 10 },
+    "px-2": { "paddingHorizontal": 20 },
+    "px-3": { "paddingHorizontal": 30 },
+    "px-4": { "paddingHorizontal": 50 },
+    "py-1": { "paddingVertical": 10 },
+    "py-2": { "paddingVertical": 20 },
+    "py-3": { "paddingVertical": 30 },
+    "py-4": { "paddingVertical": 50 },
+    "m-1": { "margin": 10 },
+    "m-2": { "margin": 20 },
+    "m-3": { "margin": 30 },
+    "m-4": { "margin": 50 },
+    "mt-1": { "marginTop": 10 },
+    "mt-2": { "marginTop": 20 },
+    "mt-3": { "marginTop": 30 },
+    "mt-4": { "marginTop": 50 },
+    "mb-1": { "marginBottom": 10 },
+    "mb-2": { "marginBottom": 20 },
+    "mb-3": { "marginBottom": 30 },
+    "mb-4": { "marginBottom": 50 },
+    "ml-1": { "marginLeft": 10 },
+    "ml-2": { "marginLeft": 20 },
+    "ml-3": { "marginLeft": 30 },
+    "ml-4": { "marginLeft": 50 },
+    "mr-1": { "marginRight": 10 },
+    "mr-2": { "marginRight": 20 },
+    "mr-3": { "marginRight": 30 },
+    "mr-4": { "marginRight": 50 },
+    "mx-1": { "marginHorizontal": 10 },
+    "mx-2": { "marginHorizontal": 20 },
+    "mx-3": { "marginHorizontal": 30 },
+    "mx-4": { "marginHorizontal": 50 },
+    "my-1": { "marginVertical": 10 },
+    "my-2": { "marginVertical": 20 },
+    "my-3": { "marginVertical": 30 },
+    "my-4": { "marginVertical": 50 },
+
+
+
+    
+
+  
+    
+});
+
+
+export function s(classes,extraStyles={})
+{
+    const classList = classes.split(" ");
+    let styleObject = {};
+    classList.forEach((c)=>{
+        styleObject = {...styleObject,...styles[c]};
+    })
+    return {...styleObject,...extraStyles};
+}
+
+
+export default styles;
