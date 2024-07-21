@@ -6,7 +6,15 @@ const styles = StyleSheet.create({
         direction:"rtl",
         flex: 1,
         alignItems: 'center',
-        backgroundColor:"white",
+        backgroundColor:"white"
+    },
+
+    "screen-content":
+    {
+        paddingTop:40,
+        alignItems:"center",
+        width:"100%",
+        padding:30
     },
 
     "navbar": {
@@ -19,14 +27,27 @@ const styles = StyleSheet.create({
         gap:25
     },
 
+    "input": {
+        backgroundColor:"white",
+        paddingVertical:5,
+        paddingHorizontal:10,
+
+        borderColor:"#BFBFBF",
+        borderWidth:2,
+        borderRadius:5,
+
+        flex:1
+    },
+
     "btn":
     {
         flexDirection:"row",
         alignItems:"center",
         justifyContent:"center",
         borderRadius:5,
-        padding:10,
-        gap:10
+        padding:5,
+        gap:10,
+        aspectRatio:1,
     },
 
     "btn-text":
@@ -42,14 +63,24 @@ const styles = StyleSheet.create({
         borderWidth:StyleSheet.hairlineWidth
     },
 
-
+    "pos-rel": {position:"relative"},
     "pos-abs": {position:"absolute"},
 
     "w-100": {width:"100%"},
+    "w-75": {width:"75%"},
     "w-50": {width:"50%"},
+    "w-25": {width:"25%"},
 
     "h-100": {height:"100%"},
+    "h-75": {height:"75%"},
     "h-50": {height:"50%"},
+    "h-25": {height:"25%"},
+
+    "lh-normal": {lineHeight:20},
+
+    "text-center": {textAlign:"center"},
+    "text-r": {textAlign:"right"},
+    "text-l": {textAlign:"left"},
 
     "bg-white":
     {
@@ -86,6 +117,10 @@ const styles = StyleSheet.create({
     {
       color: "#C03E3E"
     },
+    "col-gray":
+    {
+        color: "#7F7F7F"
+    },
 
 
     "w-100":
@@ -113,7 +148,11 @@ const styles = StyleSheet.create({
         alignItems:"flex-end"
     },
 
-    
+    "j-content-b":
+    {
+        justifyContent:"space-between"
+    },
+
     "j-content-c":
     {
         justifyContent:"center"
@@ -144,7 +183,7 @@ const styles = StyleSheet.create({
 
     "shadow":
     {
-        shadowColor:"black",
+        shadowColor:"gray",
         elevation:5
     },
 
@@ -171,6 +210,10 @@ const styles = StyleSheet.create({
     "border-light":
     {
         borderColor:"lightgray"
+    },
+    "border-gray":
+    {
+       borderColor: "#7F7F7F" 
     },
 
     "fs-1":
@@ -247,8 +290,29 @@ const styles = StyleSheet.create({
     "my-3": { "marginVertical": 30 },
     "my-4": { "marginVertical": 50 },
 
+    // "pointer-none": {pointerEvents:"none"},
+    // "pointer-auto": {pointerEvents:"auto"},
+
+    "row":
+    {
+        flexDirection:"row",
+        flexWrap:"wrap"
+    },
 
 
+    
+
+    "menu-item-col":
+    {
+        width:"50%"
+    },
+
+    "menu-item-container":
+    {
+        borderWidth: 2,
+        borderColor:"#820000",
+        borderRadius: 5
+    }
     
 
   
@@ -259,7 +323,7 @@ const styles = StyleSheet.create({
 export function s(classes,extraStyles={})
 {
     const classList = classes.split(" ");
-    let styleObject = {};
+    let styleObject = {fontFamily:'Cairo'};
     classList.forEach((c)=>{
         styleObject = {...styleObject,...styles[c]};
     })

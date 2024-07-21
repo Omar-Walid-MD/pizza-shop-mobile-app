@@ -4,6 +4,7 @@ import { StyleSheet } from "react-native";
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import NavBar from '../Components/NavBar';
+import MenuScreen from '../Screens/MenuScreen';
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -21,6 +22,7 @@ export default function Navigator()
         tabBar={props => <NavBar {...props} />}
         >
             <Tab.Group>
+                <Tab.Screen name="Menu" component={MenuScreen} />
                 <Tab.Screen name="Home" component={HomeScreen} />
             </Tab.Group>
         </Tab.Navigator>

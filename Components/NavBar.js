@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import { Button, StyleSheet, Text, View, Image, Pressable, ScrollView, Animated } from 'react-native';
-import { MaterialCommunityIcons, Ionicons } from 'react-native-vector-icons'
+import { MaterialCommunityIcons, MaterialIcons } from 'react-native-vector-icons'
 
 import { useRoute } from '@react-navigation/native';
 import { useDispatch, useSelector } from 'react-redux';
@@ -10,6 +10,11 @@ import {s} from "../styles";
 export default function NavBar({state, descriptors, navigation, position})
 {
     const dispatch = useDispatch();
+
+    const buttons = {
+        "Home": <MaterialCommunityIcons name="home" color="white" style={{fontSize:50}}/>,
+        "Menu": <MaterialIcons name="menu-book" color="white" style={{fontSize:50}} />
+    }
 
     // const buttons = {
     //     "Home": {
@@ -75,9 +80,11 @@ export default function NavBar({state, descriptors, navigation, position})
                 // style={{...buttons[label].style,flexGrow:1}}
                 key={`tab-button-${index}`}
                 >
-                    <MaterialCommunityIcons name="home" color="white" style={{fontSize:50}}/>
+                {
+                    buttons[label]
+                } 
             </Pressable>
-           
+            
                 );
             })}
 
