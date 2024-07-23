@@ -1,14 +1,16 @@
 import { StatusBar } from 'expo-status-bar';
-import { Button, StyleSheet, Text, View, Image, Pressable } from 'react-native';
+import { Button, StyleSheet, View, Image, Pressable } from 'react-native';
 import styles, { s } from '../styles';
 import { LinearGradient } from 'expo-linear-gradient';
+import Text from '../Components/Text';
+import Background from '../Components/Background';
 
 export default function HomeScreen({navigation}) {
 
     return (
         <View style={s("screen-container")}>
             {/* Background */}
-            <LinearGradient style={s("h-100 w-100 pos-abs")} colors={["#FEF7EA","#F8E8CC"]} />
+            <Background />
 
             {/* Screen Content */}
             <View style={s("screen-content")}>

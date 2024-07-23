@@ -11,15 +11,15 @@ const styles = StyleSheet.create({
 
     "screen-content":
     {
-        paddingTop:40,
+        paddingTop:100,
         alignItems:"center",
         width:"100%",
-        padding:30
+        padding:20,
+        gap: 20
     },
 
     "navbar": {
         width:"100%",
-        backgroundColor: "#C03E3E",
         paddingVertical: 8,
         paddingHorizontal:25,
         flexDirection:"row",
@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
         borderWidth:2,
         borderRadius:5,
 
-        flex:1
+        flexGrow: 1
     },
 
     "btn":
@@ -60,7 +60,7 @@ const styles = StyleSheet.create({
     {
         width:"100%",
         borderColor:"black",
-        borderWidth:StyleSheet.hairlineWidth
+        borderWidth:StyleSheet.hairlineWidth,
     },
 
     "pos-rel": {position:"relative"},
@@ -98,6 +98,11 @@ const styles = StyleSheet.create({
     {
         backgroundColor:"#c41d1d"
     },
+
+    "bg-main":
+    {
+        backgroundColor: "#FEF7EA"
+    },
    
 
     "col-white":
@@ -106,7 +111,7 @@ const styles = StyleSheet.create({
     },
     "col-primary":
     {
-        color: "#2620ede"
+        color: "#0070C0"
     },
     "col-danger":
     {
@@ -180,6 +185,11 @@ const styles = StyleSheet.create({
     {
         gap: 20
     },
+    "gap-4":
+    {
+        gap: 30
+    },
+
 
     "shadow":
     {
@@ -215,6 +225,8 @@ const styles = StyleSheet.create({
     {
        borderColor: "#7F7F7F" 
     },
+
+    "font-main": {fontFamily:'Cairo'},
 
     "fs-1":
     {
@@ -323,7 +335,7 @@ const styles = StyleSheet.create({
 export function s(classes,extraStyles={})
 {
     const classList = classes.split(" ");
-    let styleObject = {fontFamily:'Cairo'};
+    let styleObject = {};
     classList.forEach((c)=>{
         styleObject = {...styleObject,...styles[c]};
     })

@@ -5,27 +5,42 @@ import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import NavBar from '../Components/NavBar';
 import MenuScreen from '../Screens/MenuScreen';
+import { createStackNavigator } from '@react-navigation/stack';
+import LoginScreen from '../Screens/LoginScreen';
+import ProfileScreen from '../Screens/ProfileScreen';
+import RegisterScreen from '../Screens/RegisterScreen';
 
 const Tab = createMaterialTopTabNavigator();
+const Stack = createStackNavigator();
 
 export default function Navigator()
 {
-    const dispatch = useDispatch();
-
-    useEffect(()=>{
-
-    },[]);
-
     return (
-        <Tab.Navigator
-        screenOptions={{swipeEnabled:false}} tabBarPosition='bottom'
-        tabBar={props => <NavBar {...props} />}
-        >
-            <Tab.Group>
-                <Tab.Screen name="Menu" component={MenuScreen} />
-                <Tab.Screen name="Home" component={HomeScreen} />
-            </Tab.Group>
-        </Tab.Navigator>
+        <Stack.Navigator>
+            <Stack.Screen
+            name="Main"
+            component={TabNavigator}
+            options={{ headerShown: false }}
+            />
+            <Stack.Screen name="Login" component={LoginScreen} options={{ headerShown: false }} />
+            <Stack.Screen name="Register" component={RegisterScreen} options={{ headerShown: false }} />
+
+        </Stack.Navigator>
     );
 }
 
+function TabNavigator({navigation})
+{
+    return (
+        <Tab.Navigator
+        screenOptions={{swipeEnabled:false}} tabBarPosition='bottom'
+        initialRouteName='Home'
+        tabBar={props => <NavBar {...props} />}
+        >
+            <Tab.Screen name="Profile" component={ProfileScreen} />
+            <Tab.Screen name="Home" component={HomeScreen} />
+            <Tab.Screen name="Menu" component={MenuScreen} />
+
+        </Tab.Navigator>
+    )
+}

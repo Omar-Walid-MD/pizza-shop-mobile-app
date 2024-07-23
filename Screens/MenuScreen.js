@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { Modal, Text, View, Image, Pressable, ScrollView } from 'react-native';
+import { Modal, View, Image, Pressable, ScrollView } from 'react-native';
 import styles, { s } from '../styles';
 import { LinearGradient } from 'expo-linear-gradient';
 import Input from '../Components/Input';
@@ -10,6 +10,8 @@ import Accordion from '../Components/Accordion';
 import { useState } from 'react';
 import Button from '../Components/Button';
 import { CheckBox } from '@rneui/base';
+import Text from '../Components/Text';
+import Background from '../Components/Background';
 
 
 export default function MenuScreen({navigation}) {
@@ -36,7 +38,7 @@ export default function MenuScreen({navigation}) {
     return (
         <View style={s("screen-container")}>
             {/* Background */}
-            <LinearGradient style={s("h-100 w-100 pos-abs")} colors={["#FEF7EA","#F8E8CC"]} />
+            <Background />
             
             {/* Screen Content */}
             <View style={s("screen-content")}>
@@ -49,21 +51,21 @@ export default function MenuScreen({navigation}) {
                     </Button>
                 </View>
 
+                <Accordion
+                content={<Text style={s("col-gray fs-3 pr-4")}>عنوان</Text>}
+                >
+                    <ScrollView style={{}} contentContainerStyle={{flexGrow:1,paddingBottom:450}}>
+                        <View style={s("row w-100",{})}>
+                        {
+                            Array.from({length:10}).map(()=>
+                                <MenuItem openTab={()=>setItemShowTab(true)} />
+                            )
+                        }
+                        </View>
+                    </ScrollView>
+                </Accordion>
             </View>
 
-            <Accordion
-            content={<Text style={s("col-gray fs-3 pr-4")}>عنوان</Text>}
-            >
-                <ScrollView style={{}} contentContainerStyle={{flexGrow:1,paddingBottom:350}}>
-                    <View style={s("row w-100",{})}>
-                    {
-                        Array.from({length:10}).map(()=>
-                            <MenuItem openTab={()=>setItemShowTab(true)} />
-                        )
-                    }
-                    </View>
-                </ScrollView>
-            </Accordion>
 
 
             {/* Modals */}
