@@ -4,19 +4,31 @@ import { MaterialCommunityIcons, MaterialIcons } from 'react-native-vector-icons
 
 import { useRoute } from '@react-navigation/native';
 import { useDispatch, useSelector } from 'react-redux';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import {s} from "../styles";
 import { LinearGradient } from 'expo-linear-gradient';
+
+import {Dimensions} from 'react-native';
+
 
 export default function NavBar({state, descriptors, navigation, position})
 {
     const dispatch = useDispatch();
 
+    const screenWidth = Dimensions.get('window').width;
+
+
     const buttons = {
         "Home": <MaterialCommunityIcons name="home" color="white" style={{fontSize:40}}/>,
         "Menu": <MaterialIcons name="menu-book" color="white" style={{fontSize:40}} />,
-        "Profile": <MaterialIcons name="person" color="white" style={{fontSize:40}} />
+        "Profile": <MaterialIcons name="person" color="white" style={{fontSize:40}} />,
+        "Cart": <MaterialIcons name="cart" color="white" style={{fontSize:40}} />
+
     }
+
+    const [buttonCenters,setButtonCenters] = useState({});
+
+    const markerPosition = useState(new Animated.Value(screenWidth/2))[0];
 
     return (
         <LinearGradient
@@ -25,6 +37,8 @@ export default function NavBar({state, descriptors, navigation, position})
         end={{ x: 0, y: 1 }}
         locations={[0.1,0.3,0.7,1]}
         >
+            
+            <Marker markerPosition={markerPosition} />
             <View style={s("navbar")}>
                 {state.routes.map((route, index) => {
                     const { options } = descriptors[route.key];
@@ -47,15 +61,15 @@ export default function NavBar({state, descriptors, navigation, position})
                         if (!isFocused && !event.defaultPrevented) {
                             navigation.navigate(route.name, route.params);
                         }
+                        
+                        Animated.timing(markerPosition,{
+                            toValue: buttonCenters[route.name],
+                            duration: 500,
+                            useNativeDriver: false
+                        }).start();
                     };
 
-                    const onLongPress = () => {
-                        navigation.emit({
-                            type: 'tabLongPress',
-                            target: route.key,
-                        });
-                    };                
-
+                    
                     return (
                     <Pressable
                     accessibilityRole="button"
@@ -63,9 +77,16 @@ export default function NavBar({state, descriptors, navigation, position})
                     accessibilityLabel={options.tabBarAccessibilityLabel}
                     testID={options.tabBarTestID}
                     onPress={onPress}
-                    onLongPress={onLongPress}
                     // style={{...buttons[label].style,flexGrow:1}}
                     key={`tab-button-${index}`}
+
+                    onLayout={(e)=>{
+                        if(e?.nativeEvent?.layout)
+                        {
+                            let {x,width} = e.nativeEvent.layout;
+                            setButtonCenters(b => ({...b,[route.name]: screenWidth - (x+width/2)}))
+                        }
+                    }}
                     >
                     {
                         buttons[label]
@@ -77,7 +98,25 @@ export default function NavBar({state, descriptors, navigation, position})
 
 
             </View>
+            
         </LinearGradient>
     );
 }
- 
+
+
+function Marker({markerPosition})
+{
+    return (
+        <Animated.View style={s("pos-abs",{
+            top:-12,left: markerPosition,
+            width: 50, height: 50,
+            borderRadius: 25, overflow:"hidden",
+            transform: [{translateX:25}]})}>
+                <View
+                style={{width:50,height:25,backgroundColor:"#CC6060",position:"absolute",top:-10}}
+                >
+
+                </View>
+        </Animated.View>
+    )
+}

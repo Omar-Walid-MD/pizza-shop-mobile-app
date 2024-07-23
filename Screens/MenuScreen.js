@@ -57,8 +57,8 @@ export default function MenuScreen({navigation}) {
                     <ScrollView style={{}} contentContainerStyle={{flexGrow:1,paddingBottom:450}}>
                         <View style={s("row w-100",{})}>
                         {
-                            Array.from({length:10}).map(()=>
-                                <MenuItem openTab={()=>setItemShowTab(true)} />
+                            Array.from({length:10}).map((x,i)=>
+                                <MenuItem openTab={()=>setItemShowTab(true)} key={`menu-item-${i}`}/>
                             )
                         }
                         </View>
@@ -80,7 +80,7 @@ export default function MenuScreen({navigation}) {
                             <View style={s("w-100 mt-2 gap-1 al-items-s")}>
                             {
                                 Array.from({length:4}).map((x,i)=>
-                                <Text style={s("fs-3 col-gray")}>-  وصف البيتزا</Text>
+                                <Text style={s("fs-3 col-gray")} key={`pizza-desc-${i}`}>-  وصف البيتزا</Text>
                                 )
                             }
                             </View>
@@ -91,7 +91,7 @@ export default function MenuScreen({navigation}) {
                                 <View style={s("w-100 al-items-c pt-4")}>
                                 {
                                     pizzaSizes.map((pizzaSize,i)=>
-                                    <View style={s("w-100 flex-row j-content-b")}>
+                                    <View style={s("w-100 flex-row j-content-b")} key={`pizza-size-${i}`}>
                                         <Text style={s("fs-3")}>{pizzaSize.name} - {pizzaSize.price}</Text>
                                         <CheckBox
                                         checked={sizeIndex === i}
