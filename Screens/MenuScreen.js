@@ -20,6 +20,7 @@ export default function MenuScreen({navigation}) {
 
     const [sizeIndex,setSizeIndex] = useState(0);
     const [itemCount,setItemCount] = useState(1);
+
     const pizzaSizes = [
         {
             price: 50,
@@ -46,7 +47,7 @@ export default function MenuScreen({navigation}) {
 
                 <View style={s("w-100 flex-row j-content-b gap-2")}>
                     <Input placeholder="ابحث هنا"/>
-                    <Button style={s("shadow")} >
+                    <Button>
                         <MaterialIcons name="search" size={25} color="white" /> 
                     </Button>
                 </View>
@@ -54,7 +55,7 @@ export default function MenuScreen({navigation}) {
                 <Accordion
                 content={<Text style={s("col-gray fs-3 pr-4")}>عنوان</Text>}
                 >
-                    <ScrollView style={{}} contentContainerStyle={{flexGrow:1,paddingBottom:450}}>
+                    <ScrollView style={{}} contentContainerStyle={{flexGrow:1,paddingBottom:500}}>
                         <View style={s("row w-100",{})}>
                         {
                             Array.from({length:10}).map((x,i)=>

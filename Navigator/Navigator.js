@@ -9,6 +9,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import LoginScreen from '../Screens/LoginScreen';
 import ProfileScreen from '../Screens/ProfileScreen';
 import RegisterScreen from '../Screens/RegisterScreen';
+import CartScreen from '../Screens/CartScreen';
 
 const Tab = createMaterialTopTabNavigator();
 const Stack = createStackNavigator();
@@ -39,6 +40,7 @@ function TabNavigator({navigation})
         >
             <Tab.Screen name="Profile" component={ProfileScreen} />
             <Tab.Screen name="Home" component={HomeScreen} />
+            <Tab.Screen name="Cart" component={CartScreen} />
             <Tab.Screen name="Menu" component={MenuScreen} />
 
         </Tab.Navigator>

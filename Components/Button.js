@@ -13,7 +13,7 @@ export default function Button(props) {
 
     return (
         <LinearGradient
-        style={{borderRadius:5,shadowColor:"black",elevation:2}}
+        style={{...(props.style || {}),borderRadius:5,shadowColor:"black",elevation:2}}
         colors={
             props.variant==="red" || !props.variant ? 
             ["#CC6060", "#C03E3E","#C03E3E","#943030"]

@@ -11,7 +11,7 @@ const styles = StyleSheet.create({
 
     "screen-content":
     {
-        paddingTop:100,
+        paddingTop:65, paddingBottom:70,
         alignItems:"center",
         width:"100%",
         padding:20,
