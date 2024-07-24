@@ -33,7 +33,8 @@ export default function CartScreen({navigation}) {
                     
                     
                     <Text style={s("w-100 text-center fs-2")}>إجمالي الطلب: 599.99 EGP</Text>
-                    <Button style={s("w-100")}>
+                    <Button style={s("w-100")}
+                    onPress={()=>navigation.navigate("Checkout")}>
                         <Text style={s("col-white fs-3")}>دفع الطلب</Text>
                     </Button>
                 </ScrollView>

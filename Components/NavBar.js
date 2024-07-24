@@ -84,7 +84,15 @@ export default function NavBar({state, descriptors, navigation, position})
                         if(e?.nativeEvent?.layout)
                         {
                             let {x,width} = e.nativeEvent.layout;
-                            setButtonCenters(b => ({...b,[route.name]: screenWidth - (x+width/2)}))
+                            setButtonCenters(b => ({...b,[route.name]: screenWidth - (x+width/2)}));
+                            if(route.name==="Home")
+                            {
+                                Animated.timing(markerPosition,{
+                                    toValue: screenWidth - (x+width/2),
+                                    duration: 500,
+                                    useNativeDriver: false
+                                }).start();
+                            }
                         }
                     }}
                     >
