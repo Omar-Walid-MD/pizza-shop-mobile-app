@@ -12,6 +12,7 @@ import Button from '../Components/Button';
 import { CheckBox } from '@rneui/base';
 import Text from '../Components/Text';
 import Background from '../Components/Background';
+import ScreenContent from '../Components/Layout/ScreenContent';
 
 
 export default function MenuScreen({navigation}) {
@@ -42,8 +43,10 @@ export default function MenuScreen({navigation}) {
             <Background />
             
             {/* Screen Content */}
-            <View style={s("screen-content")}>
+            <ScreenContent
+            header={
                 <Text style={s("fs-2 mb-3")}>القائمة</Text>
+            }>                
 
                 <View style={s("w-100 flex-row j-content-b gap-2")}>
                     <Input placeholder="ابحث هنا"/>
@@ -65,7 +68,7 @@ export default function MenuScreen({navigation}) {
                         </View>
                     </ScrollView>
                 </Accordion>
-            </View>
+            </ScreenContent>
 
 
 

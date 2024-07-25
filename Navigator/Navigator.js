@@ -50,7 +50,7 @@ export default function Navigator()
 
                 }
 			}
-			// else dispatch(setUser(null));
+			else dispatch(setUser(null));
 		});
 	},[]);
 

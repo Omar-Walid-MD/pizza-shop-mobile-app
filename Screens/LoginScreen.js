@@ -7,6 +7,7 @@ import Text from '../Components/Text';
 import Background from '../Components/Background';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../firebase';
+import ScreenContent from '../Components/Layout/ScreenContent';
 
 
 export default function LoginScreen({navigation}) {
@@ -40,22 +41,23 @@ export default function LoginScreen({navigation}) {
 
         if(userCred?.user)
         {
-            const loggedInUserInfo = await getUser(userCred.user.uid);
+            navigation.navigate("Main")
+            // const loggedInUserInfo = await getUser(userCred.user.uid);
             
-            if(loggedInUserInfo)
-            {
-                const user = {
-                    userId: userCred.user.uid,
-                    email: userCred.user.email,
-                    ...loggedInUserInfo
-                }
-                dispatch(setUser(user));
-                navigate("/");
-            }
-            else
-            {
-                navigate("/");
-            }
+            // if(loggedInUserInfo)
+            // {
+            //     const user = {
+            //         userId: userCred.user.uid,
+            //         email: userCred.user.email,
+            //         ...loggedInUserInfo
+            //     }
+            //     dispatch(setUser(user));
+            //     navigate("/");
+            // }
+            // else
+            // {
+            //     navigate("/");
+            // }
 
         }
     }
@@ -66,7 +68,7 @@ export default function LoginScreen({navigation}) {
             <Background />
             
             {/* Screen Content */}
-            <View style={s("screen-content")}>
+            <ScreenContent>
                 <View style={s("w-100 bg-main shadow al-items-c p-2 gap-4",{borderTopLeftRadius:10,borderBottomRightRadius:10})}>
                     <Text style={s("fs-2")}>مرحبا بك مجددا</Text>
 
@@ -98,7 +100,7 @@ export default function LoginScreen({navigation}) {
                 <Button onPress={()=>navigation.navigate("Main")}>
                     <Text style={s("col-white fs-3")}>العودة</Text>
                 </Button>
-            </View>
+            </ScreenContent>
         </View>
     )
 }

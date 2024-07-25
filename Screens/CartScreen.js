@@ -7,12 +7,13 @@ import Background from '../Components/Background';
 import Text from '../Components/Text';
 import CartItem from '../Components/CartItem';
 import  { MaterialCommunityIcons, MaterialIcons } from "react-native-vector-icons";
+import ScreenContent from '../Components/Layout/ScreenContent';
 
 
 export default function CartScreen({navigation}) {
 
     const [itemShowTab,setItemShowTab] = useState(false);
-    const [screenType,setScreenType] = useState("track");
+    const [screenType,setScreenType] = useState("cart");
 
     return(
         <View style={s("screen-container")}>
@@ -23,26 +24,25 @@ export default function CartScreen({navigation}) {
                 screenType==="cart" ?
                 <>
                     {/* Screen Content */}
-                    <View style={s("screen-content")}>
-                        <Text style={s("fs-2")}>السلة</Text>
+                    <ScreenContent
+                    header={<Text style={s("fs-2")}>السلة</Text>}>
 
-                        <ScrollView contentContainerStyle={{gap:30,flexGrow:1,paddingBottom:50}}>
-                            <View style={s("row w-100",{})}>
-                            {
-                                Array.from({length:10}).map((x,i)=>
-                                    <CartItem openTab={()=>setItemShowTab(true)} key={`menu-item-${i}`}/>
-                                )
-                            }
-                            </View>
-                            
-                            
-                            <Text style={s("w-100 text-center fs-2")}>إجمالي الطلب: 599.99 EGP</Text>
-                            <Button style={s("w-100")}
-                            onPress={()=>navigation.navigate("Checkout")}>
-                                <Text style={s("col-white fs-3")}>دفع الطلب</Text>
-                            </Button>
-                        </ScrollView>
-                    </View>
+                        <View style={s("row w-100")}>
+                        {
+                            Array.from({length:10}).map((x,i)=>
+                                <CartItem openTab={()=>setItemShowTab(true)} key={`menu-item-${i}`}/>
+                            )
+                        }
+                        </View>
+                        
+                        <Text style={s("w-100 text-center fs-2")}>إجمالي الطلب: 599.99 EGP</Text>
+                        <Button style={s("w-100")}
+                        onPress={()=>navigation.navigate("Checkout")}>
+                            <Text style={s("col-white fs-3")}>دفع الطلب</Text>
+                        </Button>
+
+                    </ScreenContent>
+                        
 
                     {/* Modals */}
                     <Modal visible={itemShowTab} animationType='slide'>
@@ -92,8 +92,8 @@ export default function CartScreen({navigation}) {
                 : screenType==="track" &&
                 <>
                     {/* Screen Content */}
-                    <View style={s("screen-content")}>
-                        <Text style={s("fs-1")}>طلبك في الطريق</Text>
+                    <ScreenContent
+                    header={<Text style={s("fs-2")}>السلة</Text>}>
 
                         <View style={s("h-100 w-100 al-items-c j-content-c")}>
                             <Text style={s("col-accent",{fontSize:40})}>حالة الطلب هنا</Text>
@@ -108,7 +108,7 @@ export default function CartScreen({navigation}) {
                                 <Text style={s("fs-4 col-accent")}>+123 456 7890</Text>
                             </View>
                         </View>
-                    </View>
+                    </ScreenContent>
                 </>
             }
         </View>

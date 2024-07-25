@@ -4,6 +4,7 @@ import styles, { s } from '../styles';
 import { LinearGradient } from 'expo-linear-gradient';
 import Text from '../Components/Text';
 import Background from '../Components/Background';
+import ScreenContent from '../Components/Layout/ScreenContent';
 
 export default function HomeScreen({navigation}) {
 
@@ -13,12 +14,12 @@ export default function HomeScreen({navigation}) {
             <Background />
 
             {/* Screen Content */}
-            <View style={s("screen-content")}>
+           <ScreenContent>
                 <View style={s("al-items-c")}>
                     <Text style={s("fs-2")}>مرحبا بك</Text>
                     <Text style={s("fs-2 col-accent")}>اسم المستخدم</Text>
                 </View>
-            </View>
+            </ScreenContent>
 
             <StatusBar style="auto" />
         </View>

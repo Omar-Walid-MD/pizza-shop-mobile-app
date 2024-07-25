@@ -8,6 +8,7 @@ import { useState } from 'react';
 import Button from '../Components/Button';
 import Text from '../Components/Text';
 import Background from '../Components/Background';
+import ScreenContent from '../Components/Layout/ScreenContent';
 
 
 export default function RegisterScreen({navigation}) {
@@ -52,7 +53,7 @@ export default function RegisterScreen({navigation}) {
             <Background />
             
             {/* Screen Content */}
-            <View style={s("screen-content")}>
+            <ScreenContent>
                 <View style={s("w-100 bg-main shadow al-items-c p-2 gap-4",{borderTopLeftRadius:10,borderBottomRightRadius:10})}>
                     <Text style={s("fs-2")}>تشرفنا خدمتك</Text>
 
@@ -92,7 +93,7 @@ export default function RegisterScreen({navigation}) {
                 <Button onPress={()=>navigation.navigate("Main")}>
                     <Text style={s("col-white fs-3")}>العودة</Text>
                 </Button>
-            </View>
+            </ScreenContent>
         </View>
     )
 }

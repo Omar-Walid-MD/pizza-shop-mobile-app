@@ -11,12 +11,21 @@ const styles = StyleSheet.create({
 
     "screen-content":
     {
-        paddingTop:65, paddingBottom:100,
+        paddingTop:65,
         alignItems:"center",
         width:"100%",
-        padding:20,
         gap: 20,
         flex: 1
+    },
+
+    "screen-content-scroll":
+    {
+        width: "100%",
+        flexGrow: 1,
+        padding: 20,
+        paddingBottom:40,
+        gap: 20,
+        // alignItems:"center",
     },
 
     "navbar": {

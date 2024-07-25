@@ -7,6 +7,7 @@ import Background from '../Components/Background';
 import Text from '../Components/Text';
 
 import {Ionicons} from "react-native-vector-icons"
+import ScreenContent from '../Components/Layout/ScreenContent';
 
 
 export default function OrderSuccessScreen({navigation}) {
@@ -17,7 +18,7 @@ export default function OrderSuccessScreen({navigation}) {
             <Background />
             
             {/* Screen Content */}
-            <View style={s("screen-content")}>
+            <ScreenContent>
 
                 <View style={s("h-100 j-content-c al-items-c")}>
 
@@ -39,7 +40,7 @@ export default function OrderSuccessScreen({navigation}) {
                         </Button>
                     </View>
                 </View>
-            </View>
+            </ScreenContent>
         </View>
     )
 }

@@ -13,6 +13,8 @@ import { CheckBox } from '@rneui/base';
 import Text from '../Components/Text';
 import Background from '../Components/Background';
 import { useSelector } from 'react-redux';
+import ScreenContent from '../Components/Layout/ScreenContent';
+import { auth } from '../firebase';
 
 
 export default function ProfileScreen({navigation}) {
@@ -26,8 +28,11 @@ export default function ProfileScreen({navigation}) {
             <Background />
             
             {/* Screen Content */}
-            <View style={s("screen-content")}>
-                <Text style={s("fs-2 mb-2")}>الملف الشخصي</Text>
+            <ScreenContent
+            header={
+                <Text style={s("fs-2")}>الملف الشخصي</Text>
+            }
+            >
             {
                 loading ?
                 <Text>جاري التحميل</Text>
@@ -69,6 +74,11 @@ export default function ProfileScreen({navigation}) {
 
                         </View>
                     </View>
+
+                    <Button
+                    onPress={()=>auth.signOut()}>
+                        <Text style={s("fs-3 col-white")}>تسجيل الخروج</Text>
+                    </Button>
                 </>
                 :
                 <>
@@ -81,7 +91,7 @@ export default function ProfileScreen({navigation}) {
                     </Button>
                 </>
             }
-            </View>
+            </ScreenContent>
         </View>
     )
 }
