@@ -6,7 +6,7 @@ import Button from '../Components/Button';
 import Text from '../Components/Text';
 import Background from '../Components/Background';
 import { signInWithEmailAndPassword } from 'firebase/auth';
-import { auth } from '../firebase';
+import { auth } from '../Firebase/firebase';
 import ScreenContent from '../Components/Layout/ScreenContent';
 
 
@@ -15,7 +15,9 @@ export default function LoginScreen({navigation}) {
     const [loginInfo,setLoginInfo] = useState({
         email: "",
         password: ""
-    })
+    });
+
+    const [errorMessage,setErrorMessage] = useState("");
 
     function handleLoginInfo(text,property)
     {
@@ -33,7 +35,7 @@ export default function LoginScreen({navigation}) {
 
                 if(error.code==="auth/invalid-credential")
                 {
-                    // setErrorMessage("!Email.isCorrect || !Password.isCorrect")
+                    setErrorMessage("البريد أو كلمة المرور غير صحيحة.")
                 }
                 return
             }
@@ -80,6 +82,8 @@ export default function LoginScreen({navigation}) {
                         <View style={s("w-100")}>
                             <Input placeholder="كلمة المرور" type="password" secureTextEntry autoCorrect={false} onChangeText={(text)=>handleLoginInfo(text,"password")} />
                         </View>
+
+                        {errorMessage && <Text style={s("w-100 text-center col-danger")}>{errorMessage}</Text>}
 
                         <Button onPress={()=>handleSignIn("email")}>
                             <Text style={s("col-white fs-3")}>تسجيل الدخول</Text>

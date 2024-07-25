@@ -14,7 +14,7 @@ import Text from '../Components/Text';
 import Background from '../Components/Background';
 import { useSelector } from 'react-redux';
 import ScreenContent from '../Components/Layout/ScreenContent';
-import { auth } from '../firebase';
+import { auth } from '../Firebase/firebase';
 
 
 export default function ProfileScreen({navigation}) {
@@ -41,7 +41,7 @@ export default function ProfileScreen({navigation}) {
                 <>
                     <View style={s("w-100 flex-row gap-3 j-content-b")}>
                         <View style={s("al-items-s")}>
-                            <Text style={s("fs-3")}>user.username</Text>
+                            <Text style={s("fs-3")}>{user.username}</Text>
                             <Text style={s("fs-3 col-gray")}>{user.email}</Text>
                             <Text style={s("fs-3 col-gray")}>user.mobileNo</Text>
                         </View>

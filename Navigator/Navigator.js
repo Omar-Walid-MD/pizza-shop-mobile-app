@@ -12,8 +12,9 @@ import RegisterScreen from '../Screens/RegisterScreen';
 import CartScreen from '../Screens/CartScreen';
 import CheckoutScreen from '../Screens/CheckoutScreen';
 import OrderSuccessScreen from '../Screens/OrderSuccessScreen';
-import { auth } from '../firebase';
+import { auth } from '../Firebase/firebase';
 import { setUser } from '../Store/Auth/authSlice';
+import { getUser } from '../Firebase/Data Handlers/users';
 
 const Tab = createMaterialTopTabNavigator();
 const Stack = createStackNavigator();
@@ -31,24 +32,16 @@ export default function Navigator()
 			{
 				if(!user.isAnonymous)
 				{
-                    console.log(user)
-                    dispatch(setUser({
-                        userId: user.uid,
-                        email: user.email
-                    }));
 
-					// (async()=>{
-					// 	dispatch(setUser({
-					// 	userId: user.uid,
-					// 	email: user.email,
-					// 	...await getUser(user.uid)
-					// 	}))
-					// })();
+					(async()=>{
+						dispatch(setUser({
+						userId: user.uid,
+						email: user.email,
+						...await getUser(user.uid)
+						}))
+					})();
 				}
-				else
-				{
-
-                }
+				
 			}
 			else dispatch(setUser(null));
 		});

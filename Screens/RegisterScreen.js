@@ -1,7 +1,7 @@
 import {  View } from 'react-native';
 import { s } from '../styles';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
-import { auth } from "../firebase";
+import { auth } from "../Firebase/firebase";
 
 import Input from '../Components/Input';
 import { useState } from 'react';
@@ -9,6 +9,7 @@ import Button from '../Components/Button';
 import Text from '../Components/Text';
 import Background from '../Components/Background';
 import ScreenContent from '../Components/Layout/ScreenContent';
+import { registerUser } from '../Firebase/Data Handlers/users';
 
 
 export default function RegisterScreen({navigation}) {
@@ -43,6 +44,11 @@ export default function RegisterScreen({navigation}) {
                 return
             }
 
+            registerUser(userCred.user.uid,{
+                email: registerInfo.email,
+                username: registerInfo.username
+            });
+            
             navigation.navigate("Main");
         }
     }
@@ -75,17 +81,17 @@ export default function RegisterScreen({navigation}) {
                         </View>
 
                         <Button onPress={()=>handleSignUp("email")}>
-                            <Text style={s("col-white fs-3")}>تسجيل الدخول</Text>
+                            <Text style={s("col-white fs-3")}>تسجيل المستخدم</Text>
                         </Button>
 
                         <Text style={s("w-100 text-center py-2")}>أو يمكنك</Text>
 
                         <Button variant='white' onPress={()=>handleSignUp("google")}>
-                            <Text style={s("fs-4 col-danger")}>تسجيل الدخول عبر Google</Text>
+                            <Text style={s("fs-4 col-danger")}>تسجيل المستخدم عبر Google</Text>
                         </Button>
 
                         <Button variant='white' onPress={()=>navigation.navigate("Main")}>
-                            <Text style={s("fs-4 col-primary")}>تسجيل الدخول عبر FaceBook</Text>
+                            <Text style={s("fs-4 col-primary")}>تسجيل المستخدم عبر FaceBook</Text>
                         </Button>
 
                     </View>
