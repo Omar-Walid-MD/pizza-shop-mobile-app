@@ -114,7 +114,8 @@ export default function CheckoutScreen({navigation}) {
 
                         </View>
 
-                        <Button style={s("mt-3")}>
+                        <Button style={s("mt-3")}
+                        onPress={()=>navigation.navigate("OrderSuccess")}>
                             <Text style={s("fs-2 col-white")}>تأكيد الدفع</Text>
                         </Button>
                     </View>

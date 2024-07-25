@@ -11,6 +11,7 @@ import ProfileScreen from '../Screens/ProfileScreen';
 import RegisterScreen from '../Screens/RegisterScreen';
 import CartScreen from '../Screens/CartScreen';
 import CheckoutScreen from '../Screens/CheckoutScreen';
+import OrderSuccessScreen from '../Screens/OrderSuccessScreen';
 
 const Tab = createMaterialTopTabNavigator();
 const Stack = createStackNavigator();
@@ -28,6 +29,7 @@ export default function Navigator()
             <Stack.Screen name="Register" component={RegisterScreen} options={{ headerShown: false }} />
 
             <Stack.Screen name="Checkout" component={CheckoutScreen} options={{ headerShown: false }} />
+            <Stack.Screen name="OrderSuccess" component={OrderSuccessScreen} options={{ headerShown: false }} />
 
         </Stack.Navigator>
     );
