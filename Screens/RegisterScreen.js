@@ -1,20 +1,50 @@
-import { StatusBar } from 'expo-status-bar';
-import { Modal, View, Image, Pressable, ScrollView } from 'react-native';
-import styles, { s } from '../styles';
-import { LinearGradient } from 'expo-linear-gradient';
+import {  View } from 'react-native';
+import { s } from '../styles';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { auth } from "../firebase";
+
 import Input from '../Components/Input';
-import  { MaterialCommunityIcons, MaterialIcons } from "react-native-vector-icons";
-import { ListItem } from '@rneui/themed';
-import MenuItem from '../Components/MenuItem';
-import Accordion from '../Components/Accordion';
 import { useState } from 'react';
 import Button from '../Components/Button';
-import { CheckBox } from '@rneui/base';
 import Text from '../Components/Text';
 import Background from '../Components/Background';
 
 
 export default function RegisterScreen({navigation}) {
+
+    const [registerInfo,setRegisterInfo] = useState({
+        username: "",
+        email:"",
+        password: "",
+        confirmPassword: ""
+    });
+
+
+    function handleRegisterInfo(text,property)
+    {
+        setRegisterInfo(l => ({...l,[property]:text.trim()}));
+        console.log(registerInfo);
+    }
+
+    async function handleSignUp(signUpType)
+    {
+        let userCred;
+        if(signUpType==="email")
+        {
+            try {
+                userCred = await createUserWithEmailAndPassword(auth,registerInfo.email,registerInfo.password);
+            } catch (error) {
+                console.log(error)
+                if(error.code==="auth/weak-password")
+                {
+                    // setErrorMessage("Password.length < 6")
+                }
+                return
+            }
+
+            navigation.navigate("Main");
+        }
+    }
 
     return(
         <View style={s("screen-container")}>
@@ -28,28 +58,28 @@ export default function RegisterScreen({navigation}) {
 
                     <View style={s("w-100 gap-3")}>
                         <View style={s("w-100")}>
-                            <Input placeholder="إسم المستخدم" />
+                            <Input placeholder="إسم المستخدم" onChangeText={(text)=>handleRegisterInfo(text,"username")}/>
                         </View>
 
                         <View style={s("w-100")}>
-                            <Input placeholder="البريد الإلكتروني" />
+                            <Input placeholder="البريد الإلكتروني" onChangeText={(text)=>handleRegisterInfo(text,"email")} />
                         </View>
 
                         <View style={s("w-100")}>
-                            <Input placeholder="كلمة المرور" secureTextEntry autoCorrect={false}/>
+                            <Input placeholder="كلمة المرور" secureTextEntry autoCorrect={false} onChangeText={(text)=>handleRegisterInfo(text,"password")}/>
                         </View>
 
                         <View style={s("w-100")}>
-                            <Input placeholder="تأكيد كلمة المرور" secureTextEntry autoCorrect={false}/>
+                            <Input placeholder="تأكيد كلمة المرور" secureTextEntry autoCorrect={false} onChangeText={(text)=>handleRegisterInfo(text,"confirmPassword")}/>
                         </View>
 
-                        <Button onPress={()=>navigation.navigate("Main")}>
+                        <Button onPress={()=>handleSignUp("email")}>
                             <Text style={s("col-white fs-3")}>تسجيل الدخول</Text>
                         </Button>
 
                         <Text style={s("w-100 text-center py-2")}>أو يمكنك</Text>
 
-                        <Button variant='white' onPress={()=>navigation.navigate("Main")}>
+                        <Button variant='white' onPress={()=>handleSignUp("google")}>
                             <Text style={s("fs-4 col-danger")}>تسجيل الدخول عبر Google</Text>
                         </Button>
 

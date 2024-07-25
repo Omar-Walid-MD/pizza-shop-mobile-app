@@ -12,12 +12,48 @@ import RegisterScreen from '../Screens/RegisterScreen';
 import CartScreen from '../Screens/CartScreen';
 import CheckoutScreen from '../Screens/CheckoutScreen';
 import OrderSuccessScreen from '../Screens/OrderSuccessScreen';
+import { auth } from '../firebase';
+import { setUser } from '../Store/Auth/authSlice';
 
 const Tab = createMaterialTopTabNavigator();
 const Stack = createStackNavigator();
 
 export default function Navigator()
 {
+
+    const dispatch = useDispatch();
+
+	useEffect(()=>{
+		
+		auth.onAuthStateChanged(function(user)
+		{
+			if(user)
+			{
+				if(!user.isAnonymous)
+				{
+                    console.log(user)
+                    dispatch(setUser({
+                        userId: user.uid,
+                        email: user.email
+                    }));
+                    
+					// (async()=>{
+					// 	dispatch(setUser({
+					// 	userId: user.uid,
+					// 	email: user.email,
+					// 	...await getUser(user.uid)
+					// 	}))
+					// })();
+				}
+				else
+				{
+
+                }
+			}
+			// else dispatch(setUser(null));
+		});
+	},[]);
+
     return (
         <Stack.Navigator>
             <Stack.Screen

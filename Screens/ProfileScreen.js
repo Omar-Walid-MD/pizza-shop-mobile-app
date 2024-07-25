@@ -12,9 +12,13 @@ import Button from '../Components/Button';
 import { CheckBox } from '@rneui/base';
 import Text from '../Components/Text';
 import Background from '../Components/Background';
+import { useSelector } from 'react-redux';
 
 
 export default function ProfileScreen({navigation}) {
+
+    const user = useSelector(store => store.auth.user);
+    const loading = useSelector(store => store.auth.loading);
 
     return(
         <View style={s("screen-container")}>
@@ -23,13 +27,25 @@ export default function ProfileScreen({navigation}) {
             
             {/* Screen Content */}
             <View style={s("screen-content")}>
-                <Button onPress={()=>navigation.navigate("Login")}>
-                    <Text style={s("col-white fs-3")}>تسجيل الدخول</Text>
-                </Button>
+            {
+                loading ?
+                <Text>جاري التحميل</Text>
+                :
+                user ?
+                <>
+                    <Text>مرحبا بك</Text>
+                </>
+                :
+                <>
+                    <Button onPress={()=>navigation.navigate("Login")}>
+                        <Text style={s("col-white fs-3")}>تسجيل الدخول</Text>
+                    </Button>
 
-                <Button onPress={()=>navigation.navigate("Register")}>
-                    <Text style={s("col-white fs-3")}>تسجيل مستخدم جديد</Text>
-                </Button>
+                    <Button onPress={()=>navigation.navigate("Register")}>
+                        <Text style={s("col-white fs-3")}>تسجيل مستخدم جديد</Text>
+                    </Button>
+                </>
+            }
             </View>
         </View>
     )

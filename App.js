@@ -16,14 +16,15 @@ export default function App() {
 	});
 
 	if (!fontsLoaded) {
-	return null;
+		return null;
 	}
-  return (
+
+	return (
 	<Provider store={store}>
 		<NavigationContainer style={styles.container}>
 			<Navigator />
 		</NavigationContainer>
 	</Provider>
-  );
+	);
 }
  

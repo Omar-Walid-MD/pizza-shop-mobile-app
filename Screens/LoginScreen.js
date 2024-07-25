@@ -1,20 +1,64 @@
-import { StatusBar } from 'expo-status-bar';
-import { Modal, View, Image, Pressable, ScrollView } from 'react-native';
-import styles, { s } from '../styles';
-import { LinearGradient } from 'expo-linear-gradient';
+import { View } from 'react-native';
+import { s } from '../styles';
 import Input from '../Components/Input';
-import  { MaterialCommunityIcons, MaterialIcons } from "react-native-vector-icons";
-import { ListItem } from '@rneui/themed';
-import MenuItem from '../Components/MenuItem';
-import Accordion from '../Components/Accordion';
 import { useState } from 'react';
 import Button from '../Components/Button';
-import { CheckBox } from '@rneui/base';
 import Text from '../Components/Text';
 import Background from '../Components/Background';
+import { signInWithEmailAndPassword } from 'firebase/auth';
+import { auth } from '../firebase';
 
 
 export default function LoginScreen({navigation}) {
+
+    const [loginInfo,setLoginInfo] = useState({
+        email: "",
+        password: ""
+    })
+
+    function handleLoginInfo(text,property)
+    {
+        setLoginInfo(l => ({...l,[property]:text.trim()}));
+    }
+
+    async function handleSignIn(signInType)
+    {
+        let userCred;
+        if(signInType==="email")
+        {
+            try {  
+                userCred = await signInWithEmailAndPassword(auth,loginInfo.email,loginInfo.password);
+            } catch (error) {
+
+                if(error.code==="auth/invalid-credential")
+                {
+                    // setErrorMessage("!Email.isCorrect || !Password.isCorrect")
+                }
+                return
+            }
+        }
+
+        if(userCred?.user)
+        {
+            const loggedInUserInfo = await getUser(userCred.user.uid);
+            
+            if(loggedInUserInfo)
+            {
+                const user = {
+                    userId: userCred.user.uid,
+                    email: userCred.user.email,
+                    ...loggedInUserInfo
+                }
+                dispatch(setUser(user));
+                navigate("/");
+            }
+            else
+            {
+                navigate("/");
+            }
+
+        }
+    }
 
     return(
         <View style={s("screen-container")}>
@@ -28,14 +72,14 @@ export default function LoginScreen({navigation}) {
 
                     <View style={s("w-100 gap-3")}>
                         <View style={s("w-100")}>
-                            <Input placeholder="البريد الإلكتروني" />
+                            <Input placeholder="البريد الإلكتروني" onChangeText={(text)=>handleLoginInfo(text,"email")} />
                         </View>
 
                         <View style={s("w-100")}>
-                            <Input placeholder="كلمة المرور" type="password" secureTextEntry autoCorrect={false}/>
+                            <Input placeholder="كلمة المرور" type="password" secureTextEntry autoCorrect={false} onChangeText={(text)=>handleLoginInfo(text,"password")} />
                         </View>
 
-                        <Button onPress={()=>navigation.navigate("Main")}>
+                        <Button onPress={()=>handleSignIn("email")}>
                             <Text style={s("col-white fs-3")}>تسجيل الدخول</Text>
                         </Button>
 
