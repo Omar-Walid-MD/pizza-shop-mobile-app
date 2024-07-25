@@ -11,11 +11,12 @@ const styles = StyleSheet.create({
 
     "screen-content":
     {
-        paddingTop:65, paddingBottom:70,
+        paddingTop:65, paddingBottom:100,
         alignItems:"center",
         width:"100%",
         padding:20,
-        gap: 20
+        gap: 20,
+        flex: 1
     },
 
     "navbar": {
