@@ -27,13 +27,48 @@ export default function ProfileScreen({navigation}) {
             
             {/* Screen Content */}
             <View style={s("screen-content")}>
+                <Text style={s("fs-2 mb-2")}>الملف الشخصي</Text>
             {
                 loading ?
                 <Text>جاري التحميل</Text>
                 :
                 user ?
                 <>
-                    <Text>مرحبا بك</Text>
+                    <View style={s("w-100 flex-row gap-3 j-content-b")}>
+                        <View style={s("al-items-s")}>
+                            <Text style={s("fs-3")}>user.username</Text>
+                            <Text style={s("fs-3 col-gray")}>{user.email}</Text>
+                            <Text style={s("fs-3 col-gray")}>user.mobileNo</Text>
+                        </View>
+                        <View style={s("rounded-2 shadow bg-accent")}>
+                            <MaterialIcons name="person" color="white" style={{fontSize:150}} />
+                        </View>
+                    </View>
+
+                    <View style={s("w-100 bg-accent rounded-2 shadow p-2")}>
+                        <View style={s("w-100 al-items-c gap-2 mb-1")}>
+                            <Text style={s("col-white fs-4 mb-1")}>المعلومات العامة</Text>
+
+                            <View style={s("w-100 gap-2")}>
+                                <Input placeholder="إسم المستخدم"/>
+                            
+                                <Input placeholder="رقم الهاتف"/>
+                            </View>
+                        </View>
+
+                        <View style={s("w-100 al-items-c gap-2 mb-1")}>
+                            <Text style={s("col-white fs-4 mb-1")}>العنوان</Text>
+
+                            <View style={s("w-100 gap-2")}>
+                                <Input placeholder="المدينة"/>
+                           
+                                <Input placeholder="سطر العنوان الأول"/>
+                         
+                                <Input placeholder="سطر العنوان الأول"/>
+                            </View>
+
+                        </View>
+                    </View>
                 </>
                 :
                 <>

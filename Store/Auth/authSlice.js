@@ -22,8 +22,6 @@ export const authSlice = createSlice({
         .addCase(setUser.fulfilled, (state, action) => {
             state.user = action.payload;
             state.loading = false;
-
-            console.log(action.payload);
         })
       
     },

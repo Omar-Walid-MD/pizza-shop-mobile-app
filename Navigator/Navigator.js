@@ -3,7 +3,7 @@ import HomeScreen from "../Screens/HomeScreen";
 import { StyleSheet } from "react-native";
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import NavBar from '../Components/NavBar';
+import NavBar from '../Components/Layout/NavBar';
 import MenuScreen from '../Screens/MenuScreen';
 import { createStackNavigator } from '@react-navigation/stack';
 import LoginScreen from '../Screens/LoginScreen';
@@ -36,7 +36,7 @@ export default function Navigator()
                         userId: user.uid,
                         email: user.email
                     }));
-                    
+
 					// (async()=>{
 					// 	dispatch(setUser({
 					// 	userId: user.uid,

@@ -15,8 +15,8 @@ export default function HomeScreen({navigation}) {
             {/* Screen Content */}
             <View style={s("screen-content")}>
                 <View style={s("al-items-c")}>
-                    <Text style={s("fs-1")}>مرحبا بك</Text>
-                    <Text style={s("fs-1 col-accent")}>اسم المستخدم</Text>
+                    <Text style={s("fs-2")}>مرحبا بك</Text>
+                    <Text style={s("fs-2 col-accent")}>اسم المستخدم</Text>
                 </View>
             </View>
 

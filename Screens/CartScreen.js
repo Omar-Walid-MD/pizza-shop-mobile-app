@@ -24,7 +24,7 @@ export default function CartScreen({navigation}) {
                 <>
                     {/* Screen Content */}
                     <View style={s("screen-content")}>
-                        <Text style={s("fs-1")}>السلة</Text>
+                        <Text style={s("fs-2")}>السلة</Text>
 
                         <ScrollView contentContainerStyle={{gap:30,flexGrow:1,paddingBottom:50}}>
                             <View style={s("row w-100",{})}>

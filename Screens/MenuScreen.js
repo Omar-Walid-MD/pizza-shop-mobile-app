@@ -43,7 +43,7 @@ export default function MenuScreen({navigation}) {
             
             {/* Screen Content */}
             <View style={s("screen-content")}>
-                <Text style={s("fs-1 mb-3")}>القائمة</Text>
+                <Text style={s("fs-2 mb-3")}>القائمة</Text>
 
                 <View style={s("w-100 flex-row j-content-b gap-2")}>
                     <Input placeholder="ابحث هنا"/>

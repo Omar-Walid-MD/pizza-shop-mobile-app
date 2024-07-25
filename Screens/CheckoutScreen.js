@@ -46,7 +46,7 @@ export default function CheckoutScreen({navigation}) {
             <View style={s("screen-content")}>
 
                 <View style={s("w-100 flex-row al-items-c j-content-b")}>
-                    <Text style={s("fs-1")}>دفع الطلب</Text>
+                    <Text style={s("fs-2")}>دفع الطلب</Text>
 
                     <Button variant='green'
                     onPress={()=>navigation.navigate("Main")}>

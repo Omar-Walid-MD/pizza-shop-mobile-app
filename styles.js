@@ -104,6 +104,10 @@ const styles = StyleSheet.create({
     {
         backgroundColor: "#FEF7EA"
     },
+    "bg-accent":
+    {
+        backgroundColor: "#C03E3E"
+    },
    
 
     "col-white":
@@ -203,6 +207,11 @@ const styles = StyleSheet.create({
         borderRadius:5
     },
 
+    "rounded-2":
+    {
+        borderRadius:10
+    },
+
     "border-1":
     {
         borderWidth:1
@@ -213,9 +222,19 @@ const styles = StyleSheet.create({
         borderWidth:2
     },
 
+    "border-3":
+    {
+        borderWidth:3
+    },
+
     "border-black":
     {
         borderColor:"black"
+    },
+
+    "border-danger":
+    {
+        borderColor:"#c41d1d"
     },
 
     "border-light":

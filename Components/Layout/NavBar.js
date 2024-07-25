@@ -5,7 +5,7 @@ import { MaterialCommunityIcons, MaterialIcons } from 'react-native-vector-icons
 import { useRoute } from '@react-navigation/native';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
-import {s} from "../styles";
+import {s} from "../../styles";
 import { LinearGradient } from 'expo-linear-gradient';
 
 import {Dimensions} from 'react-native';
