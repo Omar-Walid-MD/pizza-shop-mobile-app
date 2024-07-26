@@ -13,29 +13,23 @@ import { CheckBox } from '@rneui/base';
 import Text from '../Components/Text';
 import Background from '../Components/Background';
 import ScreenContent from '../Components/Layout/ScreenContent';
+import { items, itemsObject } from '../TempData/menu';
 
 
 export default function MenuScreen({navigation}) {
 
-    const [itemShowTab,setItemShowTab] = useState(false);
+    const [itemToShow,setItemToShow] = useState(null);
+    const [itemOptions,setItemOptions] = useState({
+        size: "",
+        count: 1
+    });
 
-    const [sizeIndex,setSizeIndex] = useState(0);
-    const [itemCount,setItemCount] = useState(1);
-
-    const pizzaSizes = [
-        {
-            price: 50,
-            name: "size 1"
-        },
-        {
-            price: 75,
-            name: "size 2"
-        },
-        {
-            price: 100,
-            name: "size 3"
-        },
-    ]
+    const sizeStrings = {
+        "s": "صغير",
+        "m": "وسط",
+        "l": "كبير"
+    };
+    
 
     return (
         <View style={s("screen-container")}>
@@ -54,37 +48,44 @@ export default function MenuScreen({navigation}) {
                         <MaterialIcons name="search" size={25} color="white" /> 
                     </Button>
                 </View>
-
-                <Accordion
-                content={<Text style={s("col-gray fs-3 pr-4")}>عنوان</Text>}
-                >
-                    <ScrollView style={{}} contentContainerStyle={{flexGrow:1,paddingBottom:500}}>
-                        <View style={s("row w-100",{})}>
-                        {
-                            Array.from({length:10}).map((x,i)=>
-                                <MenuItem openTab={()=>setItemShowTab(true)} key={`menu-item-${i}`}/>
-                            )
-                        }
-                        </View>
-                    </ScrollView>
-                </Accordion>
+                {
+                    Object.keys(itemsObject).map((category)=>
+                    <Accordion
+                    content={<Text style={s("col-gray fs-3")}>{category}</Text>}
+                    >
+                        <ScrollView style={{}} contentContainerStyle={{flexGrow:1,paddingBottom:20}}>
+                            <View style={s("row w-100",{})}>
+                            {
+                                itemsObject[category].map((item,i)=>
+                                    <MenuItem openTab={()=>{
+                                        setItemToShow(item);
+                                        setItemOptions({size:Object.keys(item.prices)[0],count:1})
+                                    }} key={`menu-item-${i}`}/>
+                                )
+                            }
+                            </View>
+                        </ScrollView>
+                    </Accordion>
+                    )
+                }
             </ScreenContent>
 
 
 
             {/* Modals */}
-            <Modal visible={itemShowTab} animationType='slide'>
+            <Modal visible={itemToShow!==null} animationType='slide'>
                 <View style={s("w-100 h-100 bg-white shadow al-items-c")}>
-
+                {
+                    itemToShow &&
                     <ScrollView style={s("w-100")}>
                         <View style={s("w-100 p-4 al-items-c pt-4")}>
                             <Image source={require("../assets/img/pizza.png")} style={{height:250,position:"relative"}} resizeMode='contain' />
-                            <Text style={s("mt-1 text-center fs-1")}>Pizza Name Label</Text>
+                            <Text style={s("mt-1 text-center fs-1")}>{itemToShow.name}</Text>
 
                             <View style={s("w-100 mt-2 gap-1 al-items-s")}>
                             {
-                                Array.from({length:4}).map((x,i)=>
-                                <Text style={s("fs-3 col-gray")} key={`pizza-desc-${i}`}>-  وصف البيتزا</Text>
+                                itemToShow.desc.map((desc,i)=>
+                                <Text style={s("fs-3 col-gray")} key={`pizza-desc-${i}`}>-  {desc}</Text>
                                 )
                             }
                             </View>
@@ -94,17 +95,17 @@ export default function MenuScreen({navigation}) {
 
                                 <View style={s("w-100 al-items-c pt-4")}>
                                 {
-                                    pizzaSizes.map((pizzaSize,i)=>
-                                    <View style={s("w-100 flex-row j-content-b")} key={`pizza-size-${i}`}>
-                                        <Text style={s("fs-3")}>{pizzaSize.name} - {pizzaSize.price}</Text>
+                                    Object.keys(itemToShow.prices).map((size,i)=>
+                                    <Pressable style={s("w-100 flex-row j-content-b")} key={`pizza-size-${i}`}
+                                    onPress={() => setItemOptions(i => ({...i,size}))}>
+                                        <Text style={s("fs-3")}>{sizeStrings[size]} - {itemToShow.prices[size]}</Text>
                                         <CheckBox
-                                        checked={sizeIndex === i}
-                                        onPress={() => setSizeIndex(i)}
+                                        checked={itemOptions.size === size}
                                         checkedIcon="dot-circle-o"
                                         uncheckedIcon="circle-o"
                                         checkedColor="#820000"
                                         />
-                                    </View>
+                                    </Pressable>
                                     )
                                 }
                                 </View>
@@ -114,13 +115,13 @@ export default function MenuScreen({navigation}) {
                             <View style={s("w-100 al-items-c pt-4 gap-2")}>
                                 <Text style={s("fs-3")}>اختر العدد</Text>
 
-                                <View style={s("w-75 flex-row j-content-b border-2 border-gray rounded")}>
-                                    <Pressable onPress={()=>setItemCount(x => x-1 ? x-1 : x)}>
-                                        <Text style={s("fs-3 bg-black px-1 col-white")}>-</Text>
+                                <View style={s("w-75 flex-row j-content-b border-3 border-danger rounded shadow bg-white overflow-hidden")}>
+                                    <Pressable onPress={()=>setItemOptions(i => ({...i,count: i.count-1 ? i.count-1 : i.count}))}>
+                                        <Text style={s("fs-3 bg-accent px-2 col-white")}>-</Text>
                                     </Pressable>
-                                    <Text style={s("fs-3")}>{itemCount}</Text>
-                                    <Pressable onPress={()=>setItemCount(x => x+1<=5 ? x+1 : x)}>
-                                        <Text style={s("fs-3 bg-black px-1 col-white")}>+</Text>
+                                    <Text style={s("fs-3")}>{itemOptions.count}</Text>
+                                    <Pressable onPress={()=>setItemOptions(i => ({...i,count: i.count<5 ? i.count+1 : i.count}))}>
+                                        <Text style={s("fs-3 bg-accent px-2 col-white")}>+</Text>
                                     </Pressable>
                                 </View>
                             </View>
@@ -132,10 +133,11 @@ export default function MenuScreen({navigation}) {
 
                         </View>
                     </ScrollView>
+                }
 
                     <View style={s("pos-abs w-100 al-items-s")}>
                         <Button style={s("m-2")}
-                        onPress={()=>setItemShowTab(false)}
+                        onPress={()=>setItemToShow(null)}
                         >
                             <MaterialCommunityIcons name="close" color="white" size={25} />
                         </Button>

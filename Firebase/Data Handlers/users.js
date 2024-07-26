@@ -21,6 +21,12 @@ export async function getUser(userId)
         }
     });
 
-    return userInfo;
-    
+    return userInfo;   
+}
+
+export async function usernameExists(username)
+{
+    return await get(child(ref(database), `usernames/${username}`)).then((snapshot) => {
+            return snapshot.exists()
+    });
 }

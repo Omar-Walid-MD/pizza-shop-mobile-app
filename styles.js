@@ -331,8 +331,7 @@ const styles = StyleSheet.create({
     "my-3": { "marginVertical": 30 },
     "my-4": { "marginVertical": 50 },
 
-    // "pointer-none": {pointerEvents:"none"},
-    // "pointer-auto": {pointerEvents:"auto"},
+    "overflow-hidden": {overflow:"hidden"},
 
     "row":
     {
