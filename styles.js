@@ -344,14 +344,15 @@ const styles = StyleSheet.create({
 
     "menu-item-col":
     {
-        width:"50%"
+        width:"50%",
     },
 
     "menu-item-container":
     {
         borderWidth: 2,
         borderColor:"#820000",
-        borderRadius: 5
+        borderRadius: 5,
+        flex:1
     }
     
 

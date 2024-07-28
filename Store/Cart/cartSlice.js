@@ -3,6 +3,7 @@ import AsyncStorage from '@react-native-community/async-storage'
 
 const initialState = {
     cart: [],
+    cartItemToShow: null,
     loading: true,
 }
 
@@ -87,7 +88,10 @@ export const removeFromCart = createAsyncThunk(
     }
 );
     
-  
+export const setCartItemToShow = createAsyncThunk(
+    'items/setCartItemToShow',
+    (cartItem) => {return cartItem;}
+); 
 
 export const cartSlice = createSlice({
     name: "cart",
@@ -131,6 +135,12 @@ export const cartSlice = createSlice({
         })
         .addCase(removeFromCart.rejected,(state) => {
             state.loading = false;
+        })
+
+        //setCartItemToShow   
+        .addCase(setCartItemToShow.fulfilled,(state, { payload }) => {
+            state.loading = false;
+            state.cartItemToShow = payload;
         })
       
     },

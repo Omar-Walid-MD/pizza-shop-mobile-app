@@ -1,7 +1,8 @@
-import { Text, View, Image, Pressable } from 'react-native';
+import { Text, View, Image, Pressable, Animated } from 'react-native';
 import { s } from '../styles';
 import { LinearGradient } from 'expo-linear-gradient';
 import PropTypes from 'prop-types';
+import { useState } from 'react';
 
 /**
  * MyComponent description
@@ -11,9 +12,11 @@ import PropTypes from 'prop-types';
 
 export default function Button(props) {
 
+    const buttonOverlayOpacity = useState(new Animated.Value(0))[0];
+
     return (
         <LinearGradient
-        style={{...(props.style || {}),borderRadius:5,shadowColor:"black",elevation:2}}
+        style={{...(props.style || {}),borderRadius:5,shadowColor:"black",elevation:2,overflow:"hidden"}}
         colors={
             props.variant==="red" || !props.variant ? 
             ["#CC6060", "#C03E3E","#C03E3E","#943030"]
@@ -28,11 +31,27 @@ export default function Button(props) {
         >
             <Pressable
             
-            style={{backgroundColor:"transparent",paddingVertical:5,paddingHorizontal:15,alignItems:"center"}}
+            style={{flex:1,backgroundColor:"transparent",justifyContent:"center",paddingVertical:5,paddingHorizontal:15,alignItems:"center"}}
             onPress={props.onPress}
+
+            onPressIn={()=>
+                Animated.timing(buttonOverlayOpacity,{
+                    toValue: 0.35,
+                    duration: 100,
+                    useNativeDriver: false
+                }).start()
+            }
+            onPressOut={()=>
+                Animated.timing(buttonOverlayOpacity,{
+                    toValue: 0,
+                    duration: 100,
+                    useNativeDriver: false
+                }).start()
+            }
             >
             {props.children}
             </Pressable>
+            <Animated.View pointerEvents="none" style={s("pos-abs w-100 h-100",{backgroundColor:`black`,opacity:buttonOverlayOpacity})}></Animated.View>
         </LinearGradient>
     )
 }

@@ -1,5 +1,6 @@
-import { Text, View, Image, Pressable } from 'react-native';
+import {View, Image, Pressable } from 'react-native';
 import { s } from '../styles';
+import Text from './Text';
 
 
 export default function MenuItem({item,openTab}) {

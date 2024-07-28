@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { Modal, View, Image, Pressable, ScrollView } from 'react-native';
+import { Modal, View, Image, Pressable, ScrollView, FlatList } from 'react-native';
 import styles, { s } from '../styles';
 import { LinearGradient } from 'expo-linear-gradient';
 import Input from '../Components/Input';
@@ -22,16 +22,7 @@ export default function MenuScreen({navigation}) {
     const dispatch = useDispatch();
 
     const itemsCategorized = useSelector(store => store.items.itemsCategorized);
-
-    // const [itemOptions,setItemOptions] = useState({
-    //     size: "",
-    //     count: 1
-    // });
-
     
-
-    console.log("parent screen rerendered"); 
-
     return (
         <View style={s("screen-container")}>
             {/* Background */}
@@ -50,25 +41,30 @@ export default function MenuScreen({navigation}) {
                     </Button>
                 </View>
                 {
-                    Object.keys(itemsCategorized).map((category,i)=>
-                    <Accordion
-                    content={<Text style={s("col-gray fs-3")}>{category}</Text>}
-                    key={`cat-${i}`}
-                    >
-                        <ScrollView style={{}} contentContainerStyle={{flexGrow:1,paddingBottom:20}}>
-                            <View style={s("row w-100",{})}>
-                            {
-                                itemsCategorized[category].map((item,i)=>
-                                    <MenuItem item={item} openTab={()=>{
-                                        dispatch(setMenuItemToShow(item));
-                                        dispatch(setMenuItemOptions({size:Object.keys(item.prices)[0],count:1}))
-                                    }} key={`menu-item-${i}`}/>
-                                )
-                            }
-                            </View>
-                        </ScrollView>
-                    </Accordion>
-                    )
+                    <FlatList
+                    scrollEnabled={false}
+                    data={Object.keys(itemsCategorized)}
+                    renderItem={
+                        ({item:category,index:categoryIndex}) =>
+                            <Accordion
+                            content={<Text style={s("col-gray fs-3")}>{category}</Text>}
+                            key={`cat-${categoryIndex}`}
+                            >
+                                    <FlatList
+                                    numColumns={2}
+                                    scrollEnabled={false}
+                                    data={itemsCategorized[category]}
+                                    renderItem={
+                                        ({item,index}) => 
+                                        <MenuItem item={item} openTab={()=>{
+                                            dispatch(setMenuItemToShow(item));
+                                            dispatch(setMenuItemOptions({size:Object.keys(item.prices)[0],count:1}))
+                                        }} key={`menu-item-${index}`}/>
+                                    }
+                                    />
+                            </Accordion>
+                    }
+                    />
                 }
             </ScreenContent>
 
