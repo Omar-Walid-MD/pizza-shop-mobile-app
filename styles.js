@@ -362,11 +362,14 @@ const styles = StyleSheet.create({
 
 export function s(classes,extraStyles={})
 {
+    // return extraStyles;
+    // const start = Date.now()
     const classList = classes.split(" ");
     let styleObject = {};
     classList.forEach((c)=>{
         styleObject = {...styleObject,...styles[c]};
-    })
+    });
+    // console.log(Date.now()-start)
     return {...styleObject,...extraStyles};
 }
 

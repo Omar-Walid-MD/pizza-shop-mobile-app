@@ -15,6 +15,7 @@ import OrderSuccessScreen from '../Screens/OrderSuccessScreen';
 import { auth } from '../Firebase/firebase';
 import { setUser } from '../Store/Auth/authSlice';
 import { getUser } from '../Firebase/Data Handlers/users';
+import { getItems } from '../Store/Items/itemsSlice';
 
 const Tab = createMaterialTopTabNavigator();
 const Stack = createStackNavigator();
@@ -46,6 +47,10 @@ export default function Navigator()
 			else dispatch(setUser(null));
 		});
 	},[]);
+
+    useEffect(()=>{
+        dispatch(getItems());
+    },[]);
 
     return (
         <Stack.Navigator>

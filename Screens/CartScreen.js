@@ -8,9 +8,12 @@ import Text from '../Components/Text';
 import CartItem from '../Components/CartItem';
 import  { MaterialCommunityIcons, MaterialIcons } from "react-native-vector-icons";
 import ScreenContent from '../Components/Layout/ScreenContent';
+import { useSelector } from 'react-redux';
 
 
 export default function CartScreen({navigation}) {
+
+    const cart = useSelector(store => store.cart.cart);
 
     const [itemShowTab,setItemShowTab] = useState(false);
     const [screenType,setScreenType] = useState("cart");

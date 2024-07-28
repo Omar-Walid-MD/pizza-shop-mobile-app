@@ -1,3 +1,4 @@
+
 export const items = [
     {
         name: "بيتزا مارغريتا",
@@ -331,8 +332,9 @@ export const items = [
     }
 ];
 
-function getCategorizedItems()
+export function getCategorizedItems()
 {
+    console.log("running this function");
     return items.reduce((itemsObjectCurrent,item)=>{
         if(item.category in itemsObjectCurrent)
         {
@@ -346,4 +348,3 @@ function getCategorizedItems()
     },{});
 }
 
-export const itemsObject = getCategorizedItems(items);
