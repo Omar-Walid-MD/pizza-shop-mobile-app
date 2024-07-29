@@ -1,5 +1,5 @@
 import { Text, View, Image, Pressable, Animated } from 'react-native';
-import { s } from '../styles';
+import styles from "../../styles";
 import { LinearGradient } from 'expo-linear-gradient';
 import PropTypes from 'prop-types';
 import { useState } from 'react';

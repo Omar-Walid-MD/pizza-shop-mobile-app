@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import AsyncStorage from '@react-native-community/async-storage'
 
+
 const initialState = {
     cart: [],
     cartItemToShow: null,
@@ -10,8 +11,11 @@ const initialState = {
 export const getCart = createAsyncThunk(
     'cart/getCart',
     async (args,{getState}) => {
-      
-        let localCart = JSON.parse(AsyncStorage.getItem("userCart"));
+        
+        await AsyncStorage.removeItem("userCart");
+        let localCart = await AsyncStorage.getItem("userCart");
+
+        console.log("local cart get:",localCart);
     
         //   if(auth.currentUser)
         //   {
@@ -20,48 +24,40 @@ export const getCart = createAsyncThunk(
     
         //       return userCart;
         //   }
-        if(false)
-        {}
-        else
-        {
-            if(localCart)
-            {
-                return localCart;
-            }
-            else
-            {
-                AsyncStorage.setItem("userCart",JSON.stringify([]))
-                return [];
-            }
-        }
+        return [];
+        // if(localCart)
+        // {
+        //     return localCart;
+        // }
+        // else
+        // {
+        //     await AsyncStorage.setItem("userCart",JSON.parse([]))
+        //     return [];
+        // }
+        
     }
 );
 
 export const addToCart = createAsyncThunk(
     'cart/addToCart',
-    async (productId, {getState}) => {
+    async (addedItem,{getState}) => {
     
-    
-        if(false)
+        // let localCart = await AsyncStorage.getItem("userCart");
+        let localCart = getState().cart.cart;
+        if(localCart)
         {
-            // let updatedCart = [...getState().cart.cart,{productId: productId, count: 1}];
-    
-            // set(ref(database, `users/${auth.currentUser.uid}/cart`), getCartObject(updatedCart));
-            // return {product,cart:updatedCart};
+            localCart = [...localCart,addedItem];
         }
         else
         {
-            let localCart = JSON.parse(AsyncStorage.getItem("userCart"))
-            if(localCart)
-            {
-                localCart = [...localCart,{productId, count: 1}];
-                AsyncStorage.setItem("userCart",JSON.stringify(localCart));
-                return localCart;
-            }
+            localCart = [addedItem]; 
         }
+        // await AsyncStorage.setItem("userCart",JSON.stringify(localCart));
+        return localCart;
+        
     }
 );
-    
+
 
 export const removeFromCart = createAsyncThunk(
     'cart/removeFromCart',
@@ -119,6 +115,7 @@ export const cartSlice = createSlice({
         .addCase(addToCart.fulfilled,(state, { payload }) => {
             state.loading = false
             state.cart = payload;
+            console.log("added item")
         })
         .addCase(addToCart.rejected,(state) => {
             state.loading = false;

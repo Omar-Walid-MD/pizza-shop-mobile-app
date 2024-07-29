@@ -1,4 +1,4 @@
-import { s } from "../styles"
+import styles from "../../styles";
 import { View } from "react-native"
 import { CheckBox as RNEUI_CheckBox } from "@rneui/base";
 

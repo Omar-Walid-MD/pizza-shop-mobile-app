@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import { Modal, View, Image, Pressable, ScrollView } from 'react-native';
-import styles, { s } from '../styles';
+import styles from "../../styles";
 import { useState } from 'react';
 import Button from '../Components/Button';
 import Background from '../Components/Background';

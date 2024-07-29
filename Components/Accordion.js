@@ -1,7 +1,7 @@
 import { ListItem } from "@rneui/themed";
 import { useState } from "react"
 import { View } from "react-native";
-import { s } from "../styles";
+import styles from "../../styles";
 
 export default function Accordion(props) {
 

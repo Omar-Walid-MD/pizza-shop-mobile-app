@@ -1,5 +1,5 @@
 import { LinearGradient } from 'expo-linear-gradient';
-import { s } from '../styles';
+import styles from "../../styles";
 
 export default function Background() {
     return (

@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import { Modal, View, Image, Pressable, ScrollView } from 'react-native';
-import styles, { s } from '../styles';
+import styles from "../../styles";
 import { LinearGradient } from 'expo-linear-gradient';
 import Input from '../Components/Input';
 import  { MaterialCommunityIcons, MaterialIcons } from "react-native-vector-icons";

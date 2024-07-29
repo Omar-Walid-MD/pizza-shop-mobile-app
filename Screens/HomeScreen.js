@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import { Button, StyleSheet, View, Image, Pressable } from 'react-native';
-import styles, { s } from '../styles';
+import styles from "../../styles";
 import { LinearGradient } from 'expo-linear-gradient';
 import Text from '../Components/Text';
 import Background from '../Components/Background';

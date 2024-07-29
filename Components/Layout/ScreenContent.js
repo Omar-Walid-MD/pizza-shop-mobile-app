@@ -1,11 +1,15 @@
 import { ScrollView, View } from "react-native"
-import { s } from "../../styles"
 import PropTypes from 'prop-types';
+import styles from "../../styles";
 
 export default function ScreenContent(props)
 {
     return (
-        <View style={s("screen-content")}>
+        <View
+        //style[screen-content]
+        style={{...styles['screen-content']}}
+    
+        >
         {props.header}
         {
             !props.scrollDisabled ?

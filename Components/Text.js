@@ -1,5 +1,5 @@
 import { Text as RN_Text } from 'react-native';
-import { s } from '../styles';
+import styles from "../../styles";
 import PropTypes from 'prop-types';
 
 

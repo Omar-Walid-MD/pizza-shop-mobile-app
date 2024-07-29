@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import { Modal, View, Image, Pressable, ScrollView, FlatList } from 'react-native';
-import styles, { s } from '../styles';
+import styles from "../../styles";
 import { LinearGradient } from 'expo-linear-gradient';
 import Input from '../Components/Input';
 import  { MaterialCommunityIcons, MaterialIcons } from "react-native-vector-icons";
@@ -15,6 +15,8 @@ import Background from '../Components/Background';
 import ScreenContent from '../Components/Layout/ScreenContent';
 import { useDispatch, useSelector } from 'react-redux';
 import { setMenuItemOptions, setMenuItemToShow } from '../Store/Items/itemsSlice';
+import { addToCart } from '../Store/Cart/cartSlice';
+import { items } from '../TempData/menu';
 
 
 export default function MenuScreen({navigation}) {
@@ -55,11 +57,8 @@ export default function MenuScreen({navigation}) {
                                     scrollEnabled={false}
                                     data={itemsCategorized[category]}
                                     renderItem={
-                                        ({item,index}) => 
-                                        <MenuItem item={item} openTab={()=>{
-                                            dispatch(setMenuItemToShow(item));
-                                            dispatch(setMenuItemOptions({size:Object.keys(item.prices)[0],count:1}))
-                                        }} key={`menu-item-${index}`}/>
+                                        ({item:itemId,index}) => 
+                                        <MenuItem itemId={itemId} key={`menu-item-${index}`}/>
                                     }
                                     />
                             </Accordion>
@@ -67,7 +66,6 @@ export default function MenuScreen({navigation}) {
                     />
                 }
             </ScreenContent>
-
 
 
             {/* Modals */}
@@ -83,7 +81,8 @@ export default function MenuScreen({navigation}) {
 function MenuItemModal({})
 {
     const dispatch = useDispatch();
-    const itemToShow = useSelector(store => store.items.menuItemToShow);
+    const itemId = useSelector(store => store.items.menuItemToShow);
+    const itemToShow = items[itemId];
     const itemOptions = useSelector(store => store.items.menuItemOptions);
     const sizeStrings = {
         "s": "صغير",
@@ -91,8 +90,15 @@ function MenuItemModal({})
         "l": "كبير"
     };
 
+    
+
+    function handleAddToCart()
+    {
+        dispatch(addToCart({id: itemId,...itemOptions}));
+    }
+
     return (
-        <Modal visible={itemToShow!==null} animationType='slide'>
+        <Modal visible={itemId!==null} animationType='slide'>
             <View style={s("w-100 h-100 bg-white shadow al-items-c")}>
             {
                 itemToShow &&
@@ -145,7 +151,7 @@ function MenuItemModal({})
                             </View>
                         </View>
                         
-                        <Button style={s("mt-4 w-100")}>
+                        <Button style={s("mt-4 w-100")} onPress={handleAddToCart}>
                             <Text style={s("col-white fs-3")}>أضف الى السلة</Text>
                         </Button>
 

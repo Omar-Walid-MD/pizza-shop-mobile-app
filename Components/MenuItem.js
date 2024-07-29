@@ -1,13 +1,26 @@
 import {View, Image, Pressable } from 'react-native';
 import { s } from '../styles';
 import Text from './Text';
+import { items } from '../TempData/menu';
+import { useDispatch } from 'react-redux';
+import { setMenuItemOptions, setMenuItemToShow } from '../Store/Items/itemsSlice';
 
 
-export default function MenuItem({item,openTab}) {
+export default function MenuItem({itemId}) {
+
+    const item = items[itemId];
+
+    const dispatch = useDispatch();
+
+    function openMenuItem()
+    {
+        dispatch(setMenuItemToShow(itemId));
+        dispatch(setMenuItemOptions({size:Object.keys(item.prices)[0],count:1}))
+    }
 
     return (
         <Pressable style={s("menu-item-col p-1")}
-        onPress={openTab}
+        onPress={openMenuItem}
         >
         {
             item &&

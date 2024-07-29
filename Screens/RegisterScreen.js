@@ -1,5 +1,5 @@
 import {  View } from 'react-native';
-import { s } from '../styles';
+import styles from "../../styles";
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { auth } from "../Firebase/firebase";
 

@@ -1,5 +1,5 @@
 import { View } from 'react-native';
-import { s } from '../styles';
+import styles from "../../styles";
 import Input from '../Components/Input';
 import { useState } from 'react';
 import Button from '../Components/Button';

@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import { Modal, View, Image, Pressable, ScrollView, FlatList } from 'react-native';
-import styles, { s } from '../styles';
+import styles from "../../styles";
 import { useState } from 'react';
 import Button from '../Components/Button';
 import Background from '../Components/Background';
@@ -15,6 +15,7 @@ import { setCartItemToShow } from '../Store/Cart/cartSlice';
 export default function CartScreen({navigation}) {
 
     const cart = useSelector(store => store.cart.cart);
+    console.log("cart on screen:",cart)
     const dispatch = useDispatch();
 
     const [screenType,setScreenType] = useState("cart");
@@ -36,8 +37,8 @@ export default function CartScreen({navigation}) {
                         scrollEnabled={false}
                         data={cart}
                         renderItem={
-                            ({item,index}) =>
-                            <CartItem item={item} key={`menu-item-${index}`}/>
+                            ({item}) =>
+                            <CartItem itemInfo={item} key={`menu-item-${item.id}`}/>
                         }
                         />
 
@@ -111,8 +112,8 @@ function CartItemModal({})
 
 
                         <View style={s("w-100 mt-2 gap-1 al-items-c")}>
-                            <Text style={s("fs-3")}>سعر الواحدة:  (x1) 29.99 EGP</Text>
-                            <Text style={s("fs-3")}>إجمالي السعر : 29.99 EGP</Text>
+                            <Text style={s("fs-3")}>سعر الواحدة:  (x{itemToShow.count}) {itemToShow.prices[itemToShow.size]} EGP</Text>
+                            <Text style={s("fs-3")}>إجمالي السعر : {parseFloat(itemToShow.prices[itemToShow.size])*itemToShow.count} EGP</Text>
                         </View>
 
                         <Button style={s("w-100")}>
@@ -127,7 +128,7 @@ function CartItemModal({})
 
                 <View style={s("pos-abs w-100 al-items-s")}>
                     <Button style={s("m-2")}
-                    // onPress={()=>setItemShowTab(false)}
+                    onPress={()=>dispatch(setCartItemToShow(null))}
                     >
                         <MaterialCommunityIcons name="close" color="white" size={25} />
                     </Button>
