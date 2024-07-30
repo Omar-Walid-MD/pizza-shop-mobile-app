@@ -7,7 +7,7 @@ import  { MaterialCommunityIcons, MaterialIcons } from "react-native-vector-icon
 import { ListItem } from '@rneui/themed';
 import MenuItem from '../Components/MenuItem';
 import Accordion from '../Components/Accordion';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import Button from '../Components/Button';
 import CheckBox from "../Components/CheckBox"
 import Text from '../Components/Text';
@@ -15,7 +15,7 @@ import Background from '../Components/Background';
 import ScreenContent from '../Components/Layout/ScreenContent';
 import { useDispatch, useSelector } from 'react-redux';
 import { setMenuItemOptions, setMenuItemToShow } from '../Store/Items/itemsSlice';
-import { addToCart } from '../Store/Cart/cartSlice';
+import { addToCart, setItemCount } from '../Store/Cart/cartSlice';
 import { items } from '../TempData/menu';
 
 
@@ -81,8 +81,10 @@ function MenuItemModal({})
 {
     const dispatch = useDispatch();
     const itemId = useSelector(store => store.items.menuItemToShow);
+    const cart = useSelector(store => store.cart.cart);
+
     const itemToShow = items[itemId];
-    const itemOptions = useSelector(store => store.items.menuItemOptions);
+    const [itemOptions,setItemOptions] = useState({});
     const sizeStrings = {
         "s": "صغير",
         "m": "وسط",
@@ -93,8 +95,27 @@ function MenuItemModal({})
 
     function handleAddToCart()
     {
-        dispatch(addToCart({id: itemId,...itemOptions}));
+        const itemInCart = cart.find((cartItem) => cartItem.id===itemId && cartItem.size===itemOptions.size);
+        if(itemInCart)
+        {
+            console.log(itemOptions.count+itemInCart.count)
+            dispatch(setItemCount({id: itemId,size:itemOptions.size,count:itemOptions.count+itemInCart.count}))
+        }
+        else
+        {
+            dispatch(addToCart({id: itemId,...itemOptions}));
+        }
     }
+
+    useEffect(()=>{
+        if(itemToShow)
+        {
+            setItemOptions({
+                size: Object.keys(itemToShow.prices)[0],
+                count: 1
+            });
+        }
+    },[itemToShow]);
 
     return (
         <Modal visible={itemId !== null} animationType='slide'>
@@ -121,7 +142,7 @@ function MenuItemModal({})
                                     {
                                         Object.keys(itemToShow.prices).map((size, i) =>
                                             <Pressable style={{...styles['w-100'], ...styles['flex-row'], ...styles['j-content-b']}} key={`pizza-size-${i}`}
-                                                onPress={() => dispatch(setMenuItemOptions({...itemOptions, size}))}>
+                                                onPress={() => setItemOptions({...itemOptions, size})}>
 
                                                 <Text style={{...styles['fs-3']}}>{sizeStrings[size]} - {itemToShow.prices[size]}</Text>
 
@@ -139,11 +160,11 @@ function MenuItemModal({})
                                 <Text style={{...styles['fs-3']}}>اختر العدد</Text>
 
                                 <View style={{...styles['w-75'], ...styles['flex-row'], ...styles['j-content-b'], ...styles['border-3'], ...styles['border-danger'], ...styles['rounded'], ...styles['shadow'], ...styles['bg-white'], ...styles['overflow-hidden']}}>
-                                    <Pressable onPress={() => dispatch(setMenuItemOptions({...itemOptions, count: itemOptions.count - 1 ? itemOptions.count - 1 : itemOptions.count}))}>
+                                    <Pressable onPress={() => setItemOptions(i => ({...i, count: i.count - 1 ? i.count - 1 : i.count}))}>
                                         <Text style={{...styles['fs-3'], ...styles['bg-accent'], ...styles['px-2'], ...styles['col-white']}}>-</Text>
                                     </Pressable>
                                     <Text style={{...styles['fs-3']}}>{itemOptions?.count}</Text>
-                                    <Pressable onPress={() => dispatch(setMenuItemOptions({...itemOptions, count: itemOptions.count < 5 ? itemOptions.count + 1 : itemOptions.count}))}>
+                                    <Pressable onPress={() => setItemOptions(i => ({...i, count: i.count < 5 ? i.count + 1 : i.count}))}>
                                         <Text style={{...styles['fs-3'], ...styles['bg-accent'], ...styles['px-2'], ...styles['col-white']}}>+</Text>
                                     </Pressable>
                                 </View>

@@ -5,9 +5,7 @@ import { getCategorizedItems, items } from '../../TempData/menu';
 const initialState = {
     items: [],
     itemsCategorized: {},
-
     menuItemToShow: null,
-    menuItemOptions: null,
     loading: true,
 }
 

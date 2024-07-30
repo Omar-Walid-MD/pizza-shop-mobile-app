@@ -9,15 +9,12 @@ import CartItem from '../Components/CartItem';
 import  { MaterialCommunityIcons, MaterialIcons } from "react-native-vector-icons";
 import ScreenContent from '../Components/Layout/ScreenContent';
 import { useDispatch, useSelector } from 'react-redux';
-import { setCartItemToShow } from '../Store/Cart/cartSlice';
+import { removeFromCart, setCartItemToShow } from '../Store/Cart/cartSlice';
 
 
 export default function CartScreen({navigation}) {
 
     const cart = useSelector(store => store.cart.cart);
-    console.log("cart on screen:",cart)
-    const dispatch = useDispatch();
-
     const [screenType,setScreenType] = useState("cart");
 
     return(
@@ -83,6 +80,12 @@ function CartItemModal({})
     const dispatch = useDispatch();
     const itemToShow = useSelector(store => store.cart.cartItemToShow);
 
+    function handleRemoveFromCart()
+    {
+        dispatch(setCartItemToShow(null));
+        dispatch(removeFromCart(itemToShow));
+    }
+
     return (
         <Modal visible={itemToShow !== null} animationType='slide'>
             <View style={{...styles['w-100'], ...styles['h-100'], ...styles['bg-white'], ...styles['shadow'], ...styles['al-items-c']}}>
@@ -110,7 +113,7 @@ function CartItemModal({})
                                 <Text style={{...styles['fs-3']}}>إجمالي السعر : {parseFloat(itemToShow.prices[itemToShow.size]) * itemToShow.count} EGP</Text>
                             </View>
 
-                            <Button style={{...styles['w-100']}}>
+                            <Button style={{...styles['w-100']}} onPress={handleRemoveFromCart}>
                                 <Text style={{...styles['col-white'], ...styles['fs-3']}}>إزالة من السلة</Text>
                             </Button>
                         </View>

@@ -11,30 +11,11 @@ const initialState = {
 export const getCart = createAsyncThunk(
     'cart/getCart',
     async (args,{getState}) => {
-        
-        await AsyncStorage.removeItem("userCart");
-        let localCart = await AsyncStorage.getItem("userCart");
 
-        console.log("local cart get:",localCart);
-    
-        //   if(auth.currentUser)
-        //   {
-        //       const userCartObject = getState().auth.currentUser.cart || {};
-        //       const userCart = getCartArray(userCartObject);
-    
-        //       return userCart;
-        //   }
-        return [];
-        // if(localCart)
-        // {
-        //     return localCart;
-        // }
-        // else
-        // {
-        //     await AsyncStorage.setItem("userCart",JSON.parse([]))
-        //     return [];
-        // }
+        let localCart = JSON.parse(await AsyncStorage.getItem("userCart")  || []);
+        console.log("getting cart");
         
+        return localCart;
     }
 );
 
@@ -42,17 +23,28 @@ export const addToCart = createAsyncThunk(
     'cart/addToCart',
     async (addedItem,{getState}) => {
     
-        // let localCart = await AsyncStorage.getItem("userCart");
         let localCart = getState().cart.cart;
-        if(localCart)
-        {
-            localCart = [...localCart,addedItem];
-        }
-        else
-        {
-            localCart = [addedItem]; 
-        }
-        // await AsyncStorage.setItem("userCart",JSON.stringify(localCart));
+        localCart = [...localCart,addedItem];
+        
+        await AsyncStorage.setItem("userCart",JSON.stringify(localCart));
+        return localCart;
+        
+    }
+);
+
+export const setItemCount = createAsyncThunk(
+    'cart/setItemCount',
+    async (item,{getState}) => {
+    
+        let localCart = getState().cart.cart;
+        console.log(item);
+
+        localCart = localCart.map((cartItem) => 
+        (cartItem.id===item.id && cartItem.size===item.size) ? ({...cartItem,count:item.count}) : cartItem);
+
+        console.log(localCart);
+
+        await AsyncStorage.setItem("userCart",JSON.stringify(localCart));
         return localCart;
         
     }
@@ -61,26 +53,13 @@ export const addToCart = createAsyncThunk(
 
 export const removeFromCart = createAsyncThunk(
     'cart/removeFromCart',
-    async (productId, {getState}) => {
+    async (item, {getState}) => {
     
-    
-        if(auth.currentUser)
-        {
-            // let updatedCart = getState().cart.cart.filter((product) => product.productId !== productId);
-    
-            // set(ref(database, `users/${auth.currentUser.uid}/cart`), getCartObject(updatedCart));
-            // return {product,cart:updatedCart};
-        }
-        else
-        {
-            let localCart = JSON.parse(localStorage.getItem("userCart"))
-            if(localCart)
-            {
-                localCart = localCart.filter((product) => product.productId !== productId);
-                localStorage.setItem("userCart",JSON.stringify(localCart));
-                return localCart;
-            }
-        }
+        let localCart = getState().cart.cart;
+        localCart = localCart.filter((cartItem) => cartItem.id!==item.id || cartItem.size!==item.size);
+
+        await AsyncStorage.setItem("userCart",JSON.stringify(localCart));
+        return localCart;
     }
 );
     
@@ -139,6 +118,19 @@ export const cartSlice = createSlice({
             state.loading = false;
             state.cartItemToShow = payload;
         })
+
+        //setItemCount
+        .addCase(setItemCount.pending,(state) => {
+            state.loading = true
+        })
+        .addCase(setItemCount.fulfilled,(state, { payload }) => {
+            state.loading = false;
+            state.cart = payload;
+        })
+        .addCase(setItemCount.rejected,(state) => {
+            state.loading = false;
+        })
+        
       
     },
 });

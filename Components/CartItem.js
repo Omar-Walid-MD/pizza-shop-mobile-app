@@ -8,8 +8,15 @@ import { items } from '../TempData/menu';
 
 export default function CartItem({itemInfo}) {
 
+    const sizeStrings = {
+        "s": "صغير",
+        "m": "وسط",
+        "l": "كبير"
+    };
+
+
     const item = items[itemInfo.id];
-    console.log(itemInfo);
+
     const dispatch = useDispatch();
 
     function showCartItem()
@@ -31,7 +38,7 @@ export default function CartItem({itemInfo}) {
                 <Image source={require("../assets/img/pizza.png")} style={{position:"relative",height:100}} resizeMode='contain'/>
                 <Text style={{...styles['mt-1'],...styles['text-center'],...styles['lh-normal'],...styles['fs-4']}}
                 >{item.name}</Text>
-                <Text>صغير الحجم</Text>
+                <Text>{sizeStrings[itemInfo.size]}</Text>
                 <Text
                 style={{...styles['col-accent'],...styles['fs-3']}}
                 >{Object.values(item.prices)[0]} EGP</Text>
