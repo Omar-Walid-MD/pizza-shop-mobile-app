@@ -2,7 +2,7 @@ import { createMaterialTopTabNavigator } from '@react-navigation/material-top-ta
 import HomeScreen from "../Screens/HomeScreen";
 import { StyleSheet } from "react-native";
 import { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import NavBar from '../Components/Layout/NavBar';
 import MenuScreen from '../Screens/MenuScreen';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -23,8 +23,9 @@ const Stack = createStackNavigator();
 
 export default function Navigator()
 {
-
     const dispatch = useDispatch();
+
+    const user = useSelector(store => store.auth.user);
 
 	useEffect(()=>{
 		
@@ -51,8 +52,11 @@ export default function Navigator()
 
     useEffect(()=>{
         dispatch(getItems());
-        dispatch(getCart());
     },[]);
+
+    useEffect(()=>{
+        dispatch(getCart());
+    },[user]);
 
     return (
         <Stack.Navigator>

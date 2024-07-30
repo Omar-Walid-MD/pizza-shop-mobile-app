@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import AsyncStorage from '@react-native-community/async-storage'
-
+import {auth, database} from "../../Firebase/firebase"
+import { ref, remove, set } from 'firebase/database';
 
 const initialState = {
     cart: [],
@@ -12,10 +13,15 @@ export const getCart = createAsyncThunk(
     'cart/getCart',
     async (args,{getState}) => {
 
-        let localCart = JSON.parse(await AsyncStorage.getItem("userCart")  || []);
-        console.log("getting cart");
-        
-        return localCart;
+        if(auth.currentUser)
+        {
+            const userCart = getState().auth.user.cart;
+            return Object.keys(userCart || {}).map((itemId) => ({id:itemId,...userCart[itemId]}));
+        }
+        else
+        {
+            return JSON.parse(await AsyncStorage.getItem("userCart")  || []);
+        }
     }
 );
 
@@ -23,43 +29,65 @@ export const addToCart = createAsyncThunk(
     'cart/addToCart',
     async (addedItem,{getState}) => {
     
-        let localCart = getState().cart.cart;
-        localCart = [...localCart,addedItem];
+        let cart = getState().cart.cart;
+        cart = [...cart,addedItem];
+
+        if(auth.currentUser)
+        {
+            const itemWithoutId = JSON.parse(JSON.stringify(addedItem));
+            delete itemWithoutId.id;
+            set(ref(database,`users/${auth.currentUser.uid}/cart/${addedItem.id}`), itemWithoutId);
+        }
+        else
+        {
+            await AsyncStorage.setItem("userCart",JSON.stringify(cart));
+        }
         
-        await AsyncStorage.setItem("userCart",JSON.stringify(localCart));
-        return localCart;
-        
-    }
-);
-
-export const setItemCount = createAsyncThunk(
-    'cart/setItemCount',
-    async (item,{getState}) => {
-    
-        let localCart = getState().cart.cart;
-        console.log(item);
-
-        localCart = localCart.map((cartItem) => 
-        (cartItem.id===item.id && cartItem.size===item.size) ? ({...cartItem,count:item.count}) : cartItem);
-
-        console.log(localCart);
-
-        await AsyncStorage.setItem("userCart",JSON.stringify(localCart));
-        return localCart;
+        return cart;
         
     }
 );
-
 
 export const removeFromCart = createAsyncThunk(
     'cart/removeFromCart',
+    async (item,{getState}) => {
+
+        let cart = getState().cart.cart.filter((cartItem) => cartItem.id!==item.id || cartItem.size!==item.size);
+
+        if(auth.currentUser)
+        {
+            remove(ref(database,`users/${auth.currentUser.uid}/cart/${item.id}`));
+        }
+        else
+        {
+            await AsyncStorage.setItem("userCart",JSON.stringify(cart));
+        }
+        
+        return cart;
+        
+    }
+);
+
+
+export const setItemCount = createAsyncThunk(
+    'cart/setItemCount',
     async (item, {getState}) => {
     
-        let localCart = getState().cart.cart;
-        localCart = localCart.filter((cartItem) => cartItem.id!==item.id || cartItem.size!==item.size);
+    
 
-        await AsyncStorage.setItem("userCart",JSON.stringify(localCart));
-        return localCart;
+        let cart = getState().cart.cart.map((cartItem) => 
+            (cartItem.id===item.id && cartItem.size===item.size) ? ({...cartItem,count:item.count}) : cartItem);
+
+        if(auth.currentUser)
+        {
+            set(ref(database,`users/${auth.currentUser.uid}/cart/${item.id}/count`),item.count);
+        }
+        else
+        {
+            await AsyncStorage.setItem("userCart",JSON.stringify(cart));
+        }
+
+        return cart;
     }
 );
     

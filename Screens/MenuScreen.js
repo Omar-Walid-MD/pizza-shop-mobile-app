@@ -19,6 +19,18 @@ import { addToCart, setItemCount } from '../Store/Cart/cartSlice';
 import { items } from '../TempData/menu';
 
 
+const sizeStrings = {
+    "s": "صغير",
+    "m": "وسط",
+    "l": "كبير"
+};
+
+const sizeColors = {
+    "s": "#589941",
+    "m": "#C0851A",
+    "l": "#C03E3E"
+}
+
 export default function MenuScreen({navigation}) {
 
     const dispatch = useDispatch();
@@ -85,12 +97,6 @@ function MenuItemModal({})
 
     const itemToShow = items[itemId];
     const [itemOptions,setItemOptions] = useState({});
-    const sizeStrings = {
-        "s": "صغير",
-        "m": "وسط",
-        "l": "كبير"
-    };
-
     
 
     function handleAddToCart()
@@ -138,17 +144,23 @@ function MenuItemModal({})
                             <View style={{...styles['w-100'], ...styles['al-items-c'], ...styles['pt-4']}}>
                                 <Text style={{...styles['fs-3']}}>اختر الحجم</Text>
 
-                                <View style={{...styles['w-100'], ...styles['al-items-c'], ...styles['pt-4']}}>
+                                <View style={{...styles['w-100'], ...styles['al-items-c'], ...styles['pt-2'], ...styles['gap-2']}}>
                                     {
                                         Object.keys(itemToShow.prices).map((size, i) =>
-                                            <Pressable style={{...styles['w-100'], ...styles['flex-row'], ...styles['j-content-b']}} key={`pizza-size-${i}`}
-                                                onPress={() => setItemOptions({...itemOptions, size})}>
+                                            <Pressable
+                                            style={{...styles['w-100'], ...styles['flex-row'],...styles['j-content-b'],...styles['rounded'],...styles['shadow'],...styles['p-1'],...styles['px-2'],
+                                            backgroundColor:itemOptions?.size === size ? sizeColors[size] : "#FEF7EA"}}
+                                            key={`pizza-size-${i}`}
+                                            onPress={() => setItemOptions({...itemOptions, size})}>
 
-                                                <Text style={{...styles['fs-3']}}>{sizeStrings[size]} - {itemToShow.prices[size]}</Text>
+                                                <Text style={{...styles['fs-3'],...styles[`col-${itemOptions?.size === size ? "white" : "black"}`]}} weight="sb">{sizeStrings[size]} - {itemToShow.prices[size]}</Text>
 
                                                 <CheckBox
                                                     checked={itemOptions?.size === size}
                                                     pointerEvents={"none"}
+                                                    checkedColor={"white"}
+                                                    uncheckedColor={sizeColors[size]}
+
                                                 />
                                             </Pressable>
                                         )

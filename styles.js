@@ -118,7 +118,10 @@ const styles = StyleSheet.create({
         backgroundColor: "#C03E3E"
     },
    
-
+    "col-black":
+    {
+        color:"black"
+    },
     "col-white":
     {
         color:"white"

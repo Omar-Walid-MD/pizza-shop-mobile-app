@@ -2,7 +2,7 @@ import styles from "../styles";
 import { View } from "react-native"
 import { CheckBox as RNEUI_CheckBox } from "@rneui/base";
 
-export default function CheckBox({checked,onPress,pointerEvents})
+export default function CheckBox({checked,onPress,pointerEvents,uncheckedColor,checkedColor})
 {
     return (
         <View
@@ -14,7 +14,8 @@ export default function CheckBox({checked,onPress,pointerEvents})
             onPress={onPress}
             checkedIcon="dot-circle-o"
             uncheckedIcon="circle-o"
-            checkedColor="#820000"
+            uncheckedColor={uncheckedColor || "white"}
+            checkedColor={checkedColor || "#820000"}
             style={{position:"absolute"}}
             //style[al-items-c j-content-c height:50 aspectRatio:1 backgroundColor:"transparent"]
             containerStyle={{...styles['al-items-c'],...styles['j-content-c'],height:50,aspectRatio:1,backgroundColor:"transparent"}}
