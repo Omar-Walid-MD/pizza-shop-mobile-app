@@ -1,7 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
 import { Modal, View, Image, Pressable, ScrollView, FlatList } from 'react-native';
 import styles from "../styles";
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import Button from '../Components/Button';
 import Background from '../Components/Background';
 import Text from '../Components/Text';
@@ -10,12 +10,32 @@ import  { MaterialCommunityIcons, MaterialIcons } from "react-native-vector-icon
 import ScreenContent from '../Components/Layout/ScreenContent';
 import { useDispatch, useSelector } from 'react-redux';
 import { removeFromCart, setCartItemToShow } from '../Store/Cart/cartSlice';
+import { items } from '../TempData/menu';
 
+const sizeStrings = {
+    "s": "صغير",
+    "m": "وسط",
+    "l": "كبير"
+};
+
+const sizeColors = {
+    "s": "#589941",
+    "m": "#C0851A",
+    "l": "#C03E3E"
+}
 
 export default function CartScreen({navigation}) {
 
     const cart = useSelector(store => store.cart.cart);
     const [screenType,setScreenType] = useState("cart");
+
+    const totalCost = useMemo(()=>{
+        return cart.reduce((sum,item) => sum + items[item.id].prices[item.size] * item.count,0)
+    },[cart]);
+
+    console.log(totalCost)
+
+    
 
     return(
         <View style={{...styles['screen-container']}}>
@@ -37,7 +57,14 @@ export default function CartScreen({navigation}) {
                             }
                         />
 
-                        <Text style={{...styles['w-100'], ...styles['text-center'], ...styles['fs-2']}}>إجمالي الطلب: 599.99 EGP</Text>
+                        <View
+                        //style[w-100 flex-row j-content-b]
+                        style={{...styles['w-100'],...styles['flex-row'],...styles['j-content-b'],...styles['px-2']}}
+                        >
+                            <Text style={{...styles['text-center'], ...styles['fs-3']}}>إجمالي الطلب:</Text>
+                            <Text style={{...styles['text-center'], ...styles['fs-2']}}>{totalCost} EGP</Text>
+
+                        </View>
                         <Button style={{...styles['w-100']}}
                             onPress={() => navigation.navigate("Checkout")}>
                             <Text style={{...styles['col-white'], ...styles['fs-3']}}>دفع الطلب</Text>
@@ -97,10 +124,18 @@ function CartItemModal({})
                             
                             <View style={{...styles['w-100'], ...styles['al-items-c']}}>
                                 <Text style={{...styles['text-center'], ...styles['fs-1']}}>{itemToShow.name}</Text>
-                                <Text style={{...styles['fs-2']}}>{itemToShow.chosenSize}</Text>
+
+                                <View
+                                style={{...styles['w-100'],...styles['al-items-c'],...styles['rounded'],...styles['shadow'],...styles['my-1'],padding:2.5,backgroundColor:sizeColors[itemToShow.size]}}
+                                >
+                                    <Text
+                                    weight='sb'
+                                    style={{...styles['col-white'],...styles['fs-3']}}
+                                    >{sizeStrings[itemToShow.size]}</Text>
+                                </View>
                             </View>
 
-                            <View style={{...styles['w-100'], ...styles['mt-2'], ...styles['gap-1'], ...styles['al-items-s']}}>
+                            <View style={{...styles['w-100'],...styles['gap-1'],...styles['al-items-s']}}>
                                 {
                                     itemToShow.desc.map((desc, i) =>
                                         <Text style={{...styles['fs-3'], ...styles['col-gray']}} key={`pizza-desc-${i}`}>-  {desc}</Text>
@@ -109,8 +144,29 @@ function CartItemModal({})
                             </View>
 
                             <View style={{...styles['w-100'], ...styles['mt-2'], ...styles['gap-1'], ...styles['al-items-c']}}>
-                                <Text style={{...styles['fs-3']}}>سعر الواحدة:  (x{itemToShow.count}) {itemToShow.prices[itemToShow.size]} EGP</Text>
-                                <Text style={{...styles['fs-3']}}>إجمالي السعر : {parseFloat(itemToShow.prices[itemToShow.size]) * itemToShow.count} EGP</Text>
+                                <View
+                                style={{...styles['w-100'],...styles['flex-row'],...styles['j-content-b'],...styles['gap-2'],...styles['al-items-c']}}
+                                >
+                                    <Text
+                                    style={{...styles['fs-4']}}
+                                    >سعر الواحدة: </Text>
+                                    <Text
+                                    weight='sb'
+                                    style={{...styles['fs-3']}}
+                                    >{itemToShow.prices[itemToShow.size]} EGP (x{itemToShow.count}) </Text>
+                                </View>
+
+                                <View
+                                style={{...styles['w-100'],...styles['flex-row'],...styles['j-content-b'],...styles['gap-2'],...styles['al-items-c']}}
+                                >
+                                    <Text
+                                    style={{...styles['fs-4']}}
+                                    >إجمالي السعر: </Text>
+                                    <Text
+                                    weight='sb'
+                                    style={{...styles['fs-3']}}
+                                    >{parseFloat(itemToShow.prices[itemToShow.size]) * itemToShow.count} EGP</Text>
+                                </View>
                             </View>
 
                             <Button style={{...styles['w-100']}} onPress={handleRemoveFromCart}>

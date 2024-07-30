@@ -255,8 +255,6 @@ const styles = StyleSheet.create({
        borderColor: "#7F7F7F" 
     },
 
-    "font-main": {fontFamily:'Cairo'},
-
     "fs-1":
     {
       fontSize: 30
@@ -349,14 +347,11 @@ const styles = StyleSheet.create({
 
     "menu-item-container":
     {
-        borderWidth: 2,
+        borderWidth: 3,
         borderColor:"#820000",
         borderRadius: 5,
         flex:1
     }
-    
-
-  
     
 });
 

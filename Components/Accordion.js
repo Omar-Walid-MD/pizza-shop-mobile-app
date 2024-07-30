@@ -17,9 +17,7 @@ export default function Accordion(props) {
             isExpanded={expanded}
             onPress={()=>setExpanded(!expanded)}
             >
-            {
-                props.children
-            }
+            {props.children}
             </ListItem.Accordion>
         </View>
     )

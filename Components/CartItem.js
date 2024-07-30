@@ -14,6 +14,12 @@ export default function CartItem({itemInfo}) {
         "l": "كبير"
     };
 
+    const sizeColors = {
+        "s": "#589941",
+        "m": "#C0851A",
+        "l": "#C03E3E"
+    }
+
 
     const item = items[itemInfo.id];
 
@@ -37,19 +43,40 @@ export default function CartItem({itemInfo}) {
             pointerEvents='none'>
                 <Image source={require("../assets/img/pizza.png")} style={{position:"relative",height:100}} resizeMode='contain'/>
                 <Text style={{...styles['mt-1'],...styles['text-center'],...styles['lh-normal'],...styles['fs-4']}}
+                weight='sb'
                 >{item.name}</Text>
-                <Text>{sizeStrings[itemInfo.size]}</Text>
-                <Text
-                style={{...styles['col-accent'],...styles['fs-3']}}
-                >{Object.values(item.prices)[0]} EGP</Text>
+
+                <View
+                style={{...styles['w-100'],...styles['al-items-c'],...styles['rounded'],...styles['shadow'],...styles['my-1'],padding:2.5,backgroundColor:sizeColors[itemInfo.size]}}
+                >
+                    <Text
+                    weight='sb'
+                    style={{...styles['col-white'],...styles['fs-4']}}
+                    >{sizeStrings[itemInfo.size]}</Text>
+                </View>
+
+                <View
+                style={{...styles['flex-row'],...styles['gap-1'],...styles['al-items-e']}}
+                >
+                    <Text
+                    weight='b'
+                    style={{fontSize:12,marginBottom:5,...styles['col-accent']}}
+                    >EGP</Text>
+                    <Text
+                    style={{...styles['col-accent'],...styles['fs-3']}}
+                    weight='b'
+                    >{Object.values(item.prices)[0]}</Text>
+                    
+                </View>
             </View>
             
             {
                 itemInfo.count > 1 &&
                 <View
-                style={{...styles['pos-abs'],...styles['bg-danger'],...styles['rounded'],...styles['shadow'],...styles['al-items-c'],width:25,height:25}}>
+                style={{...styles['pos-abs'],...styles['bg-danger'],...styles['rounded'],...styles['shadow'],...styles['al-items-c'],...styles['px-1']}}>
                     <Text
-                    style={{...styles['col-white']}}
+                    weight='sb'
+                    style={{...styles['col-white'],fontSize:20}}
                     >{itemInfo.count}</Text>
                 </View>
             }

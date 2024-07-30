@@ -31,12 +31,24 @@ export default function MenuItem({itemId}) {
             pointerEvents='none'>
                     <Image source={require("../assets/img/pizza.png")} style={{position:"relative",height:100}} resizeMode='contain'/>
                     <Text
+                    weight='sb'
                     style={{...styles['mt-1'],...styles['text-center'],...styles['lh-normal'],...styles['fs-4']}}
                     >{item.name}</Text>
 
                     <Text style={{...styles['col-accent']}} >يبدأ من</Text>
-                    <Text style={{...styles['col-accent'],...styles['fs-3']}}>{Object.values(item.prices)[0]} EGP</Text>
-
+                    <View
+                    style={{...styles['flex-row'],...styles['gap-1'],...styles['al-items-e']}}
+                    >
+                        <Text
+                        weight='b'
+                        style={{fontSize:12,marginBottom:5,...styles['col-accent']}}
+                        >EGP</Text>
+                        <Text
+                        style={{...styles['col-accent'],...styles['fs-3']}}
+                        weight='b'
+                        >{Object.values(item.prices)[0]}</Text>
+                        
+                    </View>
                 </View>
             </>
         }
