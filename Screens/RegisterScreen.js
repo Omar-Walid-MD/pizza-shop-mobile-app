@@ -1,5 +1,5 @@
 import {  View } from 'react-native';
-import styles from "../../styles";
+import styles from "../styles";
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { auth } from "../Firebase/firebase";
 
@@ -54,52 +54,52 @@ export default function RegisterScreen({navigation}) {
     }
 
     return(
-        <View style={s("screen-container")}>
+        <View style={{...styles['screen-container']}}>
             {/* Background */}
             <Background />
             
             {/* Screen Content */}
             <ScreenContent>
-                <View style={s("w-100 bg-main shadow al-items-c p-2 gap-4",{borderTopLeftRadius:10,borderBottomRightRadius:10})}>
-                    <Text style={s("fs-2")}>تشرفنا خدمتك</Text>
+                <View style={{...styles['w-100'], ...styles['bg-main'], ...styles['shadow'], ...styles['al-items-c'], ...styles['p-2'], ...styles['gap-4'], borderTopLeftRadius: 10, borderBottomRightRadius: 10}}>
+                    <Text style={{...styles['fs-2']}}>تشرفنا خدمتك</Text>
 
-                    <View style={s("w-100 gap-3")}>
-                        <View style={s("w-100")}>
-                            <Input placeholder="إسم المستخدم" onChangeText={(text)=>handleRegisterInfo(text,"username")}/>
+                    <View style={{...styles['w-100'], ...styles['gap-3']}}>
+                        <View style={{...styles['w-100']}}>
+                            <Input placeholder="إسم المستخدم" onChangeText={(text) => handleRegisterInfo(text, "username")}/>
                         </View>
 
-                        <View style={s("w-100")}>
-                            <Input placeholder="البريد الإلكتروني" onChangeText={(text)=>handleRegisterInfo(text,"email")} />
+                        <View style={{...styles['w-100']}}>
+                            <Input placeholder="البريد الإلكتروني" onChangeText={(text) => handleRegisterInfo(text, "email")}/>
                         </View>
 
-                        <View style={s("w-100")}>
-                            <Input placeholder="كلمة المرور" secureTextEntry autoCorrect={false} onChangeText={(text)=>handleRegisterInfo(text,"password")}/>
+                        <View style={{...styles['w-100']}}>
+                            <Input placeholder="كلمة المرور" secureTextEntry autoCorrect={false} onChangeText={(text) => handleRegisterInfo(text, "password")}/>
                         </View>
 
-                        <View style={s("w-100")}>
-                            <Input placeholder="تأكيد كلمة المرور" secureTextEntry autoCorrect={false} onChangeText={(text)=>handleRegisterInfo(text,"confirmPassword")}/>
+                        <View style={{...styles['w-100']}}>
+                            <Input placeholder="تأكيد كلمة المرور" secureTextEntry autoCorrect={false} onChangeText={(text) => handleRegisterInfo(text, "confirmPassword")}/>
                         </View>
 
-                        <Button onPress={()=>handleSignUp("email")}>
-                            <Text style={s("col-white fs-3")}>تسجيل المستخدم</Text>
+                        <Button onPress={() => handleSignUp("email")}>
+                            <Text style={{...styles['col-white'], ...styles['fs-3']}}>تسجيل المستخدم</Text>
                         </Button>
 
-                        <Text style={s("w-100 text-center py-2")}>أو يمكنك</Text>
+                        <Text style={{...styles['w-100'], ...styles['text-center'], ...styles['py-2']}}>أو يمكنك</Text>
 
-                        <Button variant='white' onPress={()=>handleSignUp("google")}>
-                            <Text style={s("fs-4 col-danger")}>تسجيل المستخدم عبر Google</Text>
+                        <Button variant='white' onPress={() => handleSignUp("google")}>
+                            <Text style={{...styles['fs-4'], ...styles['col-danger']}}>تسجيل المستخدم عبر Google</Text>
                         </Button>
 
-                        <Button variant='white' onPress={()=>navigation.navigate("Main")}>
-                            <Text style={s("fs-4 col-primary")}>تسجيل المستخدم عبر FaceBook</Text>
+                        <Button variant='white' onPress={() => navigation.navigate("Main")}>
+                            <Text style={{...styles['fs-4'], ...styles['col-primary']}}>تسجيل المستخدم عبر FaceBook</Text>
                         </Button>
-
                     </View>
                 </View>
-                <Button onPress={()=>navigation.navigate("Main")}>
-                    <Text style={s("col-white fs-3")}>العودة</Text>
+                <Button onPress={() => navigation.navigate("Main")}>
+                    <Text style={{...styles['col-white'], ...styles['fs-3']}}>العودة</Text>
                 </Button>
             </ScreenContent>
         </View>
+
     )
 }

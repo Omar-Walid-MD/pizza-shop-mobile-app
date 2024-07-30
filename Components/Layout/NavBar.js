@@ -5,7 +5,7 @@ import { MaterialCommunityIcons, MaterialIcons } from 'react-native-vector-icons
 import { useRoute } from '@react-navigation/native';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
-import {s} from "../../styles";
+import styles from "../../styles";
 import { LinearGradient } from 'expo-linear-gradient';
 
 import {Dimensions} from 'react-native';
@@ -39,7 +39,10 @@ export default function NavBar({state, descriptors, navigation, position})
         >
             
             <Marker markerPosition={markerPosition} />
-            <View style={s("navbar")}>
+            <View
+            //style[navbar]
+            style={{...styles['navbar']}}
+            >
                 {state.routes.map((route, index) => {
                     const { options } = descriptors[route.key];
                     const label =
@@ -115,11 +118,14 @@ export default function NavBar({state, descriptors, navigation, position})
 function Marker({markerPosition})
 {
     return (
-        <Animated.View style={s("pos-abs",{
-            top:-12,left: markerPosition,
-            width: 50, height: 50,
-            borderRadius: 25, overflow:"hidden",
-            transform: [{translateX:25}]})}>
+        <Animated.View
+        //style[pos-abs top:-12 left:markerPosition width:50 height:50 borderRadius:25 overflow:"hidden"]
+        style={{...styles['pos-abs'],
+            top:-12,left:markerPosition,
+            width:50,height:50,
+            borderRadius:25,overflow:"hidden",transform: [{translateX:25}]
+        }}
+        >
                 <View
                 style={{width:50,height:25,backgroundColor:"#CC6060",position:"absolute",top:-10}}
                 >

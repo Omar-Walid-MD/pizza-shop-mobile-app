@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import { Modal, View, Image, Pressable, ScrollView } from 'react-native';
-import styles from "../../styles";
+import styles from "../styles";
 import { useState } from 'react';
 import Button from '../Components/Button';
 import Background from '../Components/Background';
@@ -39,45 +39,72 @@ export default function CheckoutScreen({navigation}) {
     const [deliveryIndex,setDeliveryIndex] = useState(0);
 
     return(
-        <View style={s("screen-container")}>
+        <View style={{...styles['screen-container']}}>
             {/* Background */}
             <Background />
             
             {/* Screen Content */}
             <ScreenContent
             header={
-                <View style={s("w-100 flex-row al-items-c j-content-b px-2")}>
-                    <Text style={s("fs-2")}>دفع الطلب</Text>
+                <View
+                style={{...styles['w-100'],...styles['flex-row'],...styles['al-items-c'],...styles['j-content-b'],...styles['px-2']}}
+                >
+                    <Text
+                    style={{...styles['fs-2']}}
+                    >دفع الطلب</Text>
 
                     <Button variant='green'
                     onPress={()=>navigation.navigate("Main")}>
-                        <Text style={s("col-white")}>العودة</Text>
+                        <Text
+                        style={{...styles['col-white']}}
+                        >العودة</Text>
                     </Button>
                 </View>
             }>
 
-                <View style={s("w-100 al-items-s")}>
-                    <Text style={s("fs-2")}>تفاصيل الطلب</Text>
+                <View
+                //style[w-100 al-items-s]
+                style={{...styles['w-100'],...styles['al-items-s']}}
+                >
+                    <Text
+                    style={{...styles['fs-2']}}
+                    >تفاصيل الطلب</Text>
 
-                    <View style={s("mt-2")}>
+                    <View style={{...styles['mt-2']}}>
                     {
                         Array.from({length:4}).map((x,i)=>
-                            <View style={s("w-100 flex-row j-content-b al-items-c gap-3")} key={`order-item-${i}`}>
-                                <Text style={s("fs-3 col-gray w-50")}>- الإسم و الحجم  x1</Text>
-                                <Text style={s("fs-3 col-gray")}>19.99 EGP</Text>
+                            <View
+                            style={{...styles['w-100'],...styles['flex-row'],...styles['j-content-b'],...styles['al-items-c'],...styles['gap-3']}}
+                            key={`order-item-${i}`}>
+                                <Text
+                                style={{...styles['fs-3'],...styles['col-gray'],...styles['w-50']}}
+                                >- الإسم و الحجم  x1</Text>
+                                <Text 
+                                style={{...styles['fs-3'],...styles['col-gray']}}
+                                >19.99 EGP</Text>
                             </View>
                         )
                     }
                     </View>
                 </View>
 
-                <View style={s("w-100 al-items-s")}>
-                    <Text style={s("fs-2")}>طريقة التوصيل</Text>
-                    <View style={s("w-100 al-items-c mt-2")}>
+                <View
+                style={{...styles['w-100'],...styles['al-items-s']}}
+                >
+                    <Text
+                    style={{...styles['fs-2']}}
+                    >طريقة التوصيل</Text>
+                    <View
+                    style={{...styles['w-100'],...styles['al-items-c'],...styles['mt-2']}}
+                    >
                     {
                         deliveryOptions.map((option,i)=>
-                        <View style={s("w-100 flex-row j-content-b")} key={`delivery-option-${i}`}>
-                            <Text style={s("fs-3")}>{option.label}</Text>
+                        <View
+                        style={{...styles['w-100'],...styles['flex-row'],...styles['j-content-b']}}
+                        key={`delivery-option-${i}`}>
+                            <Text
+                            style={{...styles['fs-3']}}
+                            >{option.label}</Text>
                             <CheckBox
                             checked={deliveryIndex === i}
                             onPress={() => setDeliveryIndex(i)}
@@ -89,13 +116,20 @@ export default function CheckoutScreen({navigation}) {
                 </View>
 
 
-                <View style={s("w-100 al-items-s")}>
-                    <Text style={s("fs-2")}>طريقة الدفع</Text>
-                    <View style={s("w-100 al-items-c mt-2")}>
+                <View
+                style={{...styles['w-100'],...styles['al-items-s']}}
+                >
+                    <Text style={{...styles['fs-2']}}>طريقة الدفع</Text>
+                    <View
+                    style={{...styles['w-100'],...styles['al-items-c'],...styles['mt-2']}}>
                     {
                         paymentOptions.map((option,i)=>
-                        <View style={s("w-100 flex-row j-content-b")} key={`delivery-option-${i}`}>
-                            <Text style={s("fs-3")}>{option.label}</Text>
+                        <View
+                        style={{...styles['w-100'],...styles['flex-row'],...styles['j-content-b']}}
+                        key={`delivery-option-${i}`}>
+                            <Text
+                            style={{...styles['fs-3']}}
+                            >{option.label}</Text>
                             <CheckBox
                             checked={deliveryIndex === i}
                             onPress={() => setDeliveryIndex(i)}
@@ -108,15 +142,21 @@ export default function CheckoutScreen({navigation}) {
 
 
                 <View>
-                    <Text style={s("fs-2")}>المجموع: 29.99 EGP</Text>
-                    <Text style={s("fs-2")}>التوصيل: 29.99 EGP</Text>
-                    <Text style={s("fs-2")}>الإجمالي: 29.99 EGP</Text>
+                    <Text
+                    style={{...styles['fs-2']}}
+                    >المجموع: 29.99 EGP</Text>
+                    <Text
+                    style={{...styles['fs-2']}}
+                    >التوصيل: 29.99 EGP</Text>
+                    <Text
+                    style={{...styles['fs-2']}}
+                    >الإجمالي: 29.99 EGP</Text>
 
                 </View>
 
-                <Button style={s("mt-3")}
+                <Button style={{...styles['mt-3']}}
                 onPress={()=>navigation.navigate("OrderSuccess")}>
-                    <Text style={s("fs-2 col-white")}>تأكيد الدفع</Text>
+                    <Text style={{...styles['fs-2'],...styles['col-white']}}>تأكيد الدفع</Text>
                 </Button>
 
             </ScreenContent>

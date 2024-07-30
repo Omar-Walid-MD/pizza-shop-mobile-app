@@ -1,5 +1,5 @@
 import { Text, View, Image, Pressable, Animated } from 'react-native';
-import styles from "../../styles";
+import styles from "../styles";
 import { LinearGradient } from 'expo-linear-gradient';
 import PropTypes from 'prop-types';
 import { useState } from 'react';
@@ -51,7 +51,10 @@ export default function Button(props) {
             >
             {props.children}
             </Pressable>
-            <Animated.View pointerEvents="none" style={s("pos-abs w-100 h-100",{backgroundColor:`black`,opacity:buttonOverlayOpacity})}></Animated.View>
+            <Animated.View pointerEvents="none"
+            //style[pos-abs w-100 h-100 backgroundColor:"black" opacity:buttonOverlayOpacity]
+            style={{...styles['pos-abs'],...styles['w-100'],...styles['h-100'],backgroundColor:"black",opacity:buttonOverlayOpacity}}
+            ></Animated.View>
         </LinearGradient>
     )
 }

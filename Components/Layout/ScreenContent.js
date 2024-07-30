@@ -6,14 +6,15 @@ export default function ScreenContent(props)
 {
     return (
         <View
-        //style[screen-content]
         style={{...styles['screen-content']}}
-    
         >
         {props.header}
         {
             !props.scrollDisabled ?
-            <ScrollView style={s("w-100")} contentContainerStyle={s("screen-content-scroll")}>
+            <ScrollView
+            style={{...styles['w-100']}}
+            contentContainerStyle={{...styles['screen-content-scroll']}}
+            >
                 {props.children}
             </ScrollView>
             :

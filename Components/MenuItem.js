@@ -1,5 +1,5 @@
 import {View, Image, Pressable } from 'react-native';
-import { s } from '../styles';
+import styles from "../styles";
 import Text from './Text';
 import { items } from '../TempData/menu';
 import { useDispatch } from 'react-redux';
@@ -19,18 +19,23 @@ export default function MenuItem({itemId}) {
     }
 
     return (
-        <Pressable style={s("menu-item-col p-1")}
+        <Pressable
+        style={{...styles['menu-item-col'],...styles['p-1']}}
         onPress={openMenuItem}
         >
         {
             item &&
             <>
-                <View style={s("menu-item-container shadow bg-white p-2 al-items-c")} pointerEvents='none'>
+                <View
+            style={{...styles['menu-item-container'],...styles['shadow'],...styles['bg-white'],...styles['p-2'],...styles['al-items-c']}}
+            pointerEvents='none'>
                     <Image source={require("../assets/img/pizza.png")} style={{position:"relative",height:100}} resizeMode='contain'/>
-                    <Text style={s("mt-1 text-center lh-normal fs-4")}>{item.name}</Text>
+                    <Text
+                    style={{...styles['mt-1'],...styles['text-center'],...styles['lh-normal'],...styles['fs-4']}}
+                    >{item.name}</Text>
 
-                    <Text style={s("col-accent")}>يبدأ من</Text>
-                    <Text style={s("col-accent fs-3")}>{Object.values(item.prices)[0]} EGP</Text>
+                    <Text style={{...styles['col-accent'],...styles['fs-3']}} >يبدأ من</Text>
+                    <Text style={{...styles['col-accent']}}>{Object.values(item.prices)[0]} EGP</Text>
 
                 </View>
             </>

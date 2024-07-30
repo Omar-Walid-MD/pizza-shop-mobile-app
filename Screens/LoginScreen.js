@@ -1,5 +1,5 @@
 import { View } from 'react-native';
-import styles from "../../styles";
+import styles from "../styles";
 import Input from '../Components/Input';
 import { useState } from 'react';
 import Button from '../Components/Button';
@@ -65,46 +65,46 @@ export default function LoginScreen({navigation}) {
     }
 
     return(
-        <View style={s("screen-container")}>
+        <View style={{...styles['screen-container']}}>
             {/* Background */}
             <Background />
             
             {/* Screen Content */}
             <ScreenContent>
-                <View style={s("w-100 bg-main shadow al-items-c p-2 gap-4",{borderTopLeftRadius:10,borderBottomRightRadius:10})}>
-                    <Text style={s("fs-2")}>مرحبا بك مجددا</Text>
+                <View style={{...styles['w-100'], ...styles['bg-main'], ...styles['shadow'], ...styles['al-items-c'], ...styles['p-2'], ...styles['gap-4'], borderTopLeftRadius: 10, borderBottomRightRadius: 10}}>
+                    <Text style={{...styles['fs-2']}}>مرحبا بك مجددا</Text>
 
-                    <View style={s("w-100 gap-3")}>
-                        <View style={s("w-100")}>
-                            <Input placeholder="البريد الإلكتروني" onChangeText={(text)=>handleLoginInfo(text,"email")} />
+                    <View style={{...styles['w-100'], ...styles['gap-3']}}>
+                        <View style={{...styles['w-100']}}>
+                            <Input placeholder="البريد الإلكتروني" onChangeText={(text) => handleLoginInfo(text, "email")} />
                         </View>
 
-                        <View style={s("w-100")}>
-                            <Input placeholder="كلمة المرور" type="password" secureTextEntry autoCorrect={false} onChangeText={(text)=>handleLoginInfo(text,"password")} />
+                        <View style={{...styles['w-100']}}>
+                            <Input placeholder="كلمة المرور" type="password" secureTextEntry autoCorrect={false} onChangeText={(text) => handleLoginInfo(text, "password")} />
                         </View>
 
-                        {errorMessage && <Text style={s("w-100 text-center col-danger")}>{errorMessage}</Text>}
+                        {errorMessage && <Text style={{...styles['w-100'], ...styles['text-center'], ...styles['col-danger']}}>{errorMessage}</Text>}
 
-                        <Button onPress={()=>handleSignIn("email")}>
-                            <Text style={s("col-white fs-3")}>تسجيل الدخول</Text>
+                        <Button onPress={() => handleSignIn("email")}>
+                            <Text style={{...styles['col-white'], ...styles['fs-3']}}>تسجيل الدخول</Text>
                         </Button>
 
-                        <Text style={s("w-100 text-center py-2")}>أو يمكنك</Text>
+                        <Text style={{...styles['w-100'], ...styles['text-center'], ...styles['py-2']}}>أو يمكنك</Text>
 
-                        <Button variant='white' onPress={()=>navigation.navigate("Main")}>
-                            <Text style={s("fs-4 col-danger")}>تسجيل الدخول عبر Google</Text>
+                        <Button variant='white' onPress={() => navigation.navigate("Main")}>
+                            <Text style={{...styles['fs-4'], ...styles['col-danger']}}>تسجيل الدخول عبر Google</Text>
                         </Button>
 
-                        <Button variant='white' onPress={()=>navigation.navigate("Main")}>
-                            <Text style={s("fs-4 col-primary")}>تسجيل الدخول عبر FaceBook</Text>
+                        <Button variant='white' onPress={() => navigation.navigate("Main")}>
+                            <Text style={{...styles['fs-4'], ...styles['col-primary']}}>تسجيل الدخول عبر FaceBook</Text>
                         </Button>
-
                     </View>
                 </View>
-                <Button onPress={()=>navigation.navigate("Main")}>
-                    <Text style={s("col-white fs-3")}>العودة</Text>
+                <Button onPress={() => navigation.navigate("Main")}>
+                    <Text style={{...styles['col-white'], ...styles['fs-3']}}>العودة</Text>
                 </Button>
             </ScreenContent>
         </View>
+
     )
 }
