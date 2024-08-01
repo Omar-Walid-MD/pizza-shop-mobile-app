@@ -11,10 +11,10 @@ const styles = StyleSheet.create({
 
     "screen-content":
     {
-        paddingTop:65,
+        paddingTop:50,
         alignItems:"center",
         width:"100%",
-        gap: 20,
+        // gap: 20,
         flex: 1
     },
 

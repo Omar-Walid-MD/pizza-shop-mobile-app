@@ -1197,6 +1197,11 @@
   resolved "https://registry.yarnpkg.com/@expo-google-fonts/cairo/-/cairo-0.2.3.tgz#fcd6bc90fe597de370a73c5f94e7c788918a8684"
   integrity sha512-z4FoaGpwudrPbFTbA/QgZTn7kHXhlI7QhLLEZqeG8PkMGeHbaqufJ6W6uvsp6yK1DVCILM0o2s8JGf/I2RFwnw==
 
+"@expo-google-fonts/harmattan@^0.2.3":
+  version "0.2.3"
+  resolved "https://registry.yarnpkg.com/@expo-google-fonts/harmattan/-/harmattan-0.2.3.tgz#2bcc1df43f0fdbb05e39bdcf5c6da8d52a44d0fc"
+  integrity sha512-elBvEHLHyuU76cu13V2CIF+Nzo+KIqGlhzXvhBZ/vG4Viv29fw9odposB3JzAs13ejyx+SCCg7gfVyqhsv3riQ==
+
 "@expo/bunyan@4.0.0", "@expo/bunyan@^4.0.0":
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/@expo/bunyan/-/bunyan-4.0.0.tgz#be0c1de943c7987a9fbd309ea0b1acd605890c7b"

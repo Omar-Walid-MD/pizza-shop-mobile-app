@@ -33,9 +33,6 @@ export default function CartScreen({navigation}) {
         return cart.reduce((sum,item) => sum + items[item.id].prices[item.size] * item.count,0)
     },[cart]);
 
-    console.log(totalCost)
-
-    
 
     return(
         <View style={{...styles['screen-container']}}>
@@ -46,29 +43,52 @@ export default function CartScreen({navigation}) {
                 screenType === "cart" ?
                 <>
                     {/* Screen Content */}
-                    <ScreenContent header={<Text style={{...styles['fs-2']}}>السلة</Text>}>
+                    <ScreenContent header={<Text font="Harmattan" style={{fontSize:40}}>السلة</Text>}>
+                    {
+                        cart.length ?
+                        <>
+                            <FlatList
+                                numColumns={2}
+                                scrollEnabled={false}
+                                data={cart}
+                                renderItem={({item}) =>
+                                    <CartItem itemInfo={item} key={`menu-item-${item.id}`} />
+                                }
+                            />
 
-                        <FlatList
-                            numColumns={2}
-                            scrollEnabled={false}
-                            data={cart}
-                            renderItem={({item}) =>
-                                <CartItem itemInfo={item} key={`menu-item-${item.id}`} />
-                            }
-                        />
+                            <View
+                            style={{...styles['w-100'],...styles['flex-row'],...styles['j-content-b'],...styles['px-2']}}
+                            >
+                                <Text style={{...styles['text-center'], ...styles['fs-3']}}>إجمالي الطلب:</Text>
+                                <Text style={{...styles['text-center'], ...styles['fs-2']}}>{totalCost} EGP</Text>
 
-                        <View
-                        //style[w-100 flex-row j-content-b]
-                        style={{...styles['w-100'],...styles['flex-row'],...styles['j-content-b'],...styles['px-2']}}
-                        >
-                            <Text style={{...styles['text-center'], ...styles['fs-3']}}>إجمالي الطلب:</Text>
-                            <Text style={{...styles['text-center'], ...styles['fs-2']}}>{totalCost} EGP</Text>
+                            </View>
+                            <Button style={{...styles['w-100']}}
+                                onPress={() => navigation.navigate("Checkout")}>
+                                <Text style={{...styles['col-white'], ...styles['fs-3']}}>دفع الطلب</Text>
+                            </Button>
+                        </>
+                        :
+                        <>
+                            <View
+                            //style[h-100 al-items-c j-content-c gap-2]
+                            style={{...styles['h-100'],...styles['al-items-c'],...styles['j-content-c'],...styles['gap-2']}}
+                            >
+                                <Text
+                                //style[fs-1]
+                                style={{...styles['fs-1']}}
+                                >السلة فارغة</Text>
 
-                        </View>
-                        <Button style={{...styles['w-100']}}
-                            onPress={() => navigation.navigate("Checkout")}>
-                            <Text style={{...styles['col-white'], ...styles['fs-3']}}>دفع الطلب</Text>
-                        </Button>
+                                <Button onPress={()=>navigation.navigate("Menu")}>
+                                    <Text
+                                    //style[col-white fs-3]
+                                    style={{...styles['col-white'],...styles['fs-3']}}
+                                    >الى القائمة</Text>
+                                </Button>
+                            </View>
+                        </>
+                    }
+
 
                     </ScreenContent>
                     

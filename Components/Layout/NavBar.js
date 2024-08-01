@@ -30,6 +30,18 @@ export default function NavBar({state, descriptors, navigation, position})
 
     const markerPosition = useState(new Animated.Value(screenWidth/2))[0];
 
+    useEffect(()=>{
+        const stateName = state.routes[state.index].name;
+        if(buttonCenters[stateName])
+        {
+            Animated.timing(markerPosition,{
+                toValue: buttonCenters[stateName],
+                duration: 250,
+                useNativeDriver: false
+            }).start();
+        }
+    },[state]);
+
     return (
         <LinearGradient
         colors={["#CC6060", "#C03E3E","#C03E3E","#943030"]}
@@ -65,11 +77,6 @@ export default function NavBar({state, descriptors, navigation, position})
                             navigation.navigate(route.name, route.params);
                         }
                         
-                        Animated.timing(markerPosition,{
-                            toValue: buttonCenters[route.name],
-                            duration: 500,
-                            useNativeDriver: false
-                        }).start();
                     };
 
                     

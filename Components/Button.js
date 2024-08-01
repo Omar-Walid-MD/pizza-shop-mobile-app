@@ -16,7 +16,7 @@ export default function Button(props) {
 
     return (
         <LinearGradient
-        style={{...(props.style || {}),borderRadius:5,shadowColor:"black",elevation:2,overflow:"hidden"}}
+        style={{...(props.style || {}),borderRadius:5,shadowColor:"black",elevation:2,overflow:"hidden",justifyContent:"center"}}
         colors={
             props.variant==="red" || !props.variant ? 
             ["#CC6060", "#C03E3E","#C03E3E","#943030"]
@@ -31,7 +31,7 @@ export default function Button(props) {
         >
             <Pressable
             
-            style={{flex:1,backgroundColor:"transparent",justifyContent:"center",paddingVertical:5,paddingHorizontal:15,alignItems:"center"}}
+            style={{backgroundColor:"transparent",justifyContent:"center",paddingVertical:5,paddingHorizontal:15,alignItems:"center"}}
             onPress={props.onPress}
 
             onPressIn={()=>

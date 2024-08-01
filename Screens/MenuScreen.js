@@ -45,7 +45,7 @@ export default function MenuScreen({navigation}) {
             {/* Screen Content */}
             <ScreenContent
                 header={
-                    <Text style={{...styles['fs-2'], ...styles['mb-3']}}>القائمة</Text>
+                    <Text font="Harmattan" style={{fontSize:40}}>القائمة</Text>
                 }
             >                
                 <View style={{...styles['w-100'], ...styles['flex-row'], ...styles['j-content-b'], ...styles['gap-2']}}>

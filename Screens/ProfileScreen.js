@@ -30,7 +30,7 @@ export default function ProfileScreen({navigation}) {
             {/* Screen Content */}
             <ScreenContent
                 header={
-                    <Text style={{...styles['fs-2']}}>الملف الشخصي</Text>
+                    <Text font="Harmattan" style={{fontSize:35}}>الملف الشخصي</Text>
                 }
             >
                 {

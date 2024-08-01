@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
  * MyComponent description
  * @param {object} props - Component props
  * @param {"sb"|"b"} props.weight - The variant of the component
+ * @param {"Cairo"|"Harmattan"} props.font - The variant of the component
  */
 
 export default function Text(props) {
