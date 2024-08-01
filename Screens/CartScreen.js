@@ -60,7 +60,7 @@ export default function CartScreen({navigation}) {
                             style={{...styles['w-100'],...styles['flex-row'],...styles['j-content-b'],...styles['px-2']}}
                             >
                                 <Text style={{...styles['text-center'], ...styles['fs-3']}}>إجمالي الطلب:</Text>
-                                <Text style={{...styles['text-center'], ...styles['fs-2']}}>{totalCost} EGP</Text>
+                                <Text style={{...styles['text-center'], ...styles['fs-2']}}>{totalCost} ج.م.</Text>
 
                             </View>
                             <Button style={{...styles['w-100']}}
@@ -172,8 +172,8 @@ function CartItemModal({})
                                     >سعر الواحدة: </Text>
                                     <Text
                                     weight='sb'
-                                    style={{...styles['fs-3']}}
-                                    >{itemToShow.prices[itemToShow.size]} EGP (x{itemToShow.count}) </Text>
+                                    style={{...styles['fs-3'],...styles['col-gray']}}
+                                    >{itemToShow.prices[itemToShow.size]} ج.م. (x{itemToShow.count}) </Text>
                                 </View>
 
                                 <View
@@ -184,8 +184,8 @@ function CartItemModal({})
                                     >إجمالي السعر: </Text>
                                     <Text
                                     weight='sb'
-                                    style={{...styles['fs-3']}}
-                                    >{parseFloat(itemToShow.prices[itemToShow.size]) * itemToShow.count} EGP</Text>
+                                    style={{...styles['fs-2']}}
+                                    >{parseFloat(itemToShow.prices[itemToShow.size]) * itemToShow.count} ج.م.</Text>
                                 </View>
                             </View>
 

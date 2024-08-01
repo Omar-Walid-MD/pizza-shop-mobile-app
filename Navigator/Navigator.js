@@ -81,6 +81,7 @@ function TabNavigator({navigation})
         <Tab.Navigator
         screenOptions={{swipeEnabled:false}} tabBarPosition='bottom'
         initialRouteName='Home'
+        layoutDirection={'rtl'}
         tabBar={props => <NavBar {...props} />}
         >
             <Tab.Screen name="Profile" component={ProfileScreen} />

@@ -19,11 +19,6 @@ export const setMenuItemToShow = createAsyncThunk(
     (menuItem) => {return menuItem;}
 );
 
-export const setMenuItemOptions = createAsyncThunk(
-    'items/setMenuItemOptions',
-    (menuItemOptions) => {return menuItemOptions;}
-);
-
 export const itemsSlice = createSlice({
     name: "items",
     initialState,
@@ -41,10 +36,6 @@ export const itemsSlice = createSlice({
             state.loading = false;
         })
 
-        .addCase(setMenuItemOptions.fulfilled, (state, action) => {
-            state.menuItemOptions = action.payload;
-            state.loading = false;
-        })
       
     },
 });

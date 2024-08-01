@@ -15,7 +15,6 @@ export default function MenuItem({itemId}) {
     function openMenuItem()
     {
         dispatch(setMenuItemToShow(itemId));
-        dispatch(setMenuItemOptions({size:Object.keys(item.prices)[0],count:1}))
     }
 
     return (
@@ -40,13 +39,13 @@ export default function MenuItem({itemId}) {
                     style={{...styles['flex-row'],...styles['gap-1'],...styles['al-items-e']}}
                     >
                         <Text
-                        weight='b'
-                        style={{fontSize:12,marginBottom:5,...styles['col-accent']}}
-                        >EGP</Text>
-                        <Text
                         style={{...styles['col-accent'],...styles['fs-3']}}
                         weight='b'
                         >{Object.values(item.prices)[0]}</Text>
+                        <Text
+                        weight='b'
+                        style={{fontSize:12,marginBottom:5,...styles['col-accent']}}
+                        >ج.م.</Text>
                         
                     </View>
                 </View>

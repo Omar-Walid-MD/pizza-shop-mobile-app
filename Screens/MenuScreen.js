@@ -14,7 +14,7 @@ import Text from '../Components/Text';
 import Background from '../Components/Background';
 import ScreenContent from '../Components/Layout/ScreenContent';
 import { useDispatch, useSelector } from 'react-redux';
-import { setMenuItemOptions, setMenuItemToShow } from '../Store/Items/itemsSlice';
+import { setMenuItemToShow } from '../Store/Items/itemsSlice';
 import { addToCart, setItemCount } from '../Store/Cart/cartSlice';
 import { items } from '../TempData/menu';
 
@@ -36,6 +36,13 @@ export default function MenuScreen({navigation}) {
     const dispatch = useDispatch();
 
     const itemsCategorized = useSelector(store => store.items.itemsCategorized);
+
+    useEffect(()=>{
+
+        return ()=>{
+            dispatch(setMenuItemToShow(null));
+        }
+    },[]);
     
     return (
         <View style={{...styles['screen-container']}}>
@@ -124,7 +131,7 @@ function MenuItemModal({})
     },[itemToShow]);
 
     return (
-        <Modal visible={itemId !== null} animationType='slide'>
+        <Modal visible={itemId !== null} animationType='slide' onRequestClose={()=>dispatch(setMenuItemToShow(null))}>
             <View style={{...styles['w-100'], ...styles['h-100'], ...styles['bg-white'], ...styles['shadow'], ...styles['al-items-c']}}>
                 {
                     itemToShow &&
@@ -153,7 +160,7 @@ function MenuItemModal({})
                                             key={`pizza-size-${i}`}
                                             onPress={() => setItemOptions({...itemOptions, size})}>
 
-                                                <Text style={{...styles['fs-3'],...styles[`col-${itemOptions?.size === size ? "white" : "black"}`]}} weight="sb">{sizeStrings[size]} - {itemToShow.prices[size]}</Text>
+                                                <Text style={{...styles['fs-3'],...styles[`col-${itemOptions?.size === size ? "white" : "black"}`]}} weight="sb">{sizeStrings[size]} - {itemToShow.prices[size]} ج.م.</Text>
 
                                                 <CheckBox
                                                     checked={itemOptions?.size === size}
