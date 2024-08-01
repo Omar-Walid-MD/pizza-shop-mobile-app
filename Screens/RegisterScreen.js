@@ -25,7 +25,6 @@ export default function RegisterScreen({navigation}) {
     function handleRegisterInfo(text,property)
     {
         setRegisterInfo(l => ({...l,[property]:text.trim()}));
-        console.log(registerInfo);
     }
 
     async function handleSignUp(signUpType)

@@ -1,13 +1,13 @@
-import { child, get, ref, set } from "firebase/database";
+import { child, get, ref, set, update } from "firebase/database";
 import { database } from "../firebase";
 
 export function registerUser(userId, userInfo)
 {
     set(ref(database, 'users/' + userId), userInfo);
-    if(userInfo.username)
-    {
-        set(ref(database, 'usernames/' + userInfo.username), true);
-    }
+    // if(userInfo.username)
+    // {
+    //     set(ref(database, 'usernames/' + userInfo.username), true);
+    // }
 
 }
 
@@ -27,6 +27,11 @@ export async function getUser(userId)
 export async function usernameExists(username)
 {
     return await get(child(ref(database), `usernames/${username}`)).then((snapshot) => {
-            return snapshot.exists()
+        return snapshot.exists()
     });
+}
+
+export async function updateUserInfo(userId,userInfo)
+{
+    await update(ref(database, 'users/' + userId), userInfo);
 }
