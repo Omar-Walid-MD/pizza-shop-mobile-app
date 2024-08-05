@@ -116,7 +116,9 @@ export default function ProfileScreen({navigation}) {
                                             style={{...styles['w-100'],flex:1}}
                                             scrollEnabled={false}
                                             region={{...user.location,latitudeDelta:0.01,longitudeDelta:0.01}}
-                                            />
+                                            >
+                                                <Marker coordinate={user.location || {longitude:0,latitude:0}} />
+                                            </MapView>
                                             :
                                             <Text>لا نقطة توصيل محددة</Text>
                                         }
@@ -155,7 +157,9 @@ export default function ProfileScreen({navigation}) {
                                                 style={{...styles['w-100'],flex:1}}
                                                 scrollEnabled={false}
                                                 region={{...editInfo.location,latitudeDelta:0.01,longitudeDelta:0.01}}
-                                                />
+                                                >
+                                                    <Marker coordinate={editInfo.location} />
+                                                </MapView>
 
                                                 <Button
                                                 //style[pos-abs bottom:5]
@@ -230,7 +234,6 @@ function DeliveryLocationModal({deliveryLocationModal,setDeliveryLocationModal,s
     useEffect(() => {
         if(!mapInitialRegion)
         {
-            console.log("something wrong here");
             (async () => {
               
               let { status } = await Location.requestForegroundPermissionsAsync();
@@ -248,7 +251,6 @@ function DeliveryLocationModal({deliveryLocationModal,setDeliveryLocationModal,s
         }
     }, [mapInitialRegion]);
 
-    // console.log(deliveryLocation);
 
     return (
         <Modal visible={deliveryLocationModal} animationType='slide' onRequestClose={()=>setDeliveryLocationModal(false)}>
@@ -274,10 +276,9 @@ function DeliveryLocationModal({deliveryLocationModal,setDeliveryLocationModal,s
                     </MapView>
 
                     <View
-                    //style[pos-abs transform:"translateY(-42px)translateX(-0.5px)"]
                     style={{...styles['pos-abs'],transform:"translateY(-42px)translateX(-0.5px)"}}
                     >
-                        <MaterialCommunityIcons name="map-marker" color="green" size={100}/>
+                        <Image source={require("../assets/img/map-marker.png")} style={{height:70}} resizeMode='contain'/>
                     </View>
                 </View>
 

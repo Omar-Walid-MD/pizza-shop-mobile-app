@@ -10,8 +10,8 @@ export default function Accordion(props) {
     return (
         <View style={{...styles['w-100']}}>
             <ListItem.Accordion content={props.content}
-            //style[w-100 borderBottomWidth:2 borderColor:"#7F7F7F" backgroundColor:"transparent"]
-            style={{...styles['w-100'],borderBottomWidth:2,borderColor:"#7F7F7F",backgroundColor:"transparent",...(props.style || {})}}
+            //style[w-100 rounded backgroundColor:"#F8E8CC" borderBottomWidth:2 borderBottomColor:"#D1AC6B"]
+            style={{...styles['w-100'],...styles['rounded'],backgroundColor:"#F8E8CC",borderBottomWidth:2,borderBottomColor:"#D1AC6B"}}
             //containerStyle[w-100 flex-row j-content-b backgroundColor:"transparent"]
             containerStyle={{...styles['w-100'],...styles['flex-row'],...styles['j-content-b'],backgroundColor:"transparent",...(props.style || {})}}
             isExpanded={expanded}

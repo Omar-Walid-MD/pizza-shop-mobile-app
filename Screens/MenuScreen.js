@@ -67,10 +67,11 @@ export default function MenuScreen({navigation}) {
                     <FlatList
                         scrollEnabled={false}
                         data={Object.keys(itemsCategorized)}
+                        contentContainerStyle={{gap:10}}
                         renderItem={
                             ({item:category, index:categoryIndex}) =>
                                 <Accordion
-                                    content={<Text style={{...styles['col-gray'], ...styles['fs-3']}}>{category}</Text>}
+                                    content={<Text style={{...styles['fs-3']}}>{category}</Text>}
                                     key={`cat-${categoryIndex}`}
                                 >
                                     <FlatList

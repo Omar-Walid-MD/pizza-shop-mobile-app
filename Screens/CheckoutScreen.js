@@ -18,11 +18,13 @@ export default function CheckoutScreen({navigation}) {
     const deliveryOptions = [
         {
             type: "normal",
-            label: "Normal – 9.99 EGP"
+            label: "عادي",
+            price: 9.99
         },
         {
             type: "quick",
-            label: "Quick – 29.99 EGP"
+            label: "سريع",
+            price: 29.99
         }
     ];
 
@@ -85,6 +87,7 @@ export default function CheckoutScreen({navigation}) {
                     >
                         <Accordion content={<Text style={{...styles['fs-3']}}>تفاصيل الطلب</Text>}>
                             <FlatList
+                            style={{...styles['mt-3']}}
                             data={cart}
                             renderItem={({item,index})=>
                                 <View
@@ -122,7 +125,22 @@ export default function CheckoutScreen({navigation}) {
                                 onPress={() => setDeliveryIndex(i)}
                                 >
 
-                                    <Text style={{...styles['fs-3'],...styles[`col-${deliveryIndex === i ? "white" : "black"}`]}} weight="sb">{option.label}</Text>
+                                    <View 
+                                    //style[flex-row gap-2]
+                                    style={{...styles['flex-row'],...styles['gap-2']}}
+                                    >
+                                        <Text style={{...styles['fs-3'],...styles[`col-${deliveryIndex === i ? "white" : "black"}`]}} weight="sb">{option.label}</Text>
+                                        <Text style={{...styles['fs-3'],...styles[`col-${deliveryIndex === i ? "white" : "black"}`]}} weight="sb">-</Text>
+
+                                        <View
+                                        style={{...styles['flex-row'],...styles['gap-1'],...styles['al-items-e']}}
+                                        >
+                                            <Text style={{...styles['fs-3'],...styles[`col-${deliveryIndex === i ? "white" : "black"}`]}} weight="sb">{option.price}</Text>
+                                            <Text style={{fontSize:12,marginBottom:5,...styles[`col-${deliveryIndex === i ? "white" : "black"}`]}} weight="sb">ج.م.</Text>
+                                        </View>
+
+
+                                    </View>
 
                                     <CheckBox
                                         checked={deliveryIndex === i}
@@ -170,8 +188,8 @@ export default function CheckoutScreen({navigation}) {
 
                     
                     <View
-                    //style[w-100 gap-2]
-                    style={{...styles['w-100'],...styles['gap-2']}}
+                    //style[w-100 gap-2 mt-4]
+                    style={{...styles['w-100'],...styles['gap-2'],...styles['mt-4']}}
                     >
                         <View
                         style={{...styles['w-100'],...styles['flex-row'],...styles['j-content-b'],...styles['px-2']}}
@@ -197,7 +215,7 @@ export default function CheckoutScreen({navigation}) {
 
                     <Button style={{...styles['w-100'],...styles['mt-3']}}
                     onPress={()=>navigation.navigate("OrderSuccess")}>
-                        <Text style={{...styles['fs-2'],...styles['col-white']}}>تأكيد الدفع</Text>
+                        <Text style={{...styles['fs-3'],...styles['col-white']}}>تأكيد الدفع</Text>
                     </Button>
                 </View>
 
