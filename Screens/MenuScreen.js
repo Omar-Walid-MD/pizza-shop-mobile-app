@@ -16,8 +16,6 @@ import ScreenContent from '../Components/Layout/ScreenContent';
 import { useDispatch, useSelector } from 'react-redux';
 import { setMenuItemToShow } from '../Store/Items/itemsSlice';
 import { addToCart, setItemCount } from '../Store/Cart/cartSlice';
-import { items } from '../TempData/menu';
-
 
 const sizeStrings = {
     "s": "صغير",
@@ -56,7 +54,11 @@ export default function MenuScreen({navigation}) {
                 }
             >                
                 <View style={{...styles['w-100'], ...styles['flex-row'], ...styles['j-content-b'], ...styles['gap-2']}}>
-                    <Input placeholder="ابحث هنا"/>
+                    <View
+                    style={{flex:1}}
+                    >
+                        <Input placeholder="ابحث هنا"/>
+                    </View>
                     <Button>
                         <MaterialIcons name="search" size={25} color="white" /> 
                     </Button>
@@ -99,6 +101,7 @@ export default function MenuScreen({navigation}) {
 function MenuItemModal({})
 {
     const dispatch = useDispatch();
+    const items = useSelector(store => store.items.items);
     const itemId = useSelector(store => store.items.menuItemToShow);
     const cart = useSelector(store => store.cart.cart);
 

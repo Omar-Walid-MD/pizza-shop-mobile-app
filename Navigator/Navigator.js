@@ -27,8 +27,7 @@ export default function Navigator()
 
     const user = useSelector(store => store.auth.user);
 
-	useEffect(()=>{
-		
+	useEffect(()=>{	
 		auth.onAuthStateChanged(function(user)
 		{
 			if(user)

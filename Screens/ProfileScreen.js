@@ -80,7 +80,7 @@ export default function ProfileScreen({navigation}) {
                             </View>
                         </View>
 
-                        <View style={{...styles['w-100'], ...styles['bg-accent'], ...styles['rounded-2'], ...styles['shadow'], ...styles['p-2']}}>
+                        <View style={{...styles['w-100'], ...styles['bg-main'], ...styles['rounded-2'], ...styles['shadow'], ...styles['p-2']}}>
                             <View style={{...styles['w-100'], ...styles['al-items-c'], ...styles['gap-2'], ...styles['mb-1']}}>
                             {
                                 !edit ?
@@ -88,7 +88,7 @@ export default function ProfileScreen({navigation}) {
                                     <View
                                     style={{...styles['w-100'],...styles['flex-row'],...styles['j-content-b'],...styles['mb-2']}}
                                     >
-                                        <Text weight='b' style={{...styles['col-white'], ...styles['fs-4'], ...styles['mb-1']}}>معلومات المستخدم</Text>
+                                        <Text weight='b' style={{...styles['fs-4'], ...styles['mb-1']}}>معلومات المستخدم</Text>
                                         <Button variant='green'
                                         onPress={()=>{
                                             setEdit(true); setEditInfo({
@@ -102,9 +102,9 @@ export default function ProfileScreen({navigation}) {
                                         </Button>
                                     </View>
 
-                                    <View style={{...styles['w-100'], ...styles['gap-2']}}>
-                                        <Input value={user.username} editable={false} placeholder="إسم المستخدم"/>
-                                        <Input value={user.mobileNo || ""} editable={false} placeholder="رقم الهاتف"/>
+                                    <View style={{...styles['w-100'], ...styles['gap-3']}}>
+                                        <Input value={user.username} editable={false} placeholder="إسم المستخدم" label="إسم المستخدم"/>
+                                        <Input value={user.mobileNo || ""} editable={false} placeholder="رقم الهاتف" label="رقم الهاتف"/>
                                         
                                         <View
                                         style={{...styles['w-100'],...styles['j-content-c'],...styles['al-items-c'],...styles['rounded'],backgroundColor:"lightgray",height:250}}
@@ -129,19 +129,19 @@ export default function ProfileScreen({navigation}) {
                                     <View
                                     style={{...styles['w-100'],...styles['flex-row'],...styles['j-content-b'],...styles['mb-2']}}
                                     >
-                                        <Text weight='b' style={{...styles['col-white'], ...styles['fs-4'], ...styles['mb-1']}}>معلومات المستخدم</Text>
-                                        <Button variant='white'
+                                        <Text weight='b' style={{...styles['fs-4'], ...styles['mb-1']}}>معلومات المستخدم</Text>
+                                        <Button
                                         onPress={()=>{
                                             setEdit(false); setEditInfo({});
                                         }}
                                         >
-                                            <MaterialCommunityIcons name="close" color="red" size={25}/>
+                                            <MaterialCommunityIcons name="close" color="white" size={25}/>
                                         </Button>
                                     </View>
 
-                                    <View style={{...styles['w-100'], ...styles['gap-2']}}>
-                                        <Input value={editInfo.username} onChangeText={(t)=>handleEditInfo(t,"username")} placeholder="إسم المستخدم"/>
-                                        <Input value={editInfo.mobileNo} onChangeText={(t)=>handleEditInfo(t,"mobileNo")} placeholder="رقم الهاتف" keyboardType="phone-pad"/>
+                                    <View style={{...styles['w-100'], ...styles['gap-3']}}>
+                                        <Input value={editInfo.username} onChangeText={(t)=>handleEditInfo(t,"username")} placeholder="إسم المستخدم" label="إسم المستخدم"/>
+                                        <Input value={editInfo.mobileNo} onChangeText={(t)=>handleEditInfo(t,"mobileNo")} placeholder="رقم الهاتف" label="رقم الهاتف" keyboardType="phone-pad"/>
                                     
                                         <Pressable
                                         style={{...styles['w-100'],...styles['j-content-c'],...styles['al-items-c'],...styles['rounded'],backgroundColor:"lightgray",height:250}}

@@ -1,12 +1,14 @@
 import {View, Image, Pressable } from 'react-native';
 import styles from "../styles";
 import Text from './Text';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { setCartItemToShow } from '../Store/Cart/cartSlice';
-import { items } from '../TempData/menu';
 
 
 export default function CartItem({itemInfo}) {
+
+    const items = useSelector(store => store.items.items);
+    const item = items && items[itemInfo.id];
 
     const sizeStrings = {
         "s": "صغير",
@@ -21,7 +23,6 @@ export default function CartItem({itemInfo}) {
     }
 
 
-    const item = items[itemInfo.id];
 
     const dispatch = useDispatch();
 

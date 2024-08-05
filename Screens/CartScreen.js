@@ -10,7 +10,6 @@ import  { MaterialCommunityIcons, MaterialIcons } from "react-native-vector-icon
 import ScreenContent from '../Components/Layout/ScreenContent';
 import { useDispatch, useSelector } from 'react-redux';
 import { removeFromCart, setCartItemToShow } from '../Store/Cart/cartSlice';
-import { items } from '../TempData/menu';
 
 const sizeStrings = {
     "s": "صغير",
@@ -26,6 +25,7 @@ const sizeColors = {
 
 export default function CartScreen({navigation}) {
 
+    const items = useSelector(store => store.items.items);
     const cart = useSelector(store => store.cart.cart);
     const [screenType,setScreenType] = useState("cart");
 
@@ -125,6 +125,7 @@ export default function CartScreen({navigation}) {
 function CartItemModal({})
 {
     const dispatch = useDispatch();
+    const items = useSelector(store => store.items.items);
     const itemToShow = useSelector(store => store.cart.cartItemToShow);
 
     function handleRemoveFromCart()

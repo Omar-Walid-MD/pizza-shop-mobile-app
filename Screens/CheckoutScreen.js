@@ -9,10 +9,10 @@ import CheckBox from '../Components/CheckBox';
 import ScreenContent from '../Components/Layout/ScreenContent';
 import Accordion from '../Components/Accordion';
 import { useSelector } from 'react-redux';
-import { items } from '../TempData/menu';
 
 export default function CheckoutScreen({navigation}) {
 
+    const items = useSelector(store => store.items.items);
     const cart = useSelector(store => store.cart.cart);
 
     const deliveryOptions = [

@@ -1,6 +1,8 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import AsyncStorage from '@react-native-community/async-storage'
-import { getCategorizedItems, items } from '../../TempData/menu';
+import { getCategorizedItems } from '../../TempData/menu';
+import { child, get, ref } from 'firebase/database';
+import { database } from '../../Firebase/firebase';
 
 const initialState = {
     items: [],
@@ -11,7 +13,16 @@ const initialState = {
 
 export const getItems = createAsyncThunk(
     'items/getItems',
-    () => {return items;}
+    async () => {
+        let items;
+        await get(child(ref(database), `items`)).then((snapshot) => {
+            if(snapshot.exists())
+            {
+                items = snapshot.val();
+            }
+        });
+        return items;
+    }
 );
 
 export const setMenuItemToShow = createAsyncThunk(

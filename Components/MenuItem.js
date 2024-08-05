@@ -1,14 +1,14 @@
 import {View, Image, Pressable } from 'react-native';
 import styles from "../styles";
 import Text from './Text';
-import { items } from '../TempData/menu';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { setMenuItemOptions, setMenuItemToShow } from '../Store/Items/itemsSlice';
 
 
 export default function MenuItem({itemId}) {
 
-    const item = items[itemId];
+    const items = useSelector(store => store.items.items);
+    const item = items && items[itemId];
 
     const dispatch = useDispatch();
 
