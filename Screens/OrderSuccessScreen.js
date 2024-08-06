@@ -36,7 +36,7 @@ export default function OrderSuccessScreen({navigation}) {
                     style={{...styles['mt-3'],...styles['gap-2']}}
                     >
                         <Button
-                        onPress={()=>navigation.navigate("Main",{screen:"Home"})}>
+                        onPress={()=>navigation.navigate("Main",{screen:"Cart"})}>
 
                             <Text
                             style={{...styles['col-white'],...styles['fs-3']}}

@@ -1,7 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
 import { Modal, View, Image, Pressable, ScrollView, FlatList } from 'react-native';
 import styles from "../styles";
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import Button from '../Components/Button';
 import Background from '../Components/Background';
 import Text from '../Components/Text';
@@ -10,6 +10,8 @@ import  { MaterialCommunityIcons, MaterialIcons } from "react-native-vector-icon
 import ScreenContent from '../Components/Layout/ScreenContent';
 import { useDispatch, useSelector } from 'react-redux';
 import { removeFromCart, setCartItemToShow } from '../Store/Cart/cartSlice';
+import MapView from 'react-native-maps';
+import MapViewDirections from 'react-native-maps-directions';
 
 const sizeStrings = {
     "s": "صغير",
@@ -23,15 +25,39 @@ const sizeColors = {
     "l": "#C03E3E"
 }
 
+const deliveryStatusStrings = {
+    "baking": "جاري الخبز",
+    "delivering": "جاري التوصيل"
+}
+
 export default function CartScreen({navigation}) {
 
+    const user = useSelector(store => store.auth.user);
     const items = useSelector(store => store.items.items);
     const cart = useSelector(store => store.cart.cart);
+
+    const orders = useSelector(store => store.orders.orders);
+    const currentOrder = orders && orders[useSelector(store => store.orders.currentOrderID)];
+
+    const ordersLoading = useSelector(store => store.orders.loading);
+
     const [screenType,setScreenType] = useState("cart");
 
     const totalCost = useMemo(()=>{
         return cart.reduce((sum,item) => sum + items[item.id].prices[item.size] * item.count,0)
     },[cart]);
+
+
+    useEffect(()=>{
+        if(currentOrder)
+        {
+            setScreenType("track");
+        }
+        else
+        {
+            setScreenType("cart");
+        }
+    },[currentOrder]);
 
 
     return(
@@ -40,6 +66,11 @@ export default function CartScreen({navigation}) {
             <Background />
             
             {
+                ordersLoading ?
+                <>
+                    <Text>جاري التحميل</Text>
+                </>
+                :
                 screenType === "cart" ?
                 <>
                     {/* Screen Content */}
@@ -101,16 +132,38 @@ export default function CartScreen({navigation}) {
                     <ScreenContent header={<Text style={{...styles['fs-2']}}>السلة</Text>}>
 
                         <View style={{...styles['h-100'], ...styles['w-100'], ...styles['al-items-c'], ...styles['j-content-c']}}>
-                            <Text style={{...styles['col-accent'], fontSize: 40}}>حالة الطلب هنا</Text>
+                            <Text font='Harmattan' style={{...styles['col-accent'],...styles['mb-3'], fontSize: 55}}>{deliveryStatusStrings[currentOrder.deliveryStatus]}</Text>
 
                             <View style={{...styles['w-100'], ...styles['al-items-s']}}>
-                                <Text style={{...styles['fs-3']}}>الوقت المنقضي: 10د 5ث</Text>
-                                <Text style={{...styles['fs-3'], ...styles['col-accent']}}>الوقت المنقضي: 10د 5ث</Text>
+                                <DeliveryTimer order={currentOrder}/>
+                                {/* <Text style={{...styles['fs-3'], ...styles['col-gray']}}>الوقت المتبقي: 10د 5ث</Text> */}
 
-                                <View style={{...styles['w-100'], ...styles['bg-black'], ...styles['rounded'], ...styles['border-2'], ...styles['border-accent'], ...styles['my-3'], height: 250}}></View>
+                                <View
+                                //style[w-100 p-2 al-items-c j-content-c flex:1]
+                                style={{...styles['w-100'],...styles['my-2'],...styles['al-items-c'],...styles['j-content-c'],flex:1}}
+                                >
+                                    <View
+                                        style={{...styles['w-100'],...styles['j-content-c'],...styles['al-items-c'],...styles['rounded'],...styles['shadow'],backgroundColor:"lightgray",height:250,overflow:"hidden"}}
+                                        >
+                                        <MapView
+                                        //style[w-100 flex:1]
+                                        style={{...styles['w-100'],flex:1}}
+                                        scrollEnabled={false}
+                                        region={{...user?.location,latitudeDelta:0.01,longitudeDelta:0.01}}
+                                        >
+                                            {/* <MapViewDirections
+                                            origin={{latitude:31.194849,longitude:29.8972593}}
+                                            destination={user.location}
+                                            apikey={process.env.EXPO_PUBLIC_GOOGLE_MAPS_API_KEY}
+                                            strokeWidth={10}
+                                            strokeColor='black'
+                                            /> */}
+                                        </MapView>
+                                    </View>
+                                </View>
 
-                                <Text style={{...styles['fs-4']}}>إذا واجهت مشكلة, اتصل بنا على الرقم التالي:</Text>
-                                <Text style={{...styles['fs-4'], ...styles['col-accent']}}>+123 456 7890</Text>
+                                <Text weight='sb' style={{...styles['fs-4']}}>إذا واجهت مشكلة, اتصل بنا على الرقم التالي:</Text>
+                                <Text weight='b' style={{...styles['fs-4'], ...styles['col-accent']}}>+123 456 7890</Text>
                             </View>
                         </View>
                     </ScreenContent>
@@ -118,6 +171,36 @@ export default function CartScreen({navigation}) {
             }
         </View>
 
+    )
+}
+
+function DeliveryTimer({order})
+{
+    const [currentDate,setCurrentDate] = useState(Date.now());
+
+    function getTimeElapsedString()
+    {
+        if(!order) return "";
+
+        const timeElapsed = currentDate - order.date;
+        let h = Math.abs(parseInt(timeElapsed /(1000 * 60 * 60) % 60));
+        let m = Math.abs(parseInt(timeElapsed / (1000 * 60) % 60));
+        let s = Math.abs(parseInt(timeElapsed / 1000 % 60));
+
+        return `${h ? h+"س" : ""} ${m ? m+"د" : ""} ${s ? s+"ث" : ""}`;
+    }
+
+
+    useEffect(()=>{
+        const timer = setInterval(()=>{
+            setCurrentDate(Date.now());
+        },1000);
+    
+        return ()=> clearInterval(timer);  
+    },[]);
+
+    return (
+        <Text style={{...styles['fs-3']}}>الوقت المنقضي: {getTimeElapsedString()}</Text>
     )
 }
 

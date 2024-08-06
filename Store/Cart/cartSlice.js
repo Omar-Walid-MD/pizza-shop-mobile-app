@@ -72,8 +72,6 @@ export const removeFromCart = createAsyncThunk(
 export const setItemCount = createAsyncThunk(
     'cart/setItemCount',
     async (item, {getState}) => {
-    
-    
 
         let cart = getState().cart.cart.map((cartItem) => 
             (cartItem.id===item.id && cartItem.size===item.size) ? ({...cartItem,count:item.count}) : cartItem);
@@ -85,6 +83,24 @@ export const setItemCount = createAsyncThunk(
         else
         {
             await AsyncStorage.setItem("userCart",JSON.stringify(cart));
+        }
+
+        return cart;
+    }
+);
+
+export const emptyCart = createAsyncThunk(
+    'cart/emptyCart',
+    async (args, {getState}) => {
+
+
+        if(auth.currentUser)
+        {
+            remove(ref(database,`users/${auth.currentUser.uid}/cart`));
+        }
+        else
+        {
+            await AsyncStorage.setItem("userCart",JSON.stringify([]));
         }
 
         return cart;
@@ -159,7 +175,18 @@ export const cartSlice = createSlice({
             state.loading = false;
         })
         
-      
+       //emptyCart
+       .addCase(emptyCart.pending,(state) => {
+        state.loading = true
+        })
+        .addCase(emptyCart.fulfilled,(state, { payload }) => {
+            state.loading = false;
+            state.cart = payload;
+        })
+        .addCase(emptyCart.rejected,(state) => {
+            state.loading = false;
+        })
+        
     },
 });
 

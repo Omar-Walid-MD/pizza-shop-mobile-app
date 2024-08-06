@@ -17,6 +17,7 @@ import { setUser } from '../Store/Auth/authSlice';
 import { getUser } from '../Firebase/Data Handlers/users';
 import { getItems } from '../Store/Items/itemsSlice';
 import { getCart } from '../Store/Cart/cartSlice';
+import { getOrders } from '../Store/Orders/ordersSlice';
 
 const Tab = createMaterialTopTabNavigator();
 const Stack = createStackNavigator();
@@ -55,7 +56,8 @@ export default function Navigator()
 
     useEffect(()=>{
         dispatch(getCart());
-    },[user]);
+        dispatch(getOrders());
+    },[user,auth.currentUser]);
 
     return (
         <Stack.Navigator>

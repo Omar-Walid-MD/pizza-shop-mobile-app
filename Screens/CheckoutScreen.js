@@ -8,12 +8,17 @@ import Text from '../Components/Text';
 import CheckBox from '../Components/CheckBox';
 import ScreenContent from '../Components/Layout/ScreenContent';
 import Accordion from '../Components/Accordion';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { addOrder } from '../Store/Orders/ordersSlice';
+import { emptyCart } from '../Store/Cart/cartSlice';
 
 export default function CheckoutScreen({navigation}) {
 
     const items = useSelector(store => store.items.items);
     const cart = useSelector(store => store.cart.cart);
+    const user = useSelector(store => store.auth.user);
+
+    const dispatch = useDispatch();
 
     const deliveryOptions = [
         {
@@ -51,6 +56,8 @@ export default function CheckoutScreen({navigation}) {
     const subtotal = useMemo(()=>{
         return cart.reduce((sum,item) => sum + items[item.id].prices[item.size] * item.count,0)
     },[cart]);
+
+    console.log(cart);
 
     return(
         <View style={{...styles['screen-container']}}>
@@ -202,19 +209,34 @@ export default function CheckoutScreen({navigation}) {
                         style={{...styles['w-100'],...styles['flex-row'],...styles['j-content-b'],...styles['px-2']}}
                         >
                             <Text style={{...styles['text-center'], ...styles['fs-3']}}>مبلغ الشحن:</Text>
-                            <Text style={{...styles['text-center'], ...styles['fs-3']}}>50 EGP</Text>
+                            <Text style={{...styles['text-center'], ...styles['fs-3']}}>{deliveryOptions[deliveryIndex].price} EGP</Text>
                         </View>
 
                         <View
                         style={{...styles['w-100'],...styles['flex-row'],...styles['j-content-b'],...styles['px-2']}}
                         >
                             <Text style={{...styles['text-center'], ...styles['fs-3']}}>المبلغ كاملا:</Text>
-                            <Text style={{...styles['text-center'], ...styles['fs-2']}}>{(subtotal+50).toFixed(2)} EGP</Text>
+                            <Text style={{...styles['text-center'], ...styles['fs-2']}}>{(subtotal+deliveryOptions[deliveryIndex].price).toFixed(2)} EGP</Text>
                         </View>
                     </View>
 
                     <Button style={{...styles['w-100'],...styles['mt-3']}}
-                    onPress={()=>navigation.navigate("OrderSuccess")}>
+                    onPress={()=>{
+                        navigation.navigate("OrderSuccess");
+                        dispatch(addOrder({
+                            items: cart.map((cartItem) => ({...cartItem,unitPrice:items[cartItem.id].prices[cartItem.size]})),
+                            orderStatus: "pending",
+                            deliveryStatus: "baking",
+                            date: Date.now(),
+                            deliveryType: deliveryOptions[deliveryIndex].type,
+                            paymentType: paymentOptions[paymentIndex].type,
+                            subtotal,
+                            deliveryFees: deliveryOptions[deliveryIndex].price,
+                            total: subtotal + deliveryOptions[deliveryIndex].price,
+                            deliveryLocation: user.location
+                        }));
+                        dispatch(emptyCart());
+                    }}>
                         <Text style={{...styles['fs-3'],...styles['col-white']}}>تأكيد الدفع</Text>
                     </Button>
                 </View>
