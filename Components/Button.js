@@ -7,7 +7,7 @@ import { useState } from 'react';
 /**
  * MyComponent description
  * @param {object} props - Component props
- * @param {"green"|"white"|"red"} props.variant - The variant of the component
+ * @param {"green"|"white"|"red"|"transparent"} props.variant - The variant of the component
  */
 
 export default function Button(props) {
@@ -22,8 +22,10 @@ export default function Button(props) {
             ["#CC6060", "#C03E3E","#C03E3E","#943030"]
             : props.variant==="white" ?
             ["#FFFFFF", "#FAFAFA","#FAFAFA","#D1D1D1"]
-            : props.variant==="green" &&
+            : props.variant==="green" ?
             ["#6EB755", "#589941","#589941","#4B8237"]
+            : props.variant==="transparent" &&
+            ["transparent","transparent","transparent","transparent"]
         }
         start={{ x: 0, y: 0 }}
         end={{ x: 0, y: 1 }}
@@ -31,7 +33,7 @@ export default function Button(props) {
         >
             <Pressable
             
-            style={{...(props.containerStyle || {}),backgroundColor:"transparent",justifyContent:"center",paddingVertical:5,paddingHorizontal:15,alignItems:"center"}}
+            style={{backgroundColor:"transparent",justifyContent:"center",paddingVertical:5,paddingHorizontal:15,alignItems:"center",...(props.containerStyle || {})}}
             onPress={props.onPress}
 
             onPressIn={()=>
@@ -64,6 +66,6 @@ Button.propTypes = {
     children: PropTypes.node,
     onPress: PropTypes.func,
     style: PropTypes.object,
-    class: PropTypes.string,
+    style: PropTypes.object,
     variant: PropTypes.oneOf(["red","white","green"])
 };

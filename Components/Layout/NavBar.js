@@ -13,12 +13,6 @@ import {Dimensions} from 'react-native';
 
 export default function NavBar({state, descriptors, navigation, position})
 {
-    const dispatch = useDispatch();
-    const currentOrderID = useSelector(store => store.orders.currentOrderID); 
-
-    const screenWidth = Dimensions.get('window').width;
-
-
     const buttons = {
         "Home": <MaterialCommunityIcons name="home" color="white" style={{fontSize:40}}/>,
         "Menu": <MaterialIcons name="menu-book" color="white" style={{fontSize:40}} />,
@@ -26,10 +20,24 @@ export default function NavBar({state, descriptors, navigation, position})
         "Cart": <MaterialIcons name="shopping-cart" color="white" style={{fontSize:40}} />
 
     }
-
+    const dispatch = useDispatch();
+    const currentOrderID = useSelector(store => store.orders.currentOrderID);
+    const user = useSelector(store => store.auth.user); 
+        
     const [buttonCenters,setButtonCenters] = useState({});
-
+    const screenWidth = Dimensions.get('window').width;
     const markerPosition = useState(new Animated.Value(screenWidth/2))[0];
+    
+    function isMissingProfileInfo()
+    {
+        if(user)
+        {
+            if(!(user.username && user.mobileNo && user.location)) return true;
+        }
+        return false;
+    }
+
+
 
     useEffect(()=>{
         const stateName = state.routes[state.index].name;
@@ -114,7 +122,8 @@ export default function NavBar({state, descriptors, navigation, position})
                         >
                             {buttons[label]}
                             {
-                                route.name==="Cart" && currentOrderID &&
+                                ((route.name==="Cart" && currentOrderID) ||
+                                (route.name==="Profile" && isMissingProfileInfo())) &&
                                 <View
                                 //style[pos-abs j-content-c al-items-c shadow top:-5 transform:"translateX(15px)" height:20 aspectRatio:1 borderRadius:20 backgroundColor:"limegreen"]
                                 style={{...styles['pos-abs'],...styles['j-content-c'],...styles['al-items-c'],...styles['shadow'],top:-5,transform:"translateX(15px)",height:20,aspectRatio:1,borderRadius:20,backgroundColor:"limegreen"}}

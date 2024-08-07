@@ -20,6 +20,7 @@ import { setUser } from '../Store/Auth/authSlice';
 import MapView, { Marker } from 'react-native-maps';
 
 import * as Location from "expo-location";
+import { isMissingProfileInfo } from '../helpers';
 
 export default function ProfileScreen({navigation}) {
 
@@ -90,6 +91,20 @@ export default function ProfileScreen({navigation}) {
                             >عرض طلباتي</Text>
                         </Button>
 
+                        {
+                            isMissingProfileInfo(user) &&
+                            <View
+                            //style[flex-row al-items-c j-content-c gap-1]
+                            style={{...styles['flex-row'],...styles['al-items-c'],...styles['j-content-c'],...styles['gap-1']}}
+                            >
+                                <Text
+                                weight='b'
+                                style={{...styles['col-danger']}}
+                                >معلومات ملفك غير مكتملة</Text>
+                                <MaterialIcons name="error-outline" style={{fontSize:30,...styles['col-danger']}} />
+                            </View>
+                        }
+
                         <View style={{...styles['w-100'], ...styles['bg-main'], ...styles['rounded-2'], ...styles['shadow'], ...styles['p-2']}}>
                             <View style={{...styles['w-100'], ...styles['al-items-c'], ...styles['gap-2'], ...styles['mb-1']}}>
                             {
@@ -155,16 +170,18 @@ export default function ProfileScreen({navigation}) {
                                         <Input value={editInfo.username} onChangeText={(t)=>handleEditInfo(t,"username")} placeholder="إسم المستخدم" label/>
                                         <Input value={editInfo.mobileNo} onChangeText={(t)=>handleEditInfo(t,"mobileNo")} placeholder="رقم الهاتف" label keyboardType="phone-pad"/>
                                     
-                                        <Pressable
+                                        <Button
+                                        variant='transparent'
                                         style={{...styles['w-100'],...styles['j-content-c'],...styles['al-items-c'],...styles['rounded'],backgroundColor:"lightgray",height:250}}
+                                        containerStyle={{paddingVertical:0,paddingHorizontal:0,...styles['w-100'],...styles['h-100']}}
                                         onPress={()=>setDeliveryLocationModal(true)}
                                         >
                                         {
                                             editInfo.location ?
                                             <>
                                                 <MapView
-                                                //style[w-100 flex:1]
-                                                style={{...styles['w-100'],flex:1}}
+                                                //style[w-100 h-100 flex:1]
+                                                style={{...styles['w-100'],...styles['h-100'],flex:1}}
                                                 scrollEnabled={false}
                                                 region={{...editInfo.location,latitudeDelta:0.01,longitudeDelta:0.01}}
                                                 >
@@ -183,9 +200,14 @@ export default function ProfileScreen({navigation}) {
                                                 </Button>
                                             </>
                                             :
-                                            <Text>تحديد نقطة توصيل</Text>
+                                            <View
+                                            //style[w-100 h-100 j-content-c al-items-c]
+                                            style={{...styles['w-100'],...styles['h-100'],...styles['j-content-c'],...styles['al-items-c']}}
+                                            >
+                                                <Text>تحديد نقطة توصيل</Text>
+                                            </View>
                                         }
-                                        </Pressable>
+                                        </Button>
                                     
                                     </View>
 
