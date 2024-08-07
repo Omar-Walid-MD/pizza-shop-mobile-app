@@ -10,6 +10,8 @@ export default function MenuItem({itemId}) {
     const items = useSelector(store => store.items.items);
     const item = items && items[itemId];
 
+    // console.log(item.image);
+
     const dispatch = useDispatch();
 
     function openMenuItem()
@@ -28,7 +30,7 @@ export default function MenuItem({itemId}) {
                 <View
             style={{...styles['menu-item-container'],...styles['shadow'],...styles['bg-white'],...styles['p-2'],...styles['al-items-c']}}
             pointerEvents='none'>
-                    <Image source={require("../assets/img/pizza.png")} style={{position:"relative",height:100}} resizeMode='contain'/>
+                    <Image source={{uri:item.image+".png"}} style={{position:"relative",height:130,aspectRatio:1}} resizeMode='contain'/>
                     <Text
                     weight='sb'
                     style={{...styles['mt-1'],...styles['text-center'],...styles['lh-normal'],...styles['fs-4']}}

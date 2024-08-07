@@ -16,6 +16,7 @@ import ScreenContent from '../Components/Layout/ScreenContent';
 import { useDispatch, useSelector } from 'react-redux';
 import { setMenuItemToShow } from '../Store/Items/itemsSlice';
 import { addToCart, setItemCount } from '../Store/Cart/cartSlice';
+import { debounce } from '../helpers';
 
 const sizeStrings = {
     "s": "صغير",
@@ -33,7 +34,34 @@ export default function MenuScreen({navigation}) {
 
     const dispatch = useDispatch();
 
+    const items = useSelector(store => store.items.items);
     const itemsCategorized = useSelector(store => store.items.itemsCategorized);
+    const [resultItemsCategorized,setResultItemsCategorized] = useState({});
+    const [search,setSearch] = useState("");
+
+    const getMenuResults = debounce((search) =>
+    {
+        if(search.length < 3) setResultItemsCategorized(itemsCategorized);
+        else
+        {
+            const results = {};
+            for(const category in itemsCategorized)
+            {
+                for(const itemId of itemsCategorized[category])
+                {
+                    if(items[itemId].name.includes(search))
+                    {
+                        if(results[category])
+                            results[category].push(itemId);
+                        else results[category] = [itemId];
+                    }
+                }
+            }
+    
+            setResultItemsCategorized(results);
+        }
+
+    });
 
     useEffect(()=>{
 
@@ -41,6 +69,14 @@ export default function MenuScreen({navigation}) {
             dispatch(setMenuItemToShow(null));
         }
     },[]);
+
+    useEffect(()=>{
+        if(itemsCategorized && !Object.keys(resultItemsCategorized).length) setResultItemsCategorized(itemsCategorized);
+    },[itemsCategorized])
+
+    useEffect(()=>{
+        getMenuResults(search);
+    },[search]);
     
     return (
         <View style={{...styles['screen-container']}}>
@@ -57,7 +93,7 @@ export default function MenuScreen({navigation}) {
                     <View
                     style={{flex:1}}
                     >
-                        <Input placeholder="ابحث هنا"/>
+                        <Input value={search} onChangeText={(text)=>setSearch(text)} placeholder="ابحث هنا"/>
                     </View>
                     <Button>
                         <MaterialIcons name="search" size={25} color="white" /> 
@@ -66,7 +102,7 @@ export default function MenuScreen({navigation}) {
                 {
                     <FlatList
                         scrollEnabled={false}
-                        data={Object.keys(itemsCategorized)}
+                        data={Object.keys(resultItemsCategorized)}
                         contentContainerStyle={{gap:10}}
                         renderItem={
                             ({item:category, index:categoryIndex}) =>
@@ -77,7 +113,7 @@ export default function MenuScreen({navigation}) {
                                     <FlatList
                                         numColumns={2}
                                         scrollEnabled={false}
-                                        data={itemsCategorized[category]}
+                                        data={resultItemsCategorized[category]}
                                         renderItem={
                                             ({item:itemId, index}) => 
                                                 <MenuItem itemId={itemId} key={`menu-item-${index}`}/>
@@ -141,8 +177,8 @@ function MenuItemModal({})
                     itemToShow &&
                     <ScrollView style={{...styles['w-100']}}>
                         <View style={{...styles['w-100'], ...styles['p-4'], ...styles['al-items-c'], ...styles['pt-4']}}>
-                            <Image source={require("../assets/img/pizza.png")} style={{height: 250, position: "relative"}} resizeMode='contain' />
-                            <Text style={{...styles['mt-1'], ...styles['text-center'], ...styles['fs-1']}}>{itemToShow.name}</Text>
+                        <Image source={{uri:itemToShow.image+".png"}} style={{position:"relative",height:250,aspectRatio:1}} resizeMode='contain'/>
+                        <Text style={{...styles['mt-1'], ...styles['text-center'], ...styles['fs-1']}}>{itemToShow.name}</Text>
 
                             <View style={{...styles['w-100'], ...styles['mt-2'], ...styles['gap-1'], ...styles['al-items-s']}}>
                                 {

@@ -19,7 +19,11 @@ const sizeStrings = {
     "l": "كبير"
 };
 
-
+const sizeColors = {
+    "s": "#589941",
+    "m": "#C0851A",
+    "l": "#C03E3E"
+};
 
 const deliveryStatusStrings = {
     "baking": "جاري الخبز",
@@ -220,7 +224,7 @@ function CartItemModal({})
                     itemToShow &&
                     <ScrollView style={{...styles['w-100']}}>
                         <View style={{...styles['w-100'], ...styles['p-4'], ...styles['al-items-c'], ...styles['pt-4'], ...styles['gap-3']}}>
-                            <Image source={require("../assets/img/pizza.png")} style={{height: 250, position: "relative"}} resizeMode='contain' />
+                            <Image source={{uri:itemToShow.image+".png"}} style={{position:"relative",height:250,aspectRatio:1}} resizeMode='contain'/>
                             
                             <View style={{...styles['w-100'], ...styles['al-items-c']}}>
                                 <Text style={{...styles['text-center'], ...styles['fs-1']}}>{itemToShow.name}</Text>

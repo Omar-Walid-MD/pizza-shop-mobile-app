@@ -84,15 +84,15 @@ function TabNavigator({navigation})
 {
     return (
         <Tab.Navigator
-        screenOptions={{swipeEnabled:false}} tabBarPosition='bottom'
+        screenOptions={{swipeEnabled:true}} tabBarPosition='bottom'
         initialRouteName='Home'
-        layoutDirection={'rtl'}
+        layoutDirection='ltr'
         tabBar={props => <NavBar {...props} />}
         >
-            <Tab.Screen name="Profile" component={ProfileScreen} />
-            <Tab.Screen name="Home" component={HomeScreen} />
-            <Tab.Screen name="Cart" component={CartScreen} />
             <Tab.Screen name="Menu" component={MenuScreen} />
+            <Tab.Screen name="Cart" component={CartScreen} />
+            <Tab.Screen name="Home" component={HomeScreen} />
+            <Tab.Screen name="Profile" component={ProfileScreen} />
 
         </Tab.Navigator>
     )

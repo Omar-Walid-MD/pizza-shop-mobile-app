@@ -42,8 +42,8 @@ export default function CartItem({itemInfo}) {
             //style[menu-item-container shadow bg-white p-2 al-items-c]
             style={{...styles['menu-item-container'],...styles['shadow'],...styles['bg-white'],...styles['p-2'],...styles['al-items-c']}}
             pointerEvents='none'>
-                <Image source={require("../assets/img/pizza.png")} style={{position:"relative",height:100}} resizeMode='contain'/>
-                <Text style={{...styles['mt-1'],...styles['text-center'],...styles['lh-normal'],...styles['fs-4']}}
+                    <Image source={{uri:item.image+".png"}} style={{position:"relative",height:130,aspectRatio:1}} resizeMode='contain'/>
+                    <Text style={{...styles['mt-1'],...styles['text-center'],...styles['lh-normal'],...styles['fs-4']}}
                 weight='sb'
                 >{item.name}</Text>
 
