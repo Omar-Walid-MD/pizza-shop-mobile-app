@@ -44,7 +44,7 @@ export default function Input(props) {
                     //style[col-white fontSize:10]
                     style={{...styles['col-white'],fontSize:10}}
                     weight='sb'
-                    >{props.label}</Text>
+                    >{props.placeholder}</Text>
                 </Animated.View>
             }
         </View>

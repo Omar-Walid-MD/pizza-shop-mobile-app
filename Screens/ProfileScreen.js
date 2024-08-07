@@ -113,8 +113,8 @@ export default function ProfileScreen({navigation}) {
                                     </View>
 
                                     <View style={{...styles['w-100'], ...styles['gap-3']}}>
-                                        <Input value={user.username} editable={false} placeholder="إسم المستخدم" label="إسم المستخدم"/>
-                                        <Input value={user.mobileNo || ""} editable={false} placeholder="رقم الهاتف" label="رقم الهاتف"/>
+                                        <Input value={user.username} editable={false} placeholder="إسم المستخدم" label/>
+                                        <Input value={user.mobileNo || ""} editable={false} placeholder="رقم الهاتف" label/>
                                         
                                         <View
                                         style={{...styles['w-100'],...styles['j-content-c'],...styles['al-items-c'],...styles['rounded'],backgroundColor:"lightgray",height:250}}
@@ -152,8 +152,8 @@ export default function ProfileScreen({navigation}) {
                                     </View>
 
                                     <View style={{...styles['w-100'], ...styles['gap-3']}}>
-                                        <Input value={editInfo.username} onChangeText={(t)=>handleEditInfo(t,"username")} placeholder="إسم المستخدم" label="إسم المستخدم"/>
-                                        <Input value={editInfo.mobileNo} onChangeText={(t)=>handleEditInfo(t,"mobileNo")} placeholder="رقم الهاتف" label="رقم الهاتف" keyboardType="phone-pad"/>
+                                        <Input value={editInfo.username} onChangeText={(t)=>handleEditInfo(t,"username")} placeholder="إسم المستخدم" label/>
+                                        <Input value={editInfo.mobileNo} onChangeText={(t)=>handleEditInfo(t,"mobileNo")} placeholder="رقم الهاتف" label keyboardType="phone-pad"/>
                                     
                                         <Pressable
                                         style={{...styles['w-100'],...styles['j-content-c'],...styles['al-items-c'],...styles['rounded'],backgroundColor:"lightgray",height:250}}
@@ -213,13 +213,14 @@ export default function ProfileScreen({navigation}) {
                     </>
                     :
                     <>
+                        <Button variant='green' onPress={()=>navigation.navigate("Register")}>
+                            <Text style={{...styles['col-white'], ...styles['fs-3']}}>أنشئ حساب</Text>
+                        </Button>
+
                         <Button onPress={()=>navigation.navigate("Login")}>
                             <Text style={{...styles['col-white'], ...styles['fs-3']}}>تسجيل الدخول</Text>
                         </Button>
-
-                        <Button onPress={()=>navigation.navigate("Register")}>
-                            <Text style={{...styles['col-white'], ...styles['fs-3']}}>تسجيل مستخدم جديد</Text>
-                        </Button>
+                        
                     </>
                 }
             </ScreenContent>

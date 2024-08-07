@@ -17,6 +17,7 @@ export default function RegisterScreen({navigation}) {
     const [registerInfo,setRegisterInfo] = useState({
         username: "",
         email:"",
+        mobileNo: "",
         password: "",
         confirmPassword: ""
     });
@@ -64,19 +65,23 @@ export default function RegisterScreen({navigation}) {
 
                     <View style={{...styles['w-100'], ...styles['gap-3']}}>
                         <View style={{...styles['w-100']}}>
-                            <Input placeholder="إسم المستخدم" onChangeText={(text) => handleRegisterInfo(text, "username")}/>
+                            <Input placeholder="إسم المستخدم" value={registerInfo.username} onChangeText={(text) => handleRegisterInfo(text, "username")} label/>
                         </View>
 
                         <View style={{...styles['w-100']}}>
-                            <Input placeholder="البريد الإلكتروني" onChangeText={(text) => handleRegisterInfo(text, "email")}/>
+                            <Input placeholder="البريد الإلكتروني" value={registerInfo.email} onChangeText={(text) => handleRegisterInfo(text, "email")} label/>
                         </View>
 
                         <View style={{...styles['w-100']}}>
-                            <Input placeholder="كلمة المرور" secureTextEntry autoCorrect={false} onChangeText={(text) => handleRegisterInfo(text, "password")}/>
+                            <Input placeholder="رقم الهاتف" value={registerInfo.mobileNo} onChangeText={(text) => handleRegisterInfo(text, "mobileNo")} label keyboardType="phone-pad"/>
                         </View>
 
                         <View style={{...styles['w-100']}}>
-                            <Input placeholder="تأكيد كلمة المرور" secureTextEntry autoCorrect={false} onChangeText={(text) => handleRegisterInfo(text, "confirmPassword")}/>
+                            <Input placeholder="كلمة المرور" value={registerInfo.password} secureTextEntry autoCorrect={false} onChangeText={(text) => handleRegisterInfo(text, "password")} label/>
+                        </View>
+
+                        <View style={{...styles['w-100']}}>
+                            <Input placeholder="تأكيد كلمة المرور" value={registerInfo.confirmPassword} secureTextEntry autoCorrect={false} onChangeText={(text) => handleRegisterInfo(text, "confirmPassword")} label/>
                         </View>
 
                         <Button onPress={() => handleSignUp("email")}>
@@ -94,9 +99,17 @@ export default function RegisterScreen({navigation}) {
                         </Button>
                     </View>
                 </View>
-                <Button onPress={() => navigation.navigate("Main")}>
-                    <Text style={{...styles['col-white'], ...styles['fs-3']}}>العودة</Text>
-                </Button>
+                <View
+                //style[flex-row j-content-b]
+                style={{...styles['flex-row'],...styles['j-content-b']}}
+                >
+                    <Button style={{alignSelf:"center"}} onPress={() => navigation.navigate("Login")}>
+                        <Text style={{...styles['col-white'], ...styles['fs-4']}}>تسجيل دخول لحساب</Text>
+                    </Button>
+                    <Button style={{alignSelf:"center"}} variant='green' onPress={() => navigation.navigate("Main")}>
+                        <Text style={{...styles['col-white'], ...styles['fs-4']}}>العودة</Text>
+                    </Button>
+                </View>
             </ScreenContent>
         </View>
 

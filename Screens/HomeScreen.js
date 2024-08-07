@@ -7,12 +7,15 @@ import Background from '../Components/Background';
 import ScreenContent from '../Components/Layout/ScreenContent';
 import { useSelector } from 'react-redux';
 import Button from '../Components/Button';
-
+import { auth } from "../Firebase/firebase";
 import { MaterialIcons } from "react-native-vector-icons";
 
 export default function HomeScreen({navigation}) {
 
-    const currentOrderID = useSelector(store => store.orders.currentOrderID); 
+    const currentOrderID = useSelector(store => store.orders.currentOrderID);
+
+    const loading = useSelector(store => store.auth.loading);
+    const user = useSelector(store => store.auth.user);
 
     return (
         <View style={{...styles['screen-container']}}>
@@ -24,10 +27,45 @@ export default function HomeScreen({navigation}) {
                 <View
                 style={{...styles['al-items-c']}}
                 >
-                    <Text style={{...styles['fs-2']}}>مرحبا بك</Text>
-                    <Text
-                    style={{...styles['fs-2'],...styles['col-accent']}}
-                    >اسم المستخدم</Text>
+                    <Text font='Harmattan' style={{fontSize:40}}>مرحبا بك</Text>
+                    {
+                        !loading &&
+                        user ?
+                        <Text
+                        style={{...styles['fs-2'],...styles['col-accent']}}
+                        >{user.username}</Text>
+                        :
+                        <View
+                        //style[gap-1]
+                        style={{...styles['gap-1']}}
+                        >
+                            <Text
+                            weight='sb'
+                            >أدخل الى حسابك لتسهيل عملية الطلب</Text>
+                            <View
+                            //style[flex-row gap-2]
+                            style={{...styles['flex-row'],...styles['gap-2']}}
+                            >
+                                <Button
+                                variant='green'
+                                onPress={()=>navigation.navigate("Register")}
+                                >
+                                    <Text
+                                    //style[col-white fs-4]
+                                    style={{...styles['col-white'],...styles['fs-4']}}
+                                    >أنشئ حساب</Text>
+                                </Button>
+                                <Button
+                                onPress={()=>navigation.navigate("Login")}
+                                >
+                                    <Text
+                                    //style[col-white fs-4]
+                                    style={{...styles['col-white'],...styles['fs-4']}}
+                                    >تسجيل الدخول</Text>
+                                </Button>
+                            </View>
+                        </View>
+                    }
 
                     {
                         currentOrderID &&

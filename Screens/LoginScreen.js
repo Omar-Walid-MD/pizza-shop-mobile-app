@@ -100,9 +100,17 @@ export default function LoginScreen({navigation}) {
                         </Button>
                     </View>
                 </View>
-                <Button onPress={() => navigation.navigate("Main")}>
-                    <Text style={{...styles['col-white'], ...styles['fs-3']}}>العودة</Text>
-                </Button>
+                <View
+                //style[flex-row j-content-b]
+                style={{...styles['flex-row'],...styles['j-content-b']}}
+                >
+                    <Button style={{alignSelf:"center"}} onPress={() => navigation.navigate("Register")}>
+                        <Text style={{...styles['col-white'], ...styles['fs-4']}}>أنشئ حساب</Text>
+                    </Button>
+                    <Button style={{alignSelf:"center"}} variant='green' onPress={() => navigation.navigate("Main")}>
+                        <Text style={{...styles['col-white'], ...styles['fs-4']}}>العودة</Text>
+                    </Button>
+                </View>
             </ScreenContent>
         </View>
 
