@@ -26,10 +26,8 @@ export const getOrders = createAsyncThunk(
             Object.keys(orders).forEach(async (orderID)=>{
                 if(orders[orderID].orderStatus==="pending" && Date.now() >= orders[orderID].date + 2 * 3600 * 1000)
                 {
-                    console.log("yes");
                     orders[orderID].orderStatus = "success";
                     orders[orderID].deliveryStatus = "delivered";
-                    console.log(orders[orderID])
                     await update(ref(database, `orders/${auth.currentUser.uid}/${orderID}`),orders[orderID]);
                 }
             });

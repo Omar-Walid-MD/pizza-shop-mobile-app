@@ -80,6 +80,16 @@ export default function ProfileScreen({navigation}) {
                             </View>
                         </View>
 
+                        <Button variant='green'
+                        onPress={()=>navigation.navigate("Orders")}
+                        >
+                            <Text
+                            //style[col-white fs-4]
+                            style={{...styles['col-white'],...styles['fs-4']}}
+                            weight='sb'
+                            >عرض طلباتي</Text>
+                        </Button>
+
                         <View style={{...styles['w-100'], ...styles['bg-main'], ...styles['rounded-2'], ...styles['shadow'], ...styles['p-2']}}>
                             <View style={{...styles['w-100'], ...styles['al-items-c'], ...styles['gap-2'], ...styles['mb-1']}}>
                             {

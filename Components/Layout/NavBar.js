@@ -14,6 +14,7 @@ import {Dimensions} from 'react-native';
 export default function NavBar({state, descriptors, navigation, position})
 {
     const dispatch = useDispatch();
+    const currentOrderID = useSelector(store => store.orders.currentOrderID); 
 
     const screenWidth = Dimensions.get('window').width;
 
@@ -50,7 +51,7 @@ export default function NavBar({state, descriptors, navigation, position})
         locations={[0.1,0.3,0.7,1]}
         >
             
-            <Marker markerPosition={markerPosition} />
+            <NavBarMarker markerPosition={markerPosition} />
             <View
             //style[navbar]
             style={{...styles['navbar']}}
@@ -107,7 +108,21 @@ export default function NavBar({state, descriptors, navigation, position})
                     }}
                     >
                     {
-                        buttons[label]
+                        <View
+                        //style[al-items-c]
+                        style={{...styles['al-items-c']}}
+                        >
+                            {buttons[label]}
+                            {
+                                route.name==="Cart" && currentOrderID &&
+                                <View
+                                //style[pos-abs j-content-c al-items-c shadow top:-5 transform:"translateX(15px)" height:20 aspectRatio:1 borderRadius:20 backgroundColor:"limegreen"]
+                                style={{...styles['pos-abs'],...styles['j-content-c'],...styles['al-items-c'],...styles['shadow'],top:-5,transform:"translateX(15px)",height:20,aspectRatio:1,borderRadius:20,backgroundColor:"limegreen"}}
+                                >
+                                    <MaterialCommunityIcons name="exclamation-thick" color="white" size={15} />
+                                </View>
+                            }
+                        </View>
                     } 
                 </Pressable>
                 
@@ -122,11 +137,10 @@ export default function NavBar({state, descriptors, navigation, position})
 }
 
 
-function Marker({markerPosition})
+function NavBarMarker({markerPosition})
 {
     return (
         <Animated.View
-        //style[pos-abs top:-12 left:markerPosition width:50 height:50 borderRadius:25 overflow:"hidden"]
         style={{...styles['pos-abs'],
             top:-12,left:markerPosition,
             width:50,height:50,
@@ -136,7 +150,6 @@ function Marker({markerPosition})
                 <View
                 style={{width:50,height:25,backgroundColor:"#CC6060",position:"absolute",top:-10}}
                 >
-
                 </View>
         </Animated.View>
     )

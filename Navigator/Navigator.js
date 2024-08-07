@@ -18,6 +18,7 @@ import { getUser } from '../Firebase/Data Handlers/users';
 import { getItems } from '../Store/Items/itemsSlice';
 import { getCart } from '../Store/Cart/cartSlice';
 import { getOrders } from '../Store/Orders/ordersSlice';
+import OrdersScreen from '../Screens/OrdersScreen';
 
 const Tab = createMaterialTopTabNavigator();
 const Stack = createStackNavigator();
@@ -68,6 +69,9 @@ export default function Navigator()
             />
             <Stack.Screen name="Login" component={LoginScreen} options={{ headerShown: false }} />
             <Stack.Screen name="Register" component={RegisterScreen} options={{ headerShown: false }} />
+
+            <Stack.Screen name="Orders" component={OrdersScreen} options={{ headerShown: false }} />
+
 
             <Stack.Screen name="Checkout" component={CheckoutScreen} options={{ headerShown: false }} />
             <Stack.Screen name="OrderSuccess" component={OrderSuccessScreen} options={{ headerShown: false }} />

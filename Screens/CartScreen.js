@@ -19,11 +19,7 @@ const sizeStrings = {
     "l": "كبير"
 };
 
-const sizeColors = {
-    "s": "#589941",
-    "m": "#C0851A",
-    "l": "#C03E3E"
-}
+
 
 const deliveryStatusStrings = {
     "baking": "جاري الخبز",

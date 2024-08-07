@@ -31,7 +31,7 @@ export default function Button(props) {
         >
             <Pressable
             
-            style={{backgroundColor:"transparent",justifyContent:"center",paddingVertical:5,paddingHorizontal:15,alignItems:"center"}}
+            style={{...(props.containerStyle || {}),backgroundColor:"transparent",justifyContent:"center",paddingVertical:5,paddingHorizontal:15,alignItems:"center"}}
             onPress={props.onPress}
 
             onPressIn={()=>
