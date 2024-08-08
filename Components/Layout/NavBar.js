@@ -9,6 +9,7 @@ import styles from "../../styles";
 import { LinearGradient } from 'expo-linear-gradient';
 
 import {Dimensions} from 'react-native';
+import { isMissingProfileInfo } from '../../helpers';
 
 
 export default function NavBar({state, descriptors, navigation, position})
@@ -28,14 +29,6 @@ export default function NavBar({state, descriptors, navigation, position})
     const screenWidth = Dimensions.get('window').width;
     const markerPosition = useState(new Animated.Value(screenWidth/2))[0];
     
-    function isMissingProfileInfo()
-    {
-        if(user)
-        {
-            if(!(user.username && user.mobileNo && user.location)) return true;
-        }
-        return false;
-    }
 
 
 
@@ -123,7 +116,7 @@ export default function NavBar({state, descriptors, navigation, position})
                             {buttons[label]}
                             {
                                 ((route.name==="Cart" && currentOrderID) ||
-                                (route.name==="Profile" && isMissingProfileInfo())) &&
+                                (route.name==="Profile" && isMissingProfileInfo(user))) &&
                                 <View
                                 //style[pos-abs j-content-c al-items-c shadow top:-5 transform:"translateX(15px)" height:20 aspectRatio:1 borderRadius:20 backgroundColor:"limegreen"]
                                 style={{...styles['pos-abs'],...styles['j-content-c'],...styles['al-items-c'],...styles['shadow'],top:-5,transform:"translateX(15px)",height:20,aspectRatio:1,borderRadius:20,backgroundColor:"limegreen"}}

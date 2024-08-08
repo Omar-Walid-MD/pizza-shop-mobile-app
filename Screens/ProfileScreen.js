@@ -21,6 +21,7 @@ import MapView, { Marker } from 'react-native-maps';
 
 import * as Location from "expo-location";
 import { isMissingProfileInfo } from '../helpers';
+import Loading from '../Components/Loading';
 
 export default function ProfileScreen({navigation}) {
 
@@ -66,7 +67,7 @@ export default function ProfileScreen({navigation}) {
             >
                 {
                     loading ?
-                    <Text>جاري التحميل</Text>
+                    <Loading />
                     :
                     user ?
                     <>

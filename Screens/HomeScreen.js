@@ -9,6 +9,7 @@ import { useSelector } from 'react-redux';
 import Button from '../Components/Button';
 import { auth } from "../Firebase/firebase";
 import { MaterialIcons } from "react-native-vector-icons";
+import Loading from '../Components/Loading';
 
 export default function HomeScreen({navigation}) {
 
@@ -29,7 +30,8 @@ export default function HomeScreen({navigation}) {
                 >
                     <Text font='Harmattan' style={{fontSize:40}}>مرحبا بك</Text>
                     {
-                        !loading &&
+                        loading ?
+                        <Loading /> :
                         user ?
                         <Text
                         style={{...styles['fs-2'],...styles['col-accent']}}
