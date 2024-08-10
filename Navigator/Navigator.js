@@ -19,6 +19,7 @@ import { getItems } from '../Store/Items/itemsSlice';
 import { getCart } from '../Store/Cart/cartSlice';
 import { getOrders } from '../Store/Orders/ordersSlice';
 import OrdersScreen from '../Screens/OrdersScreen';
+import SettingsScreen from '../Screens/SettingsScreen';
 
 const Tab = createMaterialTopTabNavigator();
 const Stack = createStackNavigator();
@@ -93,6 +94,7 @@ function TabNavigator({navigation})
             <Tab.Screen name="Cart" component={CartScreen} />
             <Tab.Screen name="Home" component={HomeScreen} />
             <Tab.Screen name="Profile" component={ProfileScreen} />
+            <Tab.Screen name="Settings" component={SettingsScreen} />
 
         </Tab.Navigator>
     )

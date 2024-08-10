@@ -49,6 +49,22 @@ const styles = StyleSheet.create({
         flexGrow: 1
     },
 
+    "toggle": {
+      width:65,
+      height:35,
+      backgroundColor: "#7F7F7F",
+
+      borderRadius:35,
+      borderColor:"#4B8237",
+      borderWidth:3,
+      shadowColor:"black",
+      elevation:10,
+
+      justifyContent:"center",
+      alignItems:"flex-end",
+      overflow:"hidden"
+    },
+
     "btn":
     {
         flexDirection:"row",

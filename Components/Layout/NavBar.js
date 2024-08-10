@@ -18,7 +18,8 @@ export default function NavBar({state, descriptors, navigation, position})
         "Home": <MaterialCommunityIcons name="home" color="white" style={{fontSize:40}}/>,
         "Menu": <MaterialIcons name="menu-book" color="white" style={{fontSize:40}} />,
         "Profile": <MaterialIcons name="person" color="white" style={{fontSize:40}} />,
-        "Cart": <MaterialIcons name="shopping-cart" color="white" style={{fontSize:40}} />
+        "Cart": <MaterialIcons name="shopping-cart" color="white" style={{fontSize:40}} />,
+        "Settings": <MaterialIcons name="settings" color="white" style={{fontSize:40}} />
 
     }
     const dispatch = useDispatch();

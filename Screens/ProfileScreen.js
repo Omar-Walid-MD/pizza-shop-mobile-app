@@ -61,9 +61,9 @@ export default function ProfileScreen({navigation}) {
 
             {/* Screen Content */}
             <ScreenContent
-                header={
-                    <Text font="Harmattan" style={{fontSize:35}}>الملف الشخصي</Text>
-                }
+            header={
+                <Text font="Harmattan" style={{fontSize:35}}>الملف الشخصي</Text>
+            }
             >
                 {
                     loading ?
