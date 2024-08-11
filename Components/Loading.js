@@ -5,21 +5,21 @@ import { useEffect, useState } from 'react';
 
 export default function Loading({}) {
 
-    const offsets = Array.from({length:4}).map(()=>useState(new Animated.Value(0))[0]);
+    // const offsets = Array.from({length:4}).map(()=>useState(new Animated.Value(0))[0]);
 
-    useEffect(()=>{
-        for (let i = 0; i < offsets.length; i++)
-        {
-            Animated.sequence([
-                Animated.delay(i*100),
-                Animated.loop(Animated.sequence([
-                    Animated.delay(400),
-                    Animated.timing(offsets[i],{toValue:1,duration:500,useNativeDriver:true}),
-                    Animated.timing(offsets[i],{toValue:0,duration:500,useNativeDriver:true})
-                ]))    
-            ]).start();
-        }
-    },[]);
+    // useEffect(()=>{
+    //     for (let i = 0; i < offsets.length; i++)
+    //     {
+    //         Animated.sequence([
+    //             Animated.delay(i*100),
+    //             Animated.loop(Animated.sequence([
+    //                 Animated.delay(400),
+    //                 Animated.timing(offsets[i],{toValue:1,duration:500,useNativeDriver:true}),
+    //                 Animated.timing(offsets[i],{toValue:0,duration:500,useNativeDriver:true})
+    //             ]))    
+    //         ]).start();
+    //     }
+    // },[]);
 
 
     return (
@@ -40,8 +40,8 @@ export default function Loading({}) {
                     [
                         {scaleX:(i+1)%2 ? 1 : -1},
                         {scaleY:i<2 ? 1 : -1},
-                        {translateX:Animated.multiply(offsets[i],10)},
-                        {translateY:Animated.multiply(offsets[i],-10)},
+                        // {translateX:Animated.multiply(offsets[i],10)},
+                        // {translateY:Animated.multiply(offsets[i],-10)},
                     ]
                 }}
                 >

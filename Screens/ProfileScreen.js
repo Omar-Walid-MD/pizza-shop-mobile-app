@@ -16,7 +16,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import ScreenContent from '../Components/Layout/ScreenContent';
 import { auth } from '../Firebase/firebase';
 import { updateUserInfo } from '../Firebase/Data Handlers/users';
-import { setUser } from '../Store/Auth/authSlice';
+import { setUser, signOut } from '../Store/Auth/authSlice';
 import MapView, { Marker } from 'react-native-maps';
 
 import * as Location from "expo-location";
@@ -230,7 +230,7 @@ export default function ProfileScreen({navigation}) {
                         </View>
 
                         <Button
-                            onPress={()=>auth.signOut()}>
+                            onPress={()=>dispatch(signOut())}>
                             <Text style={{...styles['fs-3'], ...styles['col-white']}}>تسجيل الخروج</Text>
                         </Button>
                     </>

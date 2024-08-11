@@ -13,13 +13,14 @@ import CartScreen from '../Screens/CartScreen';
 import CheckoutScreen from '../Screens/CheckoutScreen';
 import OrderSuccessScreen from '../Screens/OrderSuccessScreen';
 import { auth } from '../Firebase/firebase';
-import { setUser } from '../Store/Auth/authSlice';
+import { getLoggedInUserId, setUser } from '../Store/Auth/authSlice';
 import { getUser } from '../Firebase/Data Handlers/users';
 import { getItems } from '../Store/Items/itemsSlice';
 import { getCart } from '../Store/Cart/cartSlice';
 import { getOrders } from '../Store/Orders/ordersSlice';
 import OrdersScreen from '../Screens/OrdersScreen';
 import SettingsScreen from '../Screens/SettingsScreen';
+import { signInAnonymously } from 'firebase/auth';
 
 const Tab = createMaterialTopTabNavigator();
 const Stack = createStackNavigator();
@@ -28,9 +29,10 @@ export default function Navigator()
 {
     const dispatch = useDispatch();
 
-    const user = useSelector(store => store.auth.user);
+    const userId = useSelector(store => store.auth.userId);
 
-	useEffect(()=>{	
+	useEffect(()=>{
+        if(userId)
 		auth.onAuthStateChanged(function(user)
 		{
 			if(user)
@@ -46,20 +48,33 @@ export default function Navigator()
 						}))
 					})();
 				}
+                else
+                {
+                    dispatch(setUser(null));
+                }
 				
 			}
-			else dispatch(setUser(null));
+			else
+            {
+                if(userId==="anonymous")
+                {
+                    signInAnonymously(auth).then(()=>{
+                        dispatch(setUser(null));
+                    });
+                }
+            }
 		});
-	},[]);
+	},[userId]);
 
     useEffect(()=>{
+        dispatch(getLoggedInUserId());
         dispatch(getItems());
     },[]);
 
     useEffect(()=>{
         dispatch(getCart());
         dispatch(getOrders());
-    },[user,auth.currentUser]);
+    },[auth.currentUser]);
 
     return (
         <Stack.Navigator>
