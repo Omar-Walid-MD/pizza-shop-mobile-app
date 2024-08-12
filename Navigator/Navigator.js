@@ -1,7 +1,7 @@
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import HomeScreen from "../Screens/HomeScreen";
 import { StyleSheet } from "react-native";
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import NavBar from '../Components/Layout/NavBar';
 import MenuScreen from '../Screens/MenuScreen';
@@ -21,6 +21,8 @@ import { getOrders } from '../Store/Orders/ordersSlice';
 import OrdersScreen from '../Screens/OrdersScreen';
 import SettingsScreen from '../Screens/SettingsScreen';
 import { signInAnonymously } from 'firebase/auth';
+import { getSettings, setSetting } from '../Store/Settings/settingsSlice';
+import { changeLanguage } from '../I18n/i18n';
 
 const Tab = createMaterialTopTabNavigator();
 const Stack = createStackNavigator();
@@ -30,6 +32,8 @@ export default function Navigator()
     const dispatch = useDispatch();
 
     const userId = useSelector(store => store.auth.userId);
+    const currentLang = useSelector(store => store.settings.lang);
+    const [initialLangChange,setInitialLangChange] = useState(false);
 
 	useEffect(()=>{
         if(userId)
@@ -67,6 +71,7 @@ export default function Navigator()
 	},[userId]);
 
     useEffect(()=>{
+        dispatch(getSettings());
         dispatch(getLoggedInUserId());
         dispatch(getItems());
     },[]);
@@ -75,6 +80,14 @@ export default function Navigator()
         dispatch(getCart());
         dispatch(getOrders());
     },[auth.currentUser]);
+
+    useEffect(()=>{
+        if(currentLang && !initialLangChange)
+        {
+            changeLanguage(currentLang);
+            setInitialLangChange(true);
+        }
+    },[currentLang])
 
     return (
         <Stack.Navigator>

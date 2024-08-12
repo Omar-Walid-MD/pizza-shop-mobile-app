@@ -32,7 +32,6 @@ const styles = StyleSheet.create({
         width:"100%",
         paddingVertical: 8,
         paddingHorizontal:25,
-        flexDirection:"row-reverse",
         justifyContent:"space-between",
         gap:25
     },

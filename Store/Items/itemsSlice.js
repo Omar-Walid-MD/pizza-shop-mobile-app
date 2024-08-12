@@ -7,6 +7,7 @@ import { database } from '../../Firebase/firebase';
 const initialState = {
     items: [],
     itemsCategorized: {},
+    categories: {},
     menuItemToShow: null,
     loading: true,
 }
@@ -14,14 +15,20 @@ const initialState = {
 export const getItems = createAsyncThunk(
     'items/getItems',
     async () => {
-        let items;
+        let items; let categories;
         await get(child(ref(database), `items`)).then((snapshot) => {
             if(snapshot.exists())
             {
                 items = snapshot.val();
             }
         });
-        return items;
+        await get(child(ref(database), `categories`)).then((snapshot) => {
+            if(snapshot.exists())
+            {
+                categories = snapshot.val();
+            }
+        });
+        return {items,categories};
     }
 );
 
@@ -36,9 +43,10 @@ export const itemsSlice = createSlice({
     reducers: {},
     extraReducers: (builder) => {
         builder
-        .addCase(getItems.fulfilled, (state, action) => {
-            state.items = action.payload;
-            state.itemsCategorized = getCategorizedItems(action.payload);
+        .addCase(getItems.fulfilled, (state, {payload}) => {
+            state.items = payload.items;
+            state.categories = payload.categories;
+            state.itemsCategorized = getCategorizedItems(payload.items);
             state.loading = false;
         })
 

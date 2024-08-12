@@ -2,6 +2,7 @@ import { View, TextInput, Animated } from 'react-native';
 import styles from "../styles";
 import Text from './Text';
 import { useEffect, useState } from 'react';
+import i18n from '../I18n/i18n';
 
 export default function Input(props) {
 
@@ -27,7 +28,7 @@ export default function Input(props) {
 
     return (
         <View>
-            <TextInput cursorColor={"#C03E3E"} textAlign='right'
+            <TextInput cursorColor={"#C03E3E"} textAlign={i18n.language.includes("ar") ? 'right': 'left'}
             style={{...styles['input'],...styles['shadow'],fontFamily:"Cairo",fontSize:16.5,color:"black",
                 ...(props.label ? {paddingTop:8} : {})
             }}

@@ -18,3 +18,8 @@ export function isMissingProfileInfo(user)
     }
     return false;
 }
+
+export function capitalize(string)
+{
+    return string[0].toUpperCase() + string.slice(1);
+}

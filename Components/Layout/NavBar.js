@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { Button, StyleSheet, Text, View, Image, Pressable, ScrollView, Animated } from 'react-native';
+import { Button, StyleSheet, Text, View, Image, Pressable, ScrollView, Animated, I18nManager } from 'react-native';
 import { MaterialCommunityIcons, MaterialIcons } from 'react-native-vector-icons'
 
 import { useRoute } from '@react-navigation/native';
@@ -10,6 +10,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 
 import {Dimensions} from 'react-native';
 import { isMissingProfileInfo } from '../../helpers';
+import i18n from '../../I18n/i18n';
 
 
 export default function NavBar({state, descriptors, navigation, position})
@@ -56,7 +57,7 @@ export default function NavBar({state, descriptors, navigation, position})
             <NavBarMarker markerPosition={markerPosition} />
             <View
             //style[navbar]
-            style={{...styles['navbar']}}
+            style={{...styles['navbar'],flexDirection: I18nManager.isRTL ? "row-reverse" : "row"}}
             >
                 {state.routes.map((route, index) => {
                     const { options } = descriptors[route.key];
@@ -97,11 +98,18 @@ export default function NavBar({state, descriptors, navigation, position})
                         if(e?.nativeEvent?.layout)
                         {
                             let {x,width} = e.nativeEvent.layout;
-                            setButtonCenters(b => ({...b,[route.name]: screenWidth - (x+width/2)}));
+                            setButtonCenters(b => ({...b,[route.name]: 
+                                I18nManager.isRTL ?
+                                screenWidth - (x+width/2):
+                                x+width/2
+                            }));
                             if(route.name==="Home")
                             {
                                 Animated.timing(markerPosition,{
-                                    toValue: screenWidth - (x+width/2),
+                                    toValue: 
+                                        I18nManager.isRTL ?
+                                        screenWidth - (x+width/2):
+                                        x+width/2,
                                     duration: 500,
                                     useNativeDriver: false
                                 }).start();
@@ -142,12 +150,15 @@ export default function NavBar({state, descriptors, navigation, position})
 
 function NavBarMarker({markerPosition})
 {
+
+    const lang = i18n.locale;
     return (
         <Animated.View
         style={{...styles['pos-abs'],
             top:-12,left:markerPosition,
             width:50,height:50,
-            borderRadius:25,overflow:"hidden",transform: [{translateX:25}]
+            borderRadius:25,overflow:"hidden",
+            transform: [{translateX:25*(I18nManager.isRTL ? 1 : -1)}]
         }}
         >
                 <View

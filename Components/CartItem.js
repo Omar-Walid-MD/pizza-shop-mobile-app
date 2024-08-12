@@ -3,18 +3,16 @@ import styles from "../styles";
 import Text from './Text';
 import { useDispatch, useSelector } from 'react-redux';
 import { setCartItemToShow } from '../Store/Cart/cartSlice';
+import { capitalize } from '../helpers';
+import { useTranslation } from 'react-i18next';
+import i18n from '../I18n/i18n';
 
 
 export default function CartItem({itemInfo}) {
 
+    const { t: translate} = useTranslation();
     const items = useSelector(store => store.items.items);
     const item = items && items[itemInfo.id];
-
-    const sizeStrings = {
-        "s": "صغير",
-        "m": "وسط",
-        "l": "كبير"
-    };
 
     const sizeColors = {
         "s": "#589941",
@@ -45,7 +43,7 @@ export default function CartItem({itemInfo}) {
                     <Image source={{uri:item.image+".png"}} style={{position:"relative",height:130,aspectRatio:1}} resizeMode='contain'/>
                     <Text style={{...styles['mt-1'],...styles['text-center'],...styles['lh-normal'],...styles['fs-4']}}
                 weight='sb'
-                >{item.name}</Text>
+                >{item.name[i18n.language]}</Text>
 
                 <View
                 style={{...styles['w-100'],...styles['al-items-c'],...styles['rounded'],...styles['shadow'],...styles['my-1'],padding:2.5,backgroundColor:sizeColors[itemInfo.size]}}
@@ -53,7 +51,7 @@ export default function CartItem({itemInfo}) {
                     <Text
                     weight='sb'
                     style={{...styles['col-white'],...styles['fs-4']}}
-                    >{sizeStrings[itemInfo.size]}</Text>
+                    >{capitalize(translate(`size.${itemInfo.size}`))}</Text>
                 </View>
 
                 <View
@@ -66,7 +64,7 @@ export default function CartItem({itemInfo}) {
                     <Text
                     weight='b'
                     style={{fontSize:12,marginBottom:5,...styles['col-accent']}}
-                    >ج.م.</Text>
+                    >{translate("currency")}</Text>
                     
                 </View>
             </View>

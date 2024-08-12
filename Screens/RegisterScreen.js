@@ -10,9 +10,11 @@ import Text from '../Components/Text';
 import Background from '../Components/Background';
 import ScreenContent from '../Components/Layout/ScreenContent';
 import { registerUser } from '../Firebase/Data Handlers/users';
-
+import { useTranslation } from 'react-i18next';
 
 export default function RegisterScreen({navigation}) {
+
+    const { t: translate} = useTranslation();
 
     const [registerInfo,setRegisterInfo] = useState({
         username: "",
@@ -55,63 +57,74 @@ export default function RegisterScreen({navigation}) {
 
     return(
         <View style={{...styles['screen-container']}}>
-            {/* Background */}
-            <Background />
-            
-            {/* Screen Content */}
-            <ScreenContent>
-                <View style={{...styles['w-100'], ...styles['bg-main'], ...styles['shadow'], ...styles['al-items-c'], ...styles['p-2'], ...styles['gap-4'], borderTopLeftRadius: 10, borderBottomRightRadius: 10}}>
-                    <Text style={{...styles['fs-2']}}>تشرفنا خدمتك</Text>
+        {/* Background */}
+        <Background />
 
-                    <View style={{...styles['w-100'], ...styles['gap-3']}}>
-                        <View style={{...styles['w-100']}}>
-                            <Input placeholder="إسم المستخدم" value={registerInfo.username} onChangeText={(text) => handleRegisterInfo(text, "username")} label/>
-                        </View>
+        {/* Screen Content */}
+        <ScreenContent>
+            <View style={{...styles['w-100'], ...styles['bg-main'], ...styles['shadow'], ...styles['al-items-c'], ...styles['p-2'], ...styles['gap-4'], borderTopLeftRadius: 10, borderBottomRightRadius: 10}}>
+                <Text style={{...styles['fs-2']}}>
+                    {translate("register.welcome_message")}
+                </Text>
 
-                        <View style={{...styles['w-100']}}>
-                            <Input placeholder="البريد الإلكتروني" value={registerInfo.email} onChangeText={(text) => handleRegisterInfo(text, "email")} label/>
-                        </View>
-
-                        <View style={{...styles['w-100']}}>
-                            <Input placeholder="رقم الهاتف" value={registerInfo.mobileNo} onChangeText={(text) => handleRegisterInfo(text, "mobileNo")} label keyboardType="phone-pad"/>
-                        </View>
-
-                        <View style={{...styles['w-100']}}>
-                            <Input placeholder="كلمة المرور" value={registerInfo.password} secureTextEntry autoCorrect={false} onChangeText={(text) => handleRegisterInfo(text, "password")} label/>
-                        </View>
-
-                        <View style={{...styles['w-100']}}>
-                            <Input placeholder="تأكيد كلمة المرور" value={registerInfo.confirmPassword} secureTextEntry autoCorrect={false} onChangeText={(text) => handleRegisterInfo(text, "confirmPassword")} label/>
-                        </View>
-
-                        <Button onPress={() => handleSignUp("email")}>
-                            <Text style={{...styles['col-white'], ...styles['fs-3']}}>تسجيل المستخدم</Text>
-                        </Button>
-
-                        <Text style={{...styles['w-100'], ...styles['text-center'], ...styles['py-2']}}>أو يمكنك</Text>
-
-                        <Button variant='white' onPress={() => handleSignUp("google")}>
-                            <Text style={{...styles['fs-4'], ...styles['col-danger']}}>تسجيل المستخدم عبر Google</Text>
-                        </Button>
-
-                        <Button variant='white' onPress={() => navigation.navigate("Main")}>
-                            <Text style={{...styles['fs-4'], ...styles['col-primary']}}>تسجيل المستخدم عبر FaceBook</Text>
-                        </Button>
+                <View style={{...styles['w-100'], ...styles['gap-3']}}>
+                    <View style={{...styles['w-100']}}>
+                        <Input placeholder={translate("register.username_placeholder")} value={registerInfo.username} onChangeText={(text) => handleRegisterInfo(text, "username")} label/>
                     </View>
-                </View>
-                <View
-                //style[flex-row j-content-b]
-                style={{...styles['flex-row'],...styles['j-content-b']}}
-                >
-                    <Button style={{alignSelf:"center"}} onPress={() => navigation.navigate("Login")}>
-                        <Text style={{...styles['col-white'], ...styles['fs-4']}}>تسجيل دخول لحساب</Text>
+
+                    <View style={{...styles['w-100']}}>
+                        <Input placeholder={translate("register.email_placeholder")} value={registerInfo.email} onChangeText={(text) => handleRegisterInfo(text, "email")} label/>
+                    </View>
+
+                    <View style={{...styles['w-100']}}>
+                        <Input placeholder={translate("register.mobile_placeholder")} value={registerInfo.mobileNo} onChangeText={(text) => handleRegisterInfo(text, "mobileNo")} label keyboardType="phone-pad"/>
+                    </View>
+
+                    <View style={{...styles['w-100']}}>
+                        <Input placeholder={translate("register.password_placeholder")} value={registerInfo.password} secureTextEntry autoCorrect={false} onChangeText={(text) => handleRegisterInfo(text, "password")} label/>
+                    </View>
+
+                    <View style={{...styles['w-100']}}>
+                        <Input placeholder={translate("register.confirm_password_placeholder")} value={registerInfo.confirmPassword} secureTextEntry autoCorrect={false} onChangeText={(text) => handleRegisterInfo(text, "confirmPassword")} label/>
+                    </View>
+
+                    <Button onPress={() => handleSignUp("email")}>
+                        <Text style={{...styles['col-white'], ...styles['fs-3']}}>
+                            {translate("register.sign_up_button")}
+                        </Text>
                     </Button>
-                    <Button style={{alignSelf:"center"}} variant='green' onPress={() => navigation.navigate("Main")}>
-                        <Text style={{...styles['col-white'], ...styles['fs-4']}}>العودة</Text>
+
+                    <Text style={{...styles['w-100'], ...styles['text-center'], ...styles['py-2']}}>
+                        {translate("register.or")}
+                    </Text>
+
+                    <Button variant='white' onPress={() => handleSignUp("google")}>
+                        <Text style={{...styles['fs-4'], ...styles['col-danger']}}>
+                            {translate("register.google_sign_up")}
+                        </Text>
+                    </Button>
+
+                    <Button variant='white' onPress={() => navigation.navigate("Main")}>
+                        <Text style={{...styles['fs-4'], ...styles['col-primary']}}>
+                            {translate("register.facebook_sign_up")}
+                        </Text>
                     </Button>
                 </View>
-            </ScreenContent>
-        </View>
+            </View>
+            <View style={{...styles['flex-row'], ...styles['j-content-b']}}>
+                <Button style={{alignSelf:"center"}} onPress={() => navigation.navigate("Login")}>
+                    <Text style={{...styles['col-white'], ...styles['fs-4']}}>
+                        {translate("register.login_button")}
+                    </Text>
+                </Button>
+                <Button style={{alignSelf:"center"}} variant='green' onPress={() => navigation.navigate("Main")}>
+                    <Text style={{...styles['col-white'], ...styles['fs-4']}}>
+                        {translate("register.go_back_button")}
+                    </Text>
+                </Button>
+            </View>
+        </ScreenContent>
+    </View>
 
     )
 }

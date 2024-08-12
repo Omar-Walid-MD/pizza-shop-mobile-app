@@ -23,10 +23,18 @@
         "backgroundColor": "#ffffff"
       },
       "package": "com.omar_diab.pizza_shop"
-
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "plugins": [
+      "@react-native-google-signin/google-signin",
+      "expo-localization"
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "10a74eb6-b81a-490d-9750-1bc2aa3f37e6"
+      }
     }
   }
 }

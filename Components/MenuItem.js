@@ -3,9 +3,13 @@ import styles from "../styles";
 import Text from './Text';
 import { useDispatch, useSelector } from 'react-redux';
 import { setMenuItemOptions, setMenuItemToShow } from '../Store/Items/itemsSlice';
+import { useTranslation } from 'react-i18next';
+import i18n from '../I18n/i18n';
 
 
 export default function MenuItem({itemId}) {
+
+    const { t: translate} = useTranslation();
 
     const items = useSelector(store => store.items.items);
     const item = items && items[itemId];
@@ -34,9 +38,9 @@ export default function MenuItem({itemId}) {
                     <Text
                     weight='sb'
                     style={{...styles['mt-1'],...styles['text-center'],...styles['lh-normal'],...styles['fs-4']}}
-                    >{item.name}</Text>
+                    >{item.name[i18n.language]}</Text>
 
-                    <Text style={{...styles['col-accent']}} >يبدأ من</Text>
+                    <Text style={{...styles['col-accent']}} >{translate("starting_from")}</Text>
                     <View
                     style={{...styles['flex-row'],...styles['gap-1'],...styles['al-items-e']}}
                     >
@@ -47,7 +51,7 @@ export default function MenuItem({itemId}) {
                         <Text
                         weight='b'
                         style={{fontSize:12,marginBottom:5,...styles['col-accent']}}
-                        >ج.م.</Text>
+                        >{translate("currency")}</Text>
                         
                     </View>
                 </View>

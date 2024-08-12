@@ -10,6 +10,8 @@ import { Cairo_400Regular as Cairo, Cairo_600SemiBold as Cairo_sb, Cairo_700Bold
 import { Harmattan_400Regular as Harmattan } from '@expo-google-fonts/harmattan'
 import Navigator from './Navigator/Navigator';
 
+import i18n, { changeLanguage } from './I18n/i18n';
+
 export default function App() {
 
 	let [fontsLoaded] = useFonts({
@@ -19,6 +21,7 @@ export default function App() {
 	if (!fontsLoaded) {
 		return null;
 	}
+
 
 	return (
 	<Provider store={store}>

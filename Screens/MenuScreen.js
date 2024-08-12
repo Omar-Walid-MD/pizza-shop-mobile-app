@@ -16,13 +16,11 @@ import ScreenContent from '../Components/Layout/ScreenContent';
 import { useDispatch, useSelector } from 'react-redux';
 import { setMenuItemToShow } from '../Store/Items/itemsSlice';
 import { addToCart, setItemCount } from '../Store/Cart/cartSlice';
-import { debounce } from '../helpers';
+import { capitalize, debounce } from '../helpers';
+import { useTranslation } from 'react-i18next';
+import i18n from '../I18n/i18n';
 
-const sizeStrings = {
-    "s": "صغير",
-    "m": "وسط",
-    "l": "كبير"
-};
+
 
 const sizeColors = {
     "s": "#589941",
@@ -33,9 +31,11 @@ const sizeColors = {
 export default function MenuScreen({navigation}) {
 
     const dispatch = useDispatch();
+    const { t: translate} = useTranslation();
 
     const items = useSelector(store => store.items.items);
     const itemsCategorized = useSelector(store => store.items.itemsCategorized);
+    const categories = useSelector(store => store.items.categories);
     const [resultItemsCategorized,setResultItemsCategorized] = useState({});
     const [search,setSearch] = useState("");
 
@@ -49,7 +49,7 @@ export default function MenuScreen({navigation}) {
             {
                 for(const itemId of itemsCategorized[category])
                 {
-                    if(items[itemId].name.includes(search))
+                    if(items[itemId].name[i18n.language].includes(search))
                     {
                         if(results[category])
                             results[category].push(itemId);
@@ -86,43 +86,43 @@ export default function MenuScreen({navigation}) {
             {/* Screen Content */}
             <ScreenContent
                 header={
-                    <Text font="Harmattan" style={{fontSize:40}}>القائمة</Text>
+                    <Text font="Harmattan" style={{fontSize:40}}>
+                        {translate("menu.title")}
+                    </Text>
                 }
-            >                
+            >
                 <View style={{...styles['w-100'], ...styles['flex-row'], ...styles['j-content-b'], ...styles['gap-2']}}>
-                    <View
-                    style={{flex:1}}
-                    >
-                        <Input value={search} onChangeText={(text)=>setSearch(text)} placeholder="ابحث هنا"/>
+                    <View style={{flex:1}}>
+                        <Input 
+                            value={search} 
+                            onChangeText={(text) => setSearch(text)} 
+                            placeholder={translate("menu.search_placeholder")}
+                        />
                     </View>
                     <Button>
                         <MaterialIcons name="search" size={25} color="white" /> 
                     </Button>
                 </View>
-                {
-                    <FlatList
-                        scrollEnabled={false}
-                        data={Object.keys(resultItemsCategorized)}
-                        contentContainerStyle={{gap:10}}
-                        renderItem={
-                            ({item:category, index:categoryIndex}) =>
-                                <Accordion
-                                    content={<Text style={{...styles['fs-3']}}>{category}</Text>}
-                                    key={`cat-${categoryIndex}`}
-                                >
-                                    <FlatList
-                                        numColumns={2}
-                                        scrollEnabled={false}
-                                        data={resultItemsCategorized[category]}
-                                        renderItem={
-                                            ({item:itemId, index}) => 
-                                                <MenuItem itemId={itemId} key={`menu-item-${index}`}/>
-                                        }
-                                    />
-                                </Accordion>
-                        }
-                    />
-                }
+                <FlatList
+                    scrollEnabled={false}
+                    data={Object.keys(resultItemsCategorized)}
+                    contentContainerStyle={{gap:10}}
+                    renderItem={({item: category, index: categoryIndex}) => (
+                        <Accordion
+                            content={<Text style={{...styles['fs-3']}}>{categories[category][i18n.language]}</Text>}
+                            key={`cat-${categoryIndex}`}
+                        >
+                            <FlatList
+                                numColumns={2}
+                                scrollEnabled={false}
+                                data={resultItemsCategorized[category]}
+                                renderItem={({item: itemId, index}) => (
+                                    <MenuItem itemId={itemId} key={`menu-item-${index}`} />
+                                )}
+                            />
+                        </Accordion>
+                    )}
+                />
             </ScreenContent>
 
             {/* Modals */}
@@ -130,7 +130,6 @@ export default function MenuScreen({navigation}) {
 
             <StatusBar style="auto" />
         </View>
-
     );
 }
 
@@ -138,6 +137,8 @@ export default function MenuScreen({navigation}) {
 function MenuItemModal({})
 {
     const dispatch = useDispatch();
+    const { t: translate} = useTranslation();
+
     const items = useSelector(store => store.items.items);
     const itemId = useSelector(store => store.items.menuItemToShow);
     const cart = useSelector(store => store.cart.cart);
@@ -145,6 +146,10 @@ function MenuItemModal({})
     const itemToShow = items[itemId];
     const [itemOptions,setItemOptions] = useState({});
     
+    function getSizeKeys()
+    {
+        return [...Object.keys(itemToShow.prices)].sort();
+    }
 
     function handleAddToCart()
     {
@@ -171,43 +176,50 @@ function MenuItemModal({})
     },[itemToShow]);
 
     return (
-        <Modal visible={itemId !== null} animationType='slide' onRequestClose={()=>dispatch(setMenuItemToShow(null))}>
+        <Modal visible={itemId !== null} animationType='slide' onRequestClose={() => dispatch(setMenuItemToShow(null))}>
             <View style={{...styles['w-100'], ...styles['h-100'], ...styles['bg-white'], ...styles['shadow'], ...styles['al-items-c']}}>
                 {
                     itemToShow &&
                     <ScrollView style={{...styles['w-100']}}>
                         <View style={{...styles['w-100'], ...styles['p-4'], ...styles['al-items-c'], ...styles['pt-4']}}>
-                        <Image source={{uri:itemToShow.image+".png"}} style={{position:"relative",height:250,aspectRatio:1}} resizeMode='contain'/>
-                        <Text style={{...styles['mt-1'], ...styles['text-center'], ...styles['fs-1']}}>{itemToShow.name}</Text>
+                            <Image source={{uri: itemToShow.image + ".png"}} style={{position:"relative", height:250, aspectRatio:1}} resizeMode='contain'/>
+                            <Text style={{...styles['mt-1'], ...styles['text-center'], ...styles['fs-1']}}>
+                                {itemToShow.name[i18n.language]}
+                            </Text>
 
                             <View style={{...styles['w-100'], ...styles['mt-2'], ...styles['gap-1'], ...styles['al-items-s']}}>
                                 {
-                                    itemToShow.desc.map((desc, i) =>
-                                        <Text style={{...styles['fs-3'], ...styles['col-gray']}} key={`pizza-desc-${i}`}>-  {desc}</Text>
+                                    itemToShow.desc[i18n.language].map((desc, i) =>
+                                        <Text style={{...styles['fs-3'], ...styles['col-gray']}} key={`pizza-desc-${i}`}>
+                                            - {desc}
+                                        </Text>
                                     )
                                 }
                             </View>
 
                             <View style={{...styles['w-100'], ...styles['al-items-c'], ...styles['pt-4']}}>
-                                <Text style={{...styles['fs-3']}}>اختر الحجم</Text>
+                                <Text style={{...styles['fs-3']}}>
+                                    {translate("menu.size_selection")}
+                                </Text>
 
                                 <View style={{...styles['w-100'], ...styles['al-items-c'], ...styles['pt-2'], ...styles['gap-2']}}>
                                     {
-                                        Object.keys(itemToShow.prices).map((size, i) =>
+                                        getSizeKeys().map((size, i) =>
                                             <Pressable
-                                            style={{...styles['w-100'], ...styles['flex-row'],...styles['j-content-b'],...styles['rounded'],...styles['shadow'],...styles['p-1'],...styles['px-2'],
-                                            backgroundColor:itemOptions?.size === size ? sizeColors[size] : "#FEF7EA"}}
-                                            key={`pizza-size-${i}`}
-                                            onPress={() => setItemOptions({...itemOptions, size})}>
-
-                                                <Text style={{...styles['fs-3'],...styles[`col-${itemOptions?.size === size ? "white" : "black"}`]}} weight="sb">{sizeStrings[size]} - {itemToShow.prices[size]} ج.م.</Text>
+                                                style={{...styles['w-100'], ...styles['flex-row'],...styles['j-content-b'],...styles['rounded'],...styles['shadow'],...styles['p-1'],...styles['px-2'],
+                                                backgroundColor: itemOptions?.size === size ? sizeColors[size] : "#FEF7EA"}}
+                                                key={`pizza-size-${i}`}
+                                                onPress={() => setItemOptions({...itemOptions, size})}
+                                            >
+                                                <Text style={{...styles['fs-3'],...styles[`col-${itemOptions?.size === size ? "white" : "black"}`]}} weight="sb">
+                                                    {capitalize(translate(`size.${size}`))} - {itemToShow.prices[size]} {translate("currency")}
+                                                </Text>
 
                                                 <CheckBox
                                                     checked={itemOptions?.size === size}
                                                     pointerEvents={"none"}
                                                     checkedColor={"white"}
                                                     uncheckedColor={sizeColors[size]}
-
                                                 />
                                             </Pressable>
                                         )
@@ -216,7 +228,9 @@ function MenuItemModal({})
                             </View>
 
                             <View style={{...styles['w-100'], ...styles['al-items-c'], ...styles['pt-4'], ...styles['gap-2']}}>
-                                <Text style={{...styles['fs-3']}}>اختر العدد</Text>
+                                <Text style={{...styles['fs-3']}}>
+                                    {translate("menu.quantity_selection")}
+                                </Text>
 
                                 <View style={{...styles['w-75'], ...styles['flex-row'], ...styles['j-content-b'], ...styles['border-3'], ...styles['border-danger'], ...styles['rounded'], ...styles['shadow'], ...styles['bg-white'], ...styles['overflow-hidden']}}>
                                     <Pressable onPress={() => setItemOptions(i => ({...i, count: i.count - 1 ? i.count - 1 : i.count}))}>
@@ -230,21 +244,22 @@ function MenuItemModal({})
                             </View>
 
                             <Button style={{...styles['mt-4'], ...styles['w-100']}} onPress={handleAddToCart}>
-                                <Text style={{...styles['col-white'], ...styles['fs-3']}}>أضف الى السلة</Text>
+                                <Text style={{...styles['col-white'], ...styles['fs-3']}}>
+                                    {translate("menu.add_to_cart")}
+                                </Text>
                             </Button>
                         </View>
                     </ScrollView>
                 }
 
                 <View style={{...styles['pos-abs'], ...styles['w-100'], ...styles['al-items-s']}}>
-                    <Button style={{...styles['m-2']}}
-                        onPress={() => dispatch(setMenuItemToShow(null))}
-                    >
+                    <Button style={{...styles['m-2']}} onPress={() => dispatch(setMenuItemToShow(null))}>
                         <MaterialCommunityIcons name="close" color="white" size={25} />
                     </Button>
                 </View>
             </View>
         </Modal>
+
 
     )
 }

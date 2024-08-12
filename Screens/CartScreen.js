@@ -12,12 +12,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { removeFromCart, setCartItemToShow } from '../Store/Cart/cartSlice';
 import MapView from 'react-native-maps';
 import MapViewDirections from 'react-native-maps-directions';
+import { capitalize } from '../helpers';
+import { useTranslation } from 'react-i18next';
+import i18n from '../I18n/i18n';
 
-const sizeStrings = {
-    "s": "صغير",
-    "m": "وسط",
-    "l": "كبير"
-};
 
 const sizeColors = {
     "s": "#589941",
@@ -31,6 +29,9 @@ const deliveryStatusStrings = {
 }
 
 export default function CartScreen({navigation}) {
+
+    const dispatch = useDispatch();
+    const { t: translate } = useTranslation();
 
     const user = useSelector(store => store.auth.user);
     const items = useSelector(store => store.items.items);
@@ -59,6 +60,13 @@ export default function CartScreen({navigation}) {
         }
     },[currentOrder]);
 
+    useEffect(()=>{
+
+        return ()=>{
+            dispatch(setCartItemToShow(null));
+        }
+    },[]);
+
 
     return(
         <View style={{...styles['screen-container']}}>
@@ -68,13 +76,13 @@ export default function CartScreen({navigation}) {
             {
                 ordersLoading ?
                 <>
-                    <Text>جاري التحميل</Text>
+                    <Text>{translate("cart.loading")}</Text>
                 </>
                 :
                 screenType === "cart" ?
                 <>
                     {/* Screen Content */}
-                    <ScreenContent header={<Text font="Harmattan" style={{fontSize:40}}>السلة</Text>}>
+                    <ScreenContent header={<Text font="Harmattan" style={{fontSize:40}}>{translate("cart.title")}</Text>}>
                     {
                         cart.length ?
                         <>
@@ -87,40 +95,36 @@ export default function CartScreen({navigation}) {
                                 }
                             />
 
-                            <View
-                            style={{...styles['w-100'],...styles['flex-row'],...styles['j-content-b'],...styles['px-2']}}
-                            >
-                                <Text style={{...styles['text-center'], ...styles['fs-3']}}>إجمالي الطلب:</Text>
-                                <Text style={{...styles['text-center'], ...styles['fs-2']}}>{totalCost} ج.م.</Text>
-
+                            <View style={{...styles['w-100'], ...styles['flex-row'], ...styles['j-content-b'], ...styles['px-2']}}>
+                                <Text style={{...styles['text-center'], ...styles['fs-3']}}>
+                                    {translate("cart.total")}
+                                </Text>
+                                <Text style={{...styles['text-center'], ...styles['fs-2']}}>
+                                    {totalCost} {translate("currency")}
+                                </Text>
                             </View>
-                            <Button style={{...styles['w-100']}}
-                                onPress={() => navigation.navigate("Checkout")}>
-                                <Text style={{...styles['col-white'], ...styles['fs-3']}}>دفع الطلب</Text>
+
+                            <Button style={{...styles['w-100']}} onPress={() => navigation.navigate("Checkout")}>
+                                <Text style={{...styles['col-white'], ...styles['fs-3']}}>
+                                    {translate("cart.checkout")}
+                                </Text>
                             </Button>
                         </>
                         :
                         <>
-                            <View
-                            //style[h-100 al-items-c j-content-c gap-2]
-                            style={{...styles['h-100'],...styles['al-items-c'],...styles['j-content-c'],...styles['gap-2']}}
-                            >
-                                <Text
-                                //style[fs-1]
-                                style={{...styles['fs-1']}}
-                                >السلة فارغة</Text>
+                            <View style={{...styles['h-100'], ...styles['al-items-c'], ...styles['j-content-c'], ...styles['gap-2']}}>
+                                <Text style={{...styles['fs-1']}}>
+                                    {translate("cart.empty")}
+                                </Text>
 
-                                <Button onPress={()=>navigation.navigate("Menu")}>
-                                    <Text
-                                    //style[col-white fs-3]
-                                    style={{...styles['col-white'],...styles['fs-3']}}
-                                    >الى القائمة</Text>
+                                <Button onPress={() => navigation.navigate("Menu")}>
+                                    <Text style={{...styles['col-white'], ...styles['fs-3']}}>
+                                        {translate("cart.to_menu")}
+                                    </Text>
                                 </Button>
                             </View>
                         </>
                     }
-
-
                     </ScreenContent>
                     
                     {/* Modals */}
@@ -129,27 +133,22 @@ export default function CartScreen({navigation}) {
                 : screenType === "track" &&
                 <>
                     {/* Screen Content */}
-                    <ScreenContent header={<Text style={{...styles['fs-2']}}>السلة</Text>}>
+                    <ScreenContent header={<Text style={{...styles['fs-2']}}>{translate("cart.title")}</Text>}>
 
                         <View style={{...styles['h-100'], ...styles['w-100'], ...styles['al-items-c'], ...styles['j-content-c']}}>
-                            <Text font='Harmattan' style={{...styles['col-accent'],...styles['mb-3'], fontSize: 55}}>{deliveryStatusStrings[currentOrder.deliveryStatus]}</Text>
+                            <Text font='Harmattan' style={{...styles['col-accent'], ...styles['mb-3'], fontSize: 55}}>
+                                {translate(deliveryStatusStrings[currentOrder.deliveryStatus])}
+                            </Text>
 
                             <View style={{...styles['w-100'], ...styles['al-items-s']}}>
-                                <DeliveryTimer order={currentOrder}/>
-                                {/* <Text style={{...styles['fs-3'], ...styles['col-gray']}}>الوقت المتبقي: 10د 5ث</Text> */}
+                                <DeliveryTimer order={currentOrder} />
 
-                                <View
-                                //style[w-100 p-2 al-items-c j-content-c flex:1]
-                                style={{...styles['w-100'],...styles['my-2'],...styles['al-items-c'],...styles['j-content-c'],flex:1}}
-                                >
-                                    <View
-                                        style={{...styles['w-100'],...styles['j-content-c'],...styles['al-items-c'],...styles['rounded'],...styles['shadow'],backgroundColor:"lightgray",height:250,overflow:"hidden"}}
-                                        >
+                                <View style={{...styles['w-100'], ...styles['my-2'], ...styles['al-items-c'], ...styles['j-content-c'], flex:1}}>
+                                    <View style={{...styles['w-100'], ...styles['j-content-c'], ...styles['al-items-c'], ...styles['rounded'], ...styles['shadow'], backgroundColor:"lightgray", height:250, overflow:"hidden"}}>
                                         <MapView
-                                        //style[w-100 flex:1]
-                                        style={{...styles['w-100'],flex:1}}
-                                        scrollEnabled={false}
-                                        region={{...user?.location,latitudeDelta:0.01,longitudeDelta:0.01}}
+                                            style={{...styles['w-100'], flex:1}}
+                                            scrollEnabled={false}
+                                            region={{...user?.location, latitudeDelta:0.01, longitudeDelta:0.01}}
                                         >
                                             {/* <MapViewDirections
                                             origin={{latitude:31.194849,longitude:29.8972593}}
@@ -162,8 +161,12 @@ export default function CartScreen({navigation}) {
                                     </View>
                                 </View>
 
-                                <Text weight='sb' style={{...styles['fs-4']}}>إذا واجهت مشكلة, اتصل بنا على الرقم التالي:</Text>
-                                <Text weight='b' style={{...styles['fs-4'], ...styles['col-accent']}}>+123 456 7890</Text>
+                                <Text weight='sb' style={{...styles['fs-4']}}>
+                                    {translate("cart.support")}
+                                </Text>
+                                <Text weight='b' style={{...styles['fs-4'], ...styles['col-accent']}}>
+                                    +123 456 7890
+                                </Text>
                             </View>
                         </View>
                     </ScreenContent>
@@ -171,12 +174,14 @@ export default function CartScreen({navigation}) {
             }
         </View>
 
+
     )
 }
 
 function DeliveryTimer({order})
 {
     const [currentDate,setCurrentDate] = useState(Date.now());
+    const { t: translate} = useTranslation();
 
     function getTimeElapsedString()
     {
@@ -200,7 +205,7 @@ function DeliveryTimer({order})
     },[]);
 
     return (
-        <Text style={{...styles['fs-3']}}>الوقت المنقضي: {getTimeElapsedString()}</Text>
+        <Text style={{...styles['fs-3']}}>{translate("cart.elapsed_time")}: {getTimeElapsedString()}</Text>
     )
 }
 
@@ -208,6 +213,8 @@ function DeliveryTimer({order})
 function CartItemModal({})
 {
     const dispatch = useDispatch();
+    const { t: translate } = useTranslation();
+
     const items = useSelector(store => store.items.items);
     const itemToShow = useSelector(store => store.cart.cartItemToShow);
 
@@ -224,71 +231,67 @@ function CartItemModal({})
                     itemToShow &&
                     <ScrollView style={{...styles['w-100']}}>
                         <View style={{...styles['w-100'], ...styles['p-4'], ...styles['al-items-c'], ...styles['pt-4'], ...styles['gap-3']}}>
-                            <Image source={{uri:itemToShow.image+".png"}} style={{position:"relative",height:250,aspectRatio:1}} resizeMode='contain'/>
+                            <Image source={{uri: itemToShow.image + ".png"}} style={{position:"relative", height:250, aspectRatio:1}} resizeMode='contain'/>
                             
                             <View style={{...styles['w-100'], ...styles['al-items-c']}}>
-                                <Text style={{...styles['text-center'], ...styles['fs-1']}}>{itemToShow.name}</Text>
+                                <Text style={{...styles['text-center'], ...styles['fs-1']}}>
+                                    {itemToShow.name[i18n.language]}
+                                </Text>
 
-                                <View
-                                style={{...styles['w-100'],...styles['al-items-c'],...styles['rounded'],...styles['shadow'],...styles['my-1'],padding:2.5,backgroundColor:sizeColors[itemToShow.size]}}
-                                >
-                                    <Text
-                                    weight='sb'
-                                    style={{...styles['col-white'],...styles['fs-3']}}
-                                    >{sizeStrings[itemToShow.size]}</Text>
+                                <View style={{...styles['w-100'], ...styles['al-items-c'], ...styles['rounded'], ...styles['shadow'], ...styles['my-1'], padding:2.5, backgroundColor: sizeColors[itemToShow.size]}}>
+                                    <Text weight='sb' style={{...styles['col-white'], ...styles['fs-3']}}>
+                                        {capitalize(translate(`size.${itemToShow.size}`))}
+                                    </Text>
                                 </View>
                             </View>
 
-                            <View style={{...styles['w-100'],...styles['gap-1'],...styles['al-items-s']}}>
+                            <View style={{...styles['w-100'], ...styles['gap-1'], ...styles['al-items-s']}}>
                                 {
-                                    itemToShow.desc.map((desc, i) =>
-                                        <Text style={{...styles['fs-3'], ...styles['col-gray']}} key={`pizza-desc-${i}`}>-  {desc}</Text>
-                                    )
+                                    itemToShow.desc[i18n.language].map((desc, i) => (
+                                        <Text style={{...styles['fs-3'], ...styles['col-gray']}} key={`pizza-desc-${i}`}>
+                                            -  {desc}
+                                        </Text>
+                                    ))
                                 }
                             </View>
 
                             <View style={{...styles['w-100'], ...styles['mt-2'], ...styles['gap-1'], ...styles['al-items-c']}}>
-                                <View
-                                style={{...styles['w-100'],...styles['flex-row'],...styles['j-content-b'],...styles['gap-2'],...styles['al-items-c']}}
-                                >
-                                    <Text
-                                    style={{...styles['fs-4']}}
-                                    >سعر الواحدة: </Text>
-                                    <Text
-                                    weight='sb'
-                                    style={{...styles['fs-3'],...styles['col-gray']}}
-                                    >{itemToShow.prices[itemToShow.size]} ج.م. (x{itemToShow.count}) </Text>
+                                <View style={{...styles['w-100'], ...styles['flex-row'], ...styles['j-content-b'], ...styles['gap-2'], ...styles['al-items-c']}}>
+                                    <Text style={{...styles['fs-4']}}>
+                                        {translate("cart.unit_price")}
+                                    </Text>
+                                    <Text weight='sb' style={{...styles['fs-3'], ...styles['col-gray']}}>
+                                        {itemToShow.prices[itemToShow.size]} {translate("currency")} (x{itemToShow.count})
+                                    </Text>
                                 </View>
 
-                                <View
-                                style={{...styles['w-100'],...styles['flex-row'],...styles['j-content-b'],...styles['gap-2'],...styles['al-items-c']}}
-                                >
-                                    <Text
-                                    style={{...styles['fs-4']}}
-                                    >إجمالي السعر: </Text>
-                                    <Text
-                                    weight='sb'
-                                    style={{...styles['fs-2']}}
-                                    >{parseFloat(itemToShow.prices[itemToShow.size]) * itemToShow.count} ج.م.</Text>
+                                <View style={{...styles['w-100'], ...styles['flex-row'], ...styles['j-content-b'], ...styles['gap-2'], ...styles['al-items-c']}}>
+                                    <Text style={{...styles['fs-4']}}>
+                                        {translate("cart.total_price")}
+                                    </Text>
+                                    <Text weight='sb' style={{...styles['fs-2']}}>
+                                        {parseFloat(itemToShow.prices[itemToShow.size]) * itemToShow.count} {translate("currency")}
+                                    </Text>
                                 </View>
                             </View>
 
                             <Button style={{...styles['w-100']}} onPress={handleRemoveFromCart}>
-                                <Text style={{...styles['col-white'], ...styles['fs-3']}}>إزالة من السلة</Text>
+                                <Text style={{...styles['col-white'], ...styles['fs-3']}}>
+                                    {translate("cart.remove_from_cart")}
+                                </Text>
                             </Button>
                         </View>
                     </ScrollView>
                 }
 
                 <View style={{...styles['pos-abs'], ...styles['w-100'], ...styles['al-items-s']}}>
-                    <Button style={{...styles['m-2']}}
-                        onPress={() => dispatch(setCartItemToShow(null))}
-                    >
+                    <Button style={{...styles['m-2']}} onPress={() => dispatch(setCartItemToShow(null))}>
                         <MaterialCommunityIcons name="close" color="white" size={25} />
                     </Button>
                 </View>
             </View>
         </Modal>
+
 
     )
 }

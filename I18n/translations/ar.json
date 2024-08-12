@@ -1,0 +1,132 @@
+{
+
+    "back": "العودة",
+    "currency": "ج.م.",
+    "starting_from": "يبدأ من",
+
+    "size":{
+        "s": "صغير",
+        "m": "وسط",
+        "l": "كبير"
+    },
+
+    "home": {
+        "welcome_message": "مرحبا بك",
+        "login_prompt": "أدخل الى حسابك لتسهيل عملية الطلب",
+        "create_account": "أنشئ حساب",
+        "login": "تسجيل الدخول",
+        "pending_order": "لديك طلب قيد الإنتظار"
+    },
+    "register":
+    {
+        "welcome_message": "تشرفنا خدمتك",
+        "username_placeholder": "إسم المستخدم",
+        "email_placeholder": "البريد الإلكتروني",
+        "mobile_placeholder": "رقم الهاتف",
+        "password_placeholder": "كلمة المرور",
+        "confirm_password_placeholder": "تأكيد كلمة المرور",
+        "sign_up_button": "تسجيل المستخدم",
+        "or": "أو يمكنك",
+        "google_sign_up": "تسجيل المستخدم عبر Google",
+        "facebook_sign_up": "تسجيل المستخدم عبر FaceBook",
+        "login_button": "تسجيل دخول لحساب",
+        "go_back_button": "العودة"
+    },
+    "login":
+    {
+        "welcome_back": "مرحبا بك مجددا",
+        "email_placeholder": "البريد الإلكتروني",
+        "password_placeholder": "كلمة المرور",
+        "sign_in_button": "تسجيل الدخول",
+        "or": "أو يمكنك",
+        "google_sign_in": "تسجيل الدخول عبر Google",
+        "facebook_sign_in": "تسجيل الدخول عبر FaceBook",
+        "create_account": "أنشئ حساب",
+        "go_back": "العودة"
+    },
+    "profile":
+    {
+        "title": "الملف الشخصي",
+        "view_orders": "عرض طلباتي",
+        "incomplete_info": "معلومات ملفك غير مكتملة",
+        "user_info": "معلومات المستخدم",
+        "username_placeholder": "إسم المستخدم",
+        "mobile_placeholder": "رقم الهاتف",
+        "no_delivery_point": "لا نقطة توصيل محددة",
+        "change_delivery_point": "تغيير نقطة التوصيل",
+        "set_delivery_point": "تحديد نقطة توصيل",
+        "save_changes": "حفظ التغييرات",
+        "sign_out": "تسجيل الخروج",
+        "create_account": "أنشئ حساب",
+        "login": "تسجيل الدخول",
+        "confirm_point": "تحديد النقطة"
+        
+    },
+    "cart":
+    {
+        "loading": "جاري التحميل",
+        "title": "السلة",
+        "total": "إجمالي الطلب:",
+        "checkout": "دفع الطلب",
+        "empty": "السلة فارغة",
+        "to_menu": "الى القائمة",
+        "support": "إذا واجهت مشكلة, اتصل بنا على الرقم التالي:",
+        "elapsed_time": "الوقت المنقضي",
+
+        "unit_price": "سعر الواحدة:",
+        "total_price": "إجمالي السعر:",
+        "remove_from_cart": "إزالة من السلة"
+    },
+    "orders":
+    {
+        "title": "طلباتي",
+        "back_button": "العودة",
+        "items": "أصناف الطلب",
+        "subtotal": "إجمالي الطلب:",
+        "delivery_fees": "مبلغ الشحن:",
+        "total": "المبلغ كاملا:"
+    },
+    "checkout":
+    {
+        "title": "دفع الطلب",
+        "back_button": "العودة",
+        "order_details": "تفاصيل الطلب",
+        "delivery_method": "طريقة التوصيل",
+        "payment_method": "طريقة الدفع",
+        "order_total": "إجمالي الطلب",
+        "shipping_fee": "مبلغ الشحن",
+        "total_amount": "المبلغ كاملا",
+        "confirm_payment": "تأكيد الدفع"
+        
+    },
+    "order_success":
+    {
+        "order_success": "تم إرسال الطلب بنجاح",
+        "expected_delivery_time": "الوقت المفترض للتوصيل: ساعتين",
+        "track_order": "تتبع الطلب",
+        "return_to_home": "العودة الى الرئيسية"
+    },
+    "menu": {
+        "title": "القائمة",
+        "search_placeholder": "ابحث هنا",
+
+        "size_selection": "اختر الحجم",
+        "quantity_selection": "اختر العدد",
+        "add_to_cart": "أضف الى السلة"
+    },
+    "settings": {
+        "title": "الإعدادات",
+        "notifications": "الإشعارات",
+        "order-notifs": "إشعارات الطلبات",
+        "offer-notifs": "إشعارات العروض",
+        "menu-notifs": "إشعارات القائمة",
+
+        "language": "اللغة",
+        "display_language": "لغة العرض",
+        "privacy_policy": "سياسة الخصوصية",
+        "terms_of_service": "شروط الخدمة",
+        "contact_us": "تواصل معنا"
+    }
+    
+
+}

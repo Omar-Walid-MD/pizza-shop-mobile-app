@@ -22,10 +22,12 @@ import MapView, { Marker } from 'react-native-maps';
 import * as Location from "expo-location";
 import { isMissingProfileInfo } from '../helpers';
 import Loading from '../Components/Loading';
+import { useTranslation } from 'react-i18next';
 
 export default function ProfileScreen({navigation}) {
 
     const dispatch = useDispatch();
+    const { t: translate} = useTranslation();
 
     const user = useSelector(store => store.auth.user);
     const loading = useSelector(store => store.auth.loading);
@@ -56,205 +58,175 @@ export default function ProfileScreen({navigation}) {
     
     return(
         <View style={{...styles['screen-container']}}>
-            {/* Background */}
-            <Background />
+        {/* Background */}
+        <Background />
 
-            {/* Screen Content */}
-            <ScreenContent
+        {/* Screen Content */}
+        <ScreenContent
             header={
-                <Text font="Harmattan" style={{fontSize:35}}>الملف الشخصي</Text>
+                <Text font="Harmattan" style={{fontSize:35}}>
+                    {translate("profile.title")}
+                </Text>
             }
-            >
-                {
-                    loading ?
-                    <Loading />
-                    :
-                    user ?
-                    <>
-                        <View style={{...styles['w-100'], ...styles['flex-row'], ...styles['gap-3'], ...styles['j-content-b']}}>
-                            <View style={{...styles['al-items-s']}}>
-                                <Text style={{...styles['fs-3']}}>{user.username}</Text>
-                                <Text style={{...styles['fs-3'], ...styles['col-gray']}}>{user.email}</Text>
-                                <Text style={{...styles['fs-3'], ...styles['col-gray']}}>{user.mobileNo || ""}</Text>
-                            </View>
-                            <View style={{...styles['rounded-2'], ...styles['shadow'], ...styles['bg-accent']}}>
-                                <MaterialIcons name="person" color="white" style={{fontSize:150}} />
-                            </View>
+        >
+            {loading ? (
+                <Loading />
+            ) : user ? (
+                <>
+                    <View style={{...styles['w-100'], ...styles['flex-row'], ...styles['gap-3'], ...styles['j-content-b']}}>
+                        <View style={{...styles['al-items-s']}}>
+                            <Text style={{...styles['fs-3']}}>{user.username}</Text>
+                            <Text style={{...styles['fs-3'], ...styles['col-gray']}}>{user.email}</Text>
+                            <Text style={{...styles['fs-3'], ...styles['col-gray']}}>{user.mobileNo || ""}</Text>
                         </View>
+                        <View style={{...styles['rounded-2'], ...styles['shadow'], ...styles['bg-accent']}}>
+                            <MaterialIcons name="person" color="white" style={{fontSize:150}} />
+                        </View>
+                    </View>
 
-                        <Button variant='green'
-                        onPress={()=>navigation.navigate("Orders")}
-                        >
-                            <Text
-                            //style[col-white fs-4]
-                            style={{...styles['col-white'],...styles['fs-4']}}
-                            weight='sb'
-                            >عرض طلباتي</Text>
-                        </Button>
+                    <Button variant='green' onPress={() => navigation.navigate("Orders")}>
+                        <Text style={{...styles['col-white'], ...styles['fs-4']}} weight='sb'>
+                            {translate("profile.view_orders")}
+                        </Text>
+                    </Button>
 
-                        {
-                            isMissingProfileInfo(user) &&
-                            <View
-                            //style[flex-row al-items-c j-content-c gap-1]
-                            style={{...styles['flex-row'],...styles['al-items-c'],...styles['j-content-c'],...styles['gap-1']}}
-                            >
-                                <Text
-                                weight='b'
-                                style={{...styles['col-danger']}}
-                                >معلومات ملفك غير مكتملة</Text>
-                                <MaterialIcons name="error-outline" style={{fontSize:30,...styles['col-danger']}} />
-                            </View>
-                        }
+                    {isMissingProfileInfo(user) && (
+                        <View style={{...styles['flex-row'], ...styles['al-items-c'], ...styles['j-content-c'], ...styles['gap-1']}}>
+                            <Text weight='b' style={{...styles['col-danger']}}>
+                                {translate("profile.incomplete_info")}
+                            </Text>
+                            <MaterialIcons name="error-outline" style={{fontSize:30, ...styles['col-danger']}} />
+                        </View>
+                    )}
 
-                        <View style={{...styles['w-100'], ...styles['bg-main'], ...styles['rounded-2'], ...styles['shadow'], ...styles['p-2']}}>
-                            <View style={{...styles['w-100'], ...styles['al-items-c'], ...styles['gap-2'], ...styles['mb-1']}}>
-                            {
-                                !edit ?
+                    <View style={{...styles['w-100'], ...styles['bg-main'], ...styles['rounded-2'], ...styles['shadow'], ...styles['p-2']}}>
+                        <View style={{...styles['w-100'], ...styles['al-items-c'], ...styles['gap-2'], ...styles['mb-1']}}>
+                            {!edit ? (
                                 <>
-                                    <View
-                                    style={{...styles['w-100'],...styles['flex-row'],...styles['j-content-b'],...styles['mb-2']}}
-                                    >
-                                        <Text weight='b' style={{...styles['fs-4'], ...styles['mb-1']}}>معلومات المستخدم</Text>
-                                        <Button variant='green'
-                                        onPress={()=>{
-                                            setEdit(true); setEditInfo({
+                                    <View style={{...styles['w-100'], ...styles['flex-row'], ...styles['j-content-b'], ...styles['mb-2']}}>
+                                        <Text weight='b' style={{...styles['fs-4'], ...styles['mb-1']}}>
+                                            {translate("profile.user_info")}
+                                        </Text>
+                                        <Button variant='green' onPress={() => {
+                                            setEdit(true);
+                                            setEditInfo({
                                                 username: user.username,
                                                 mobileNo: user.mobileNo,
                                                 location: user.location
                                             });
-                                        }}
-                                        >
-                                            <MaterialCommunityIcons name="pencil" color="white" size={20}/>
+                                        }}>
+                                            <MaterialCommunityIcons name="pencil" color="white" size={20} />
                                         </Button>
                                     </View>
 
                                     <View style={{...styles['w-100'], ...styles['gap-3']}}>
-                                        <Input value={user.username} editable={false} placeholder="إسم المستخدم" label/>
-                                        <Input value={user.mobileNo || ""} editable={false} placeholder="رقم الهاتف" label/>
-                                        
-                                        <View
-                                        style={{...styles['w-100'],...styles['j-content-c'],...styles['al-items-c'],...styles['rounded'],backgroundColor:"lightgray",height:250}}
-                                        >
-                                        {
-                                            user.location ?
-                                            <MapView
-                                            //style[w-100 flex:1]
-                                            style={{...styles['w-100'],flex:1}}
-                                            scrollEnabled={false}
-                                            region={{...user.location,latitudeDelta:0.01,longitudeDelta:0.01}}
-                                            >
-                                                <Marker coordinate={user.location || {longitude:0,latitude:0}} />
-                                            </MapView>
-                                            :
-                                            <Text>لا نقطة توصيل محددة</Text>
-                                        }
+                                        <Input value={user.username} editable={false} placeholder={translate("profile.username_placeholder")} label />
+                                        <Input value={user.mobileNo || ""} editable={false} placeholder={translate("profile.mobile_placeholder")} label />
+
+                                        <View style={{...styles['w-100'], ...styles['j-content-c'], ...styles['al-items-c'], ...styles['rounded'], backgroundColor:"lightgray", height:250}}>
+                                            {user.location ? (
+                                                <MapView
+                                                    style={{...styles['w-100'], flex:1}}
+                                                    scrollEnabled={false}
+                                                    region={{...user.location, latitudeDelta:0.01, longitudeDelta:0.01}}
+                                                >
+                                                    <Marker coordinate={user.location || {longitude:0, latitude:0}} />
+                                                </MapView>
+                                            ) : (
+                                                <Text>{translate("profile.no_delivery_point")}</Text>
+                                            )}
                                         </View>
                                     </View>
                                 </>
-
-                                :
+                            ) : (
                                 <>
-                                    <View
-                                    style={{...styles['w-100'],...styles['flex-row'],...styles['j-content-b'],...styles['mb-2']}}
-                                    >
-                                        <Text weight='b' style={{...styles['fs-4'], ...styles['mb-1']}}>معلومات المستخدم</Text>
-                                        <Button
-                                        onPress={()=>{
-                                            setEdit(false); setEditInfo({});
-                                        }}
-                                        >
-                                            <MaterialCommunityIcons name="close" color="white" size={25}/>
+                                    <View style={{...styles['w-100'], ...styles['flex-row'], ...styles['j-content-b'], ...styles['mb-2']}}>
+                                        <Text weight='b' style={{...styles['fs-4'], ...styles['mb-1']}}>
+                                            {translate("profile.user_info")}
+                                        </Text>
+                                        <Button onPress={() => {
+                                            setEdit(false);
+                                            setEditInfo({});
+                                        }}>
+                                            <MaterialCommunityIcons name="close" color="white" size={25} />
                                         </Button>
                                     </View>
 
                                     <View style={{...styles['w-100'], ...styles['gap-3']}}>
-                                        <Input value={editInfo.username} onChangeText={(t)=>handleEditInfo(t,"username")} placeholder="إسم المستخدم" label/>
-                                        <Input value={editInfo.mobileNo} onChangeText={(t)=>handleEditInfo(t,"mobileNo")} placeholder="رقم الهاتف" label keyboardType="phone-pad"/>
-                                    
-                                        <Button
-                                        variant='transparent'
-                                        style={{...styles['w-100'],...styles['j-content-c'],...styles['al-items-c'],...styles['rounded'],backgroundColor:"lightgray",height:250}}
-                                        containerStyle={{paddingVertical:0,paddingHorizontal:0,...styles['w-100'],...styles['h-100']}}
-                                        onPress={()=>setDeliveryLocationModal(true)}
-                                        >
-                                        {
-                                            editInfo.location ?
-                                            <>
-                                                <MapView
-                                                //style[w-100 h-100 flex:1]
-                                                style={{...styles['w-100'],...styles['h-100'],flex:1}}
-                                                scrollEnabled={false}
-                                                region={{...editInfo.location,latitudeDelta:0.01,longitudeDelta:0.01}}
-                                                >
-                                                    <Marker coordinate={editInfo.location} />
-                                                </MapView>
+                                        <Input value={editInfo.username} onChangeText={(t) => handleEditInfo(t, "username")} placeholder={translate("profile.username_placeholder")} label />
+                                        <Input value={editInfo.mobileNo} onChangeText={(t) => handleEditInfo(t, "mobileNo")} placeholder={translate("profile.mobile_placeholder")} label keyboardType="phone-pad" />
 
-                                                <Button
-                                                //style[pos-abs bottom:5]
-                                                style={{...styles['pos-abs'],bottom:5}}
-                                                onPress={()=>setDeliveryLocationModal(true)}
-                                                >
-                                                    <Text
-                                                    //style[col-white fs-4]
-                                                    style={{...styles['col-white'],...styles['fs-4']}}
-                                                    >تغيير نقطة التوصيل</Text>
-                                                </Button>
-                                            </>
-                                            :
-                                            <View
-                                            //style[w-100 h-100 j-content-c al-items-c]
-                                            style={{...styles['w-100'],...styles['h-100'],...styles['j-content-c'],...styles['al-items-c']}}
-                                            >
-                                                <Text>تحديد نقطة توصيل</Text>
-                                            </View>
-                                        }
+                                        <Button
+                                            variant='transparent'
+                                            style={{...styles['w-100'], ...styles['j-content-c'], ...styles['al-items-c'], ...styles['rounded'], backgroundColor:"lightgray", height:250}}
+                                            containerStyle={{paddingVertical:0, paddingHorizontal:0, ...styles['w-100'], ...styles['h-100']}}
+                                            onPress={() => setDeliveryLocationModal(true)}
+                                        >
+                                            {editInfo.location ? (
+                                                <>
+                                                    <MapView
+                                                        style={{...styles['w-100'], ...styles['h-100'], flex:1}}
+                                                        scrollEnabled={false}
+                                                        region={{...editInfo.location, latitudeDelta:0.01, longitudeDelta:0.01}}
+                                                    >
+                                                        <Marker coordinate={editInfo.location} />
+                                                    </MapView>
+
+                                                    <Button style={{...styles['pos-abs'], bottom:5}} onPress={() => setDeliveryLocationModal(true)}>
+                                                        <Text style={{...styles['col-white'], ...styles['fs-4']}}>
+                                                            {translate("profile.change_delivery_point")}
+                                                        </Text>
+                                                    </Button>
+                                                </>
+                                            ) : (
+                                                <View style={{...styles['w-100'], ...styles['h-100'], ...styles['j-content-c'], ...styles['al-items-c']}}>
+                                                    <Text>{translate("profile.set_delivery_point")}</Text>
+                                                </View>
+                                            )}
                                         </Button>
-                                    
                                     </View>
 
-                                    <Button variant='green'
-                                    //style[w-100 mt-2]
-                                    style={{...styles['w-100'],...styles['mt-2']}}
-                                    onPress={handleSaveEdit}
-                                    >
-                                        <Text
-                                        //style[col-white fs-3]
-                                        style={{...styles['col-white'],...styles['fs-3']}}
-                                        >حفظ التغييرات</Text>
+                                    <Button variant='green' style={{...styles['w-100'], ...styles['mt-2']}} onPress={handleSaveEdit}>
+                                        <Text style={{...styles['col-white'], ...styles['fs-3']}}>
+                                            {translate("profile.save_changes")}
+                                        </Text>
                                     </Button>
                                 </>
-                            }
-                            </View>
-
-                        
+                            )}
                         </View>
+                    </View>
 
-                        <Button
-                            onPress={()=>dispatch(signOut())}>
-                            <Text style={{...styles['fs-3'], ...styles['col-white']}}>تسجيل الخروج</Text>
-                        </Button>
-                    </>
-                    :
-                    <>
-                        <Button variant='green' onPress={()=>navigation.navigate("Register")}>
-                            <Text style={{...styles['col-white'], ...styles['fs-3']}}>أنشئ حساب</Text>
-                        </Button>
+                    <Button onPress={() => dispatch(signOut())}>
+                        <Text style={{...styles['fs-3'], ...styles['col-white']}}>
+                            {translate("profile.sign_out")}
+                        </Text>
+                    </Button>
+                </>
+            ) : (
+                <>
+                    <Button variant='green' onPress={() => navigation.navigate("Register")}>
+                        <Text style={{...styles['col-white'], ...styles['fs-3']}}>
+                            {translate("profile.create_account")}
+                        </Text>
+                    </Button>
 
-                        <Button onPress={()=>navigation.navigate("Login")}>
-                            <Text style={{...styles['col-white'], ...styles['fs-3']}}>تسجيل الدخول</Text>
-                        </Button>
-                        
-                    </>
-                }
-            </ScreenContent>
+                    <Button onPress={() => navigation.navigate("Login")}>
+                        <Text style={{...styles['col-white'], ...styles['fs-3']}}>
+                            {translate("profile.login")}
+                        </Text>
+                    </Button>
+                </>
+            )}
+        </ScreenContent>
 
-            {/* Modals */}
-            <DeliveryLocationModal
+        {/* Modals */}
+        <DeliveryLocationModal
             deliveryLocationModal={deliveryLocationModal}
             setDeliveryLocationModal={setDeliveryLocationModal}
             setEditInfo={setEditInfo}
-            />
-        </View>
+        />
+    </View>
+
 
     )
 }
@@ -262,6 +234,7 @@ export default function ProfileScreen({navigation}) {
 
 function DeliveryLocationModal({deliveryLocationModal,setDeliveryLocationModal,setEditInfo})
 {
+    const { t: translate} = useTranslation();
     const [mapInitialRegion,setMapInitialRegion] = useState();
     const [deliveryLocation,setDeliveryLocation] = useState();
 
@@ -287,53 +260,37 @@ function DeliveryLocationModal({deliveryLocationModal,setDeliveryLocationModal,s
 
 
     return (
-        <Modal visible={deliveryLocationModal} animationType='slide' onRequestClose={()=>setDeliveryLocationModal(false)}>
+        <Modal visible={deliveryLocationModal} animationType='slide' onRequestClose={() => setDeliveryLocationModal(false)}>
             <View style={{...styles['w-100'], ...styles['h-100'], ...styles['bg-white'], ...styles['shadow'], ...styles['al-items-c']}}>
-                
-                <Text
-                //style[fs-1 marginTop:75]
-                style={{...styles['fs-1'],marginTop:75}}
-                >تحديد نقطة توصيل</Text>
+                <Text style={{...styles['fs-1'], marginTop:75}}>
+                    {translate("profile.set_delivery_point")}
+                </Text>
 
-                <View
-                //style[w-100 p-2 al-items-c j-content-c flex:1]
-                style={{...styles['w-100'],...styles['p-2'],...styles['al-items-c'],...styles['j-content-c'],flex:1}}
-                >
+                <View style={{...styles['w-100'], ...styles['p-2'], ...styles['al-items-c'], ...styles['j-content-c'], flex:1}}>
                     <MapView
-                    //style[w-100 flex:1]
-                    style={{...styles['w-100'],flex:1}}
-                    // onInitialRegionChange={(e)=>console.log(e)}
-                    region={mapInitialRegion}
-                    onRegionChangeComplete={(newRegion)=>setDeliveryLocation({latitude:newRegion.latitude,longitude:newRegion.longitude})}
+                        style={{...styles['w-100'], flex:1}}
+                        region={mapInitialRegion}
+                        onRegionChangeComplete={(newRegion) => setDeliveryLocation({latitude: newRegion.latitude, longitude: newRegion.longitude})}
                     >
                         {/* <Marker coordinate={deliveryLocation || {longitude:0,latitude:0}} /> */}
                     </MapView>
 
-                    <View
-                    style={{...styles['pos-abs'],transform:"translateY(-42px)translateX(-0.5px)"}}
-                    >
+                    <View style={{...styles['pos-abs'], transform:"translateY(-42px)translateX(-0.5px)"}}>
                         <Image source={require("../assets/img/map-marker.png")} style={{height:70}} resizeMode='contain'/>
                     </View>
                 </View>
 
-                <Button
-                //style[mb-2]
-                style={{...styles['mb-2']}}
-                onPress={()=>{
-                    setEditInfo(e => ({...e,location:deliveryLocation}));
+                <Button style={{...styles['mb-2']}} onPress={() => {
+                    setEditInfo(e => ({...e, location: deliveryLocation}));
                     setDeliveryLocationModal(false);
-                }}
-                >
-                    <Text
-                    //style[col-white fs-3]
-                    style={{...styles['col-white'],...styles['fs-3']}}
-                    >تحديد النقطة</Text>
+                }}>
+                    <Text style={{...styles['col-white'], ...styles['fs-3']}}>
+                        {translate("profile.confirm_point")}
+                    </Text>
                 </Button>
 
                 <View style={{...styles['pos-abs'], ...styles['w-100'], ...styles['al-items-s']}}>
-                    <Button style={{...styles['m-2']}}
-                    onPress={()=>setDeliveryLocationModal(false)}
-                    >
+                    <Button style={{...styles['m-2']}} onPress={() => setDeliveryLocationModal(false)}>
                         <MaterialCommunityIcons name="close" color="white" size={25} />
                     </Button>
                 </View>

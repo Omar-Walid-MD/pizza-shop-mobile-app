@@ -1,0 +1,121 @@
+{
+    "back": "Back",
+    "currency": "EGP",
+    "starting_from": "Starting from",
+
+    "size":{
+        "s": "small",
+        "m": "medium",
+        "l": "large"
+    },
+
+    "home": {
+        "welcome_message": "Welcome",
+        "login_prompt": "Log in to your account to make ordering easier",
+        "create_account": "Create an Account",
+        "login": "Log In",
+        "pending_order": "You have a pending order"
+    },
+    "register": {
+        "welcome_message": "We are pleased to serve you",
+        "username_placeholder": "Username",
+        "email_placeholder": "Email",
+        "mobile_placeholder": "Phone Number",
+        "password_placeholder": "Password",
+        "confirm_password_placeholder": "Confirm Password",
+        "sign_up_button": "Sign Up",
+        "or": "Or you can",
+        "google_sign_up": "Sign Up with Google",
+        "facebook_sign_up": "Sign Up with Facebook",
+        "login_button": "Log In to Account",
+        "go_back_button": "Back"
+    },
+    "login": {
+        "welcome_back": "Welcome Back",
+        "email_placeholder": "Email",
+        "password_placeholder": "Password",
+        "sign_in_button": "Sign In",
+        "or": "Or you can",
+        "google_sign_in": "Sign In with Google",
+        "facebook_sign_in": "Sign In with Facebook",
+        "create_account": "Create an Account",
+        "go_back": "Back"
+    },
+    "profile": {
+        "title": "Profile",
+        "view_orders": "View My Orders",
+        "incomplete_info": "Your profile information is incomplete",
+        "user_info": "User Information",
+        "username_placeholder": "Username",
+        "mobile_placeholder": "Phone Number",
+        "no_delivery_point": "No delivery point specified",
+        "change_delivery_point": "Change Delivery Point",
+        "set_delivery_point": "Set Delivery Point",
+        "save_changes": "Save Changes",
+        "sign_out": "Sign Out",
+        "create_account": "Create an Account",
+        "login": "Log In",
+        "confirm_point": "Confirm Point"
+    },
+    "cart": {
+        "loading": "Loading",
+        "title": "Cart",
+        "total": "Order Total:",
+        "checkout": "Checkout",
+        "empty": "Cart is empty",
+        "to_menu": "To Menu",
+        "support": "If you encounter any issues, contact us at the following number:",
+        "elapsed_time": "Elapsed Time",
+
+        "unit_price": "Unit Price:",
+        "total_price": "Total Price:",
+        "remove_from_cart": "Remove from Cart"
+    },
+    "orders": {
+        "title": "My Orders",
+        "back_button": "Back",
+        "items": "Order Items",
+        "subtotal": "Order Subtotal:",
+        "delivery_fees": "Delivery Fees:",
+        "total": "Total Amount:"
+    },
+    "checkout": {
+        "title": "Checkout",
+        "back_button": "Back",
+        "order_details": "Order Details",
+        "delivery_method": "Delivery Method",
+        "payment_method": "Payment Method",
+        "order_total": "Order Total",
+        "shipping_fee": "Shipping Fee",
+        "total_amount": "Total Amount",
+        "confirm_payment": "Confirm Payment"
+    },
+    "order_success": {
+        "order_success": "Order Successfully Placed",
+        "expected_delivery_time": "Expected Delivery Time: Two Hours",
+        "track_order": "Track Order",
+        "return_to_home": "Return to Home"
+    },
+    "menu": {
+        "title": "Menu",
+        "search_placeholder": "Search here",
+
+        "size_selection": "Select Size",
+        "quantity_selection": "Select Quantity",
+        "add_to_cart": "Add to Cart"
+    },
+    "settings": {
+        "title": "Settings",
+        "notifications": "Notifications",
+        "order-notifs": "Orders notifications",
+        "offer-notifs": "Offers notifications",
+        "menu-notifs": "New Menu items notifications",
+
+        "language": "Language",
+        "display_language": "Display Language",
+        "privacy_policy": "Privacy Policy",
+        "terms_of_service": "Terms of Service",
+        "contact_us": "Contact Us"
+    }
+
+}

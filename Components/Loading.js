@@ -1,25 +1,25 @@
-import { View, TextInput, Animated, Image } from 'react-native';
+import { View, TextInput, Animated, Image, I18nManager } from 'react-native';
 import styles from "../styles";
 import Text from './Text';
 import { useEffect, useState } from 'react';
 
 export default function Loading({}) {
 
-    // const offsets = Array.from({length:4}).map(()=>useState(new Animated.Value(0))[0]);
+    const offsets = Array.from({length:4}).map(()=>useState(new Animated.Value(0))[0]);
 
-    // useEffect(()=>{
-    //     for (let i = 0; i < offsets.length; i++)
-    //     {
-    //         Animated.sequence([
-    //             Animated.delay(i*100),
-    //             Animated.loop(Animated.sequence([
-    //                 Animated.delay(400),
-    //                 Animated.timing(offsets[i],{toValue:1,duration:500,useNativeDriver:true}),
-    //                 Animated.timing(offsets[i],{toValue:0,duration:500,useNativeDriver:true})
-    //             ]))    
-    //         ]).start();
-    //     }
-    // },[]);
+    useEffect(()=>{
+        for (let i = 0; i < offsets.length; i++)
+        {
+            Animated.sequence([
+                Animated.delay(i*100),
+                Animated.loop(Animated.sequence([
+                    Animated.delay(400),
+                    Animated.timing(offsets[i],{toValue:1,duration:500,useNativeDriver:true}),
+                    Animated.timing(offsets[i],{toValue:0,duration:500,useNativeDriver:true})
+                ]))    
+            ]).start();
+        }
+    },[]);
 
 
     return (
@@ -29,7 +29,7 @@ export default function Loading({}) {
         >
             <View
             //style[width:150 flex-row flexWrap:"wrap" j-content-c]
-            style={{width:110,...styles['flex-row'],flexWrap:"wrap",...styles['j-content-c']}}
+            style={{width:110,flexDirection: I18nManager.isRTL ? 'row' : 'row-reverse',flexWrap:"wrap",...styles['j-content-c']}}
             >
             {
                 Array.from({length:4}).map((x,i)=>

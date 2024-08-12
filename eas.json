@@ -1,0 +1,29 @@
+{
+    "cli": {
+      "version": ">= 5.0.2"
+    },
+    "build": {
+      "development": {
+        "developmentClient": true,
+        "distribution": "internal",
+        "android": {
+          "image": "ubuntu-22.04-jdk-11-ndk-r21e"
+        }
+      },
+      "preview": {
+        "android": {
+          "buildType": "apk",
+          "image": "ubuntu-22.04-jdk-11-ndk-r21e"
+        },
+        "distribution": "internal"
+      },
+      "production": {
+        "android": {
+          "image": "ubuntu-22.04-jdk-11-ndk-r21e"
+        }
+      }
+    },
+    "submit": {
+      "production": {}
+    }
+  }

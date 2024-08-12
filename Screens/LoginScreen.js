@@ -8,7 +8,7 @@ import Background from '../Components/Background';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../Firebase/firebase';
 import ScreenContent from '../Components/Layout/ScreenContent';
-
+import { useTranslation } from 'react-i18next';
 
 export default function LoginScreen({navigation}) {
 
@@ -16,6 +16,7 @@ export default function LoginScreen({navigation}) {
         email: "",
         password: ""
     });
+    const { t: translate} = useTranslation();
 
     const [errorMessage,setErrorMessage] = useState("");
 
@@ -65,54 +66,65 @@ export default function LoginScreen({navigation}) {
     }
 
     return(
-        <View style={{...styles['screen-container']}}>
-            {/* Background */}
-            <Background />
-            
-            {/* Screen Content */}
-            <ScreenContent>
-                <View style={{...styles['w-100'], ...styles['bg-main'], ...styles['shadow'], ...styles['al-items-c'], ...styles['p-2'], ...styles['gap-4'], borderTopLeftRadius: 10, borderBottomRightRadius: 10}}>
-                    <Text style={{...styles['fs-2']}}>مرحبا بك مجددا</Text>
+    <View style={{...styles['screen-container']}}>
+        {/* Background */}
+        <Background />
 
-                    <View style={{...styles['w-100'], ...styles['gap-3']}}>
-                        <View style={{...styles['w-100']}}>
-                            <Input placeholder="البريد الإلكتروني" onChangeText={(text) => handleLoginInfo(text, "email")} />
-                        </View>
+        {/* Screen Content */}
+        <ScreenContent>
+            <View style={{...styles['w-100'], ...styles['bg-main'], ...styles['shadow'], ...styles['al-items-c'], ...styles['p-2'], ...styles['gap-4'], borderTopLeftRadius: 10, borderBottomRightRadius: 10}}>
+                <Text style={{...styles['fs-2']}}>
+                    {translate("login.welcome_back")}
+                </Text>
 
-                        <View style={{...styles['w-100']}}>
-                            <Input placeholder="كلمة المرور" type="password" secureTextEntry autoCorrect={false} onChangeText={(text) => handleLoginInfo(text, "password")} />
-                        </View>
-
-                        {errorMessage && <Text style={{...styles['w-100'], ...styles['text-center'], ...styles['col-danger']}}>{errorMessage}</Text>}
-
-                        <Button onPress={() => handleSignIn("email")}>
-                            <Text style={{...styles['col-white'], ...styles['fs-3']}}>تسجيل الدخول</Text>
-                        </Button>
-
-                        <Text style={{...styles['w-100'], ...styles['text-center'], ...styles['py-2']}}>أو يمكنك</Text>
-
-                        <Button variant='white' onPress={() => navigation.navigate("Main")}>
-                            <Text style={{...styles['fs-4'], ...styles['col-danger']}}>تسجيل الدخول عبر Google</Text>
-                        </Button>
-
-                        <Button variant='white' onPress={() => navigation.navigate("Main")}>
-                            <Text style={{...styles['fs-4'], ...styles['col-primary']}}>تسجيل الدخول عبر FaceBook</Text>
-                        </Button>
+                <View style={{...styles['w-100'], ...styles['gap-3']}}>
+                    <View style={{...styles['w-100']}}>
+                        <Input placeholder={translate("login.email_placeholder")} onChangeText={(text) => handleLoginInfo(text, "email")} />
                     </View>
-                </View>
-                <View
-                //style[flex-row j-content-b]
-                style={{...styles['flex-row'],...styles['j-content-b']}}
-                >
-                    <Button style={{alignSelf:"center"}} onPress={() => navigation.navigate("Register")}>
-                        <Text style={{...styles['col-white'], ...styles['fs-4']}}>أنشئ حساب</Text>
+
+                    <View style={{...styles['w-100']}}>
+                        <Input placeholder={translate("login.password_placeholder")} type="password" secureTextEntry autoCorrect={false} onChangeText={(text) => handleLoginInfo(text, "password")} />
+                    </View>
+
+                    {errorMessage && <Text style={{...styles['w-100'], ...styles['text-center'], ...styles['col-danger']}}>{errorMessage}</Text>}
+
+                    <Button onPress={() => handleSignIn("email")}>
+                        <Text style={{...styles['col-white'], ...styles['fs-3']}}>
+                            {translate("login.sign_in_button")}
+                        </Text>
                     </Button>
-                    <Button style={{alignSelf:"center"}} variant='green' onPress={() => navigation.navigate("Main")}>
-                        <Text style={{...styles['col-white'], ...styles['fs-4']}}>العودة</Text>
+
+                    <Text style={{...styles['w-100'], ...styles['text-center'], ...styles['py-2']}}>
+                        {translate("login.or")}
+                    </Text>
+
+                    <Button variant='white' onPress={() => navigation.navigate("Main")}>
+                        <Text style={{...styles['fs-4'], ...styles['col-danger']}}>
+                            {translate("login.google_sign_in")}
+                        </Text>
+                    </Button>
+
+                    <Button variant='white' onPress={() => navigation.navigate("Main")}>
+                        <Text style={{...styles['fs-4'], ...styles['col-primary']}}>
+                            {translate("login.facebook_sign_in")}
+                        </Text>
                     </Button>
                 </View>
-            </ScreenContent>
-        </View>
+            </View>
+            <View style={{...styles['flex-row'], ...styles['j-content-b']}}>
+                <Button style={{alignSelf:"center"}} onPress={() => navigation.navigate("Register")}>
+                    <Text style={{...styles['col-white'], ...styles['fs-4']}}>
+                        {translate("login.create_account")}
+                    </Text>
+                </Button>
+                <Button style={{alignSelf:"center"}} variant='green' onPress={() => navigation.navigate("Main")}>
+                    <Text style={{...styles['col-white'], ...styles['fs-4']}}>
+                        {translate("login.go_back")}
+                    </Text>
+                </Button>
+            </View>
+        </ScreenContent>
+    </View>
 
     )
 }

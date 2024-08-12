@@ -11,9 +11,12 @@ import Accordion from '../Components/Accordion';
 import { useDispatch, useSelector } from 'react-redux';
 import { addOrder } from '../Store/Orders/ordersSlice';
 import { emptyCart } from '../Store/Cart/cartSlice';
+import { useTranslation } from 'react-i18next';
+
 
 export default function CheckoutScreen({navigation}) {
 
+    const { t: translate} = useTranslation();
     const items = useSelector(store => store.items.items);
     const cart = useSelector(store => store.cart.cart);
     const user = useSelector(store => store.auth.user);
@@ -57,7 +60,6 @@ export default function CheckoutScreen({navigation}) {
         return cart.reduce((sum,item) => sum + items[item.id].prices[item.size] * item.count,0)
     },[cart]);
 
-    console.log(cart);
 
     return(
         <View style={{...styles['screen-container']}}>
@@ -66,87 +68,77 @@ export default function CheckoutScreen({navigation}) {
             
             {/* Screen Content */}
             <ScreenContent
-            header={
-                <View
-                style={{...styles['w-100'],...styles['flex-row'],...styles['al-items-c'],...styles['j-content-b'],...styles['px-2']}}
-                >
-                    <Text
-                    font='Harmattan'
-                    style={{fontSize:35}}
-                    >دفع الطلب</Text>
-
-                    <Button variant='green'
-                    onPress={()=>navigation.navigate("Main")}>
-                        <Text
-                        style={{...styles['col-white']}}
-                        >العودة</Text>
-                    </Button>
-                </View>
-            }>
-                <View
-                //style[w-100 al-items-c gap-3]
-                style={{...styles['w-100'],...styles['al-items-c'],...styles['gap-3']}}
-                >
-
+                header={
                     <View
-                    //style[w-100 mb-3]
-                    style={{...styles['w-100'],...styles['mb-3']}}
+                        style={{...styles['w-100'], ...styles['flex-row'], ...styles['al-items-c'], ...styles['j-content-b'], ...styles['px-2']}}
                     >
-                        <Accordion content={<Text style={{...styles['fs-3']}}>تفاصيل الطلب</Text>}>
+                        <Text font="Harmattan" style={{fontSize: 35}}>
+                            {translate("checkout.title")}
+                        </Text>
+
+                        <Button variant="green" onPress={() => navigation.navigate("Main")}>
+                            <Text style={{...styles['col-white']}}>
+                                {translate("checkout.back_button")}
+                            </Text>
+                        </Button>
+                    </View>
+                }
+            >
+                <View style={{...styles['w-100'], ...styles['al-items-c'], ...styles['gap-3']}}>
+                    <View style={{...styles['w-100'], ...styles['mb-3']}}>
+                        <Accordion content={<Text style={{...styles['fs-3']}}>{translate("checkout.order_details")}</Text>}>
                             <FlatList
-                            style={{...styles['mt-3']}}
-                            data={cart}
-                            renderItem={({item,index})=>
-                                <View
-                                style={{...styles['w-100'],...styles['flex-row'],...styles['j-content-b'],...styles['al-items-c'],...styles['gap-3']}}
-                                key={`order-item-${index}`}>
-                                    <Text
-                                    style={{...styles['fs-3'],...styles['col-gray'],width:"65%"}}
-                                    >- {items[item.id].name}  x{item.count}</Text>
-                                    <Text 
-                                    style={{...styles['fs-3'],...styles['col-gray']}}
-                                    >{items[item.id].prices[item.size] * item.count} EGP</Text>
-                                </View>
-                            }
-                            scrollEnabled={false}
+                                style={{...styles['mt-3']}}
+                                data={cart}
+                                renderItem={({item, index}) => (
+                                    <View
+                                        style={{...styles['w-100'], ...styles['flex-row'], ...styles['j-content-b'], ...styles['al-items-c'], ...styles['gap-3']}}
+                                        key={`order-item-${index}`}
+                                    >
+                                        <Text style={{...styles['fs-3'], ...styles['col-gray'], width: "65%"}}>
+                                            {`- ${items[item.id].name} x${item.count}`}
+                                        </Text>
+                                        <Text style={{...styles['fs-3'], ...styles['col-gray']}}>
+                                            {items[item.id].prices[item.size] * item.count} {translate("checkout.currency")}
+                                        </Text>
+                                    </View>
+                                )}
+                                scrollEnabled={false}
                             />
                         </Accordion>
                     </View>
 
-                   
-                    <View
-                    style={{...styles['w-100'],...styles['al-items-s']}}
-                    >
-                        <Text
-                        style={{...styles['fs-3']}}
-                        >طريقة التوصيل</Text>
+                    <View style={{...styles['w-100'], ...styles['al-items-s']}}>
+                        <Text style={{...styles['fs-3']}}>
+                            {translate("checkout.delivery_method")}
+                        </Text>
                         <View
-                        style={{...styles['w-100'],...styles['al-items-c'],...styles['mt-2'],...styles['gap-2']}}
+                            style={{...styles['w-100'], ...styles['al-items-c'], ...styles['mt-2'], ...styles['gap-2']}}
                         >
-                        {
-                            deliveryOptions.map((option,i)=>
+                            {deliveryOptions.map((option, i) => (
                                 <Pressable
-                                style={{...styles['w-100'], ...styles['flex-row'],...styles['j-content-b'],...styles['rounded'],...styles['shadow'],...styles['p-1'],...styles['px-2'],
-                                backgroundColor: deliveryIndex === i ? colors[i] : "#FEF7EA"}}
-                                key={`delivery-option-${i}`}
-                                onPress={() => setDeliveryIndex(i)}
+                                    style={{...styles['w-100'],...styles['flex-row'],...styles['j-content-b'],...styles['rounded'],...styles['shadow'],...styles['p-1'],...styles['px-2'],
+                                        backgroundColor: deliveryIndex === i ? colors[i] : "#FEF7EA"
+                                    }}
+                                    key={`delivery-option-${i}`}
+                                    onPress={() => setDeliveryIndex(i)}
                                 >
+                                    <View style={{...styles['flex-row'], ...styles['gap-2']}}>
+                                        <Text style={{...styles['fs-3'], ...styles[`col-${deliveryIndex === i ? "white" : "black"}`]}} weight="sb">
+                                            {option.label}
+                                        </Text>
+                                        <Text style={{...styles['fs-3'], ...styles[`col-${deliveryIndex === i ? "white" : "black"}`]}} weight="sb">
+                                            -
+                                        </Text>
 
-                                    <View 
-                                    //style[flex-row gap-2]
-                                    style={{...styles['flex-row'],...styles['gap-2']}}
-                                    >
-                                        <Text style={{...styles['fs-3'],...styles[`col-${deliveryIndex === i ? "white" : "black"}`]}} weight="sb">{option.label}</Text>
-                                        <Text style={{...styles['fs-3'],...styles[`col-${deliveryIndex === i ? "white" : "black"}`]}} weight="sb">-</Text>
-
-                                        <View
-                                        style={{...styles['flex-row'],...styles['gap-1'],...styles['al-items-e']}}
-                                        >
-                                            <Text style={{...styles['fs-3'],...styles[`col-${deliveryIndex === i ? "white" : "black"}`]}} weight="sb">{option.price}</Text>
-                                            <Text style={{fontSize:12,marginBottom:5,...styles[`col-${deliveryIndex === i ? "white" : "black"}`]}} weight="sb">ج.م.</Text>
+                                        <View style={{...styles['flex-row'], ...styles['gap-1'], ...styles['al-items-e']}}>
+                                            <Text style={{...styles['fs-3'], ...styles[`col-${deliveryIndex === i ? "white" : "black"}`]}} weight="sb">
+                                                {option.price}
+                                            </Text>
+                                            <Text style={{fontSize: 12, marginBottom: 5, ...styles[`col-${deliveryIndex === i ? "white" : "black"}`]}} weight="sb">
+                                                {translate("checkout.currency")}
+                                            </Text>
                                         </View>
-
-
                                     </View>
 
                                     <CheckBox
@@ -154,77 +146,73 @@ export default function CheckoutScreen({navigation}) {
                                         pointerEvents={"none"}
                                         checkedColor={"white"}
                                         uncheckedColor={colors[i]}
-
                                     />
                                 </Pressable>
-                            )
-                        }
+                            ))}
                         </View>
                     </View>
 
-
-                    <View
-                    style={{...styles['w-100'],...styles['al-items-s']}}
-                    >
-                        <Text style={{...styles['fs-3']}}>طريقة الدفع</Text>
-                        <View
-                        style={{...styles['w-100'],...styles['al-items-c'],...styles['mt-2'],...styles['gap-2']}}>
-                        {
-                            paymentOptions.map((option,i)=>
+                    <View style={{...styles['w-100'], ...styles['al-items-s']}}>
+                        <Text style={{...styles['fs-3']}}>
+                            {translate("checkout.payment_method")}
+                        </Text>
+                        <View style={{...styles['w-100'], ...styles['al-items-c'], ...styles['mt-2'], ...styles['gap-2']}}>
+                            {paymentOptions.map((option, i) => (
                                 <Pressable
-                                style={{...styles['w-100'], ...styles['flex-row'],...styles['j-content-b'],...styles['rounded'],...styles['shadow'],...styles['p-1'],...styles['px-2'],
-                                backgroundColor: paymentIndex === i ? colors[i] : "#FEF7EA"}}
-                                key={`delivery-option-${i}`}
-                                onPress={() => setPaymentIndex(i)}
+                                    style={{...styles['w-100'],...styles['flex-row'],...styles['j-content-b'],...styles['rounded'],...styles['shadow'],...styles['p-1'],...styles['px-2'],
+                                        backgroundColor: paymentIndex === i ? colors[i] : "#FEF7EA"
+                                    }}
+                                    key={`payment-option-${i}`}
+                                    onPress={() => setPaymentIndex(i)}
                                 >
-
-                                    <Text style={{...styles['fs-3'],...styles[`col-${paymentIndex === i ? "white" : "black"}`]}} weight="sb">{option.label}</Text>
+                                    <Text style={{...styles['fs-3'], ...styles[`col-${paymentIndex === i ? "white" : "black"}`]}} weight="sb">
+                                        {option.label}
+                                    </Text>
 
                                     <CheckBox
                                         checked={paymentIndex === i}
                                         pointerEvents={"none"}
                                         checkedColor={"white"}
                                         uncheckedColor={colors[i]}
-
                                     />
                                 </Pressable>
-                            )
-                        }
+                            ))}
                         </View>
                     </View>
 
-                    
-                    <View
-                    //style[w-100 gap-2 mt-4]
-                    style={{...styles['w-100'],...styles['gap-2'],...styles['mt-4']}}
-                    >
-                        <View
-                        style={{...styles['w-100'],...styles['flex-row'],...styles['j-content-b'],...styles['px-2']}}
-                        >
-                            <Text style={{...styles['text-center'], ...styles['fs-3']}}>إجمالي الطلب:</Text>
-                            <Text style={{...styles['text-center'], ...styles['fs-3']}}>{subtotal} EGP</Text>
+                    <View style={{...styles['w-100'], ...styles['gap-2'], ...styles['mt-4']}}>
+                        <View style={{...styles['w-100'], ...styles['flex-row'], ...styles['j-content-b'], ...styles['px-2']}}>
+                            <Text style={{...styles['text-center'], ...styles['fs-3']}}>
+                                {translate("checkout.order_total")}:
+                            </Text>
+                            <Text style={{...styles['text-center'], ...styles['fs-3']}}>
+                                {subtotal} {translate("checkout.currency")}
+                            </Text>
                         </View>
 
-                        <View
-                        style={{...styles['w-100'],...styles['flex-row'],...styles['j-content-b'],...styles['px-2']}}
-                        >
-                            <Text style={{...styles['text-center'], ...styles['fs-3']}}>مبلغ الشحن:</Text>
-                            <Text style={{...styles['text-center'], ...styles['fs-3']}}>{deliveryOptions[deliveryIndex].price} EGP</Text>
+                        <View style={{...styles['w-100'], ...styles['flex-row'], ...styles['j-content-b'], ...styles['px-2']}}>
+                            <Text style={{...styles['text-center'], ...styles['fs-3']}}>
+                                {translate("checkout.shipping_fee")}:
+                            </Text>
+                            <Text style={{...styles['text-center'], ...styles['fs-3']}}>
+                                {deliveryOptions[deliveryIndex].price} {translate("checkout.currency")}
+                            </Text>
                         </View>
 
-                        <View
-                        style={{...styles['w-100'],...styles['flex-row'],...styles['j-content-b'],...styles['px-2']}}
-                        >
-                            <Text style={{...styles['text-center'], ...styles['fs-3']}}>المبلغ كاملا:</Text>
-                            <Text style={{...styles['text-center'], ...styles['fs-2']}}>{(subtotal+deliveryOptions[deliveryIndex].price).toFixed(2)} EGP</Text>
+                        <View style={{...styles['w-100'], ...styles['flex-row'], ...styles['j-content-b'], ...styles['px-2']}}>
+                            <Text style={{...styles['text-center'], ...styles['fs-3']}}>
+                                {translate("checkout.total_amount")}:
+                            </Text>
+                            <Text style={{...styles['text-center'], ...styles['fs-2']}}>
+                                {(subtotal + deliveryOptions[deliveryIndex].price).toFixed(2)} {translate("checkout.currency")}
+                            </Text>
                         </View>
                     </View>
 
-                    <Button style={{...styles['w-100'],...styles['mt-3']}}
-                    onPress={()=>{
+                    <Button style={{...styles['w-100'], ...styles['mt-3']}} onPress={() => {
                         navigation.navigate("OrderSuccess");
                         dispatch(addOrder({
-                            items: cart.map((cartItem) => ({...cartItem,unitPrice:items[cartItem.id].prices[cartItem.size]})),
+                            items: cart.map(cartItem => ({...cartItem, unitPrice: items[cartItem.id].prices[cartItem.size]})),
                             orderStatus: "pending",
                             deliveryStatus: "baking",
                             date: Date.now(),
@@ -237,12 +225,13 @@ export default function CheckoutScreen({navigation}) {
                         }));
                         dispatch(emptyCart());
                     }}>
-                        <Text style={{...styles['fs-3'],...styles['col-white']}}>تأكيد الدفع</Text>
+                        <Text style={{...styles['fs-3'], ...styles['col-white']}}>
+                            {translate("checkout.confirm_payment")}
+                        </Text>
                     </Button>
                 </View>
-
-
             </ScreenContent>
         </View>
+
     )
 }
