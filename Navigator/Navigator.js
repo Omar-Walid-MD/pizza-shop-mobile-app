@@ -1,6 +1,6 @@
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import HomeScreen from "../Screens/HomeScreen";
-import { StyleSheet } from "react-native";
+import { ImageBackground, SafeAreaView, StyleSheet } from "react-native";
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import NavBar from '../Components/Layout/NavBar';
@@ -23,6 +23,8 @@ import SettingsScreen from '../Screens/SettingsScreen';
 import { signInAnonymously } from 'firebase/auth';
 import { getSettings, setSetting } from '../Store/Settings/settingsSlice';
 import { changeLanguage } from '../I18n/i18n';
+import Background from '../Components/Background';
+import Text from '../Components/Text';
 
 const Tab = createMaterialTopTabNavigator();
 const Stack = createStackNavigator();
@@ -90,7 +92,7 @@ export default function Navigator()
     },[currentLang])
 
     return (
-        <Stack.Navigator>
+        <Stack.Navigator screenOptions={{cardStyle:{backgroundColor:"transparent"}}}>
             <Stack.Screen
             name="Main"
             component={TabNavigator}
@@ -113,6 +115,7 @@ function TabNavigator({navigation})
 {
     return (
         <Tab.Navigator
+        sceneContainerStyle={{backgroundColor:"transparent"}}
         screenOptions={{swipeEnabled:true}} tabBarPosition='bottom'
         initialRouteName='Home'
         layoutDirection='ltr'

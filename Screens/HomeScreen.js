@@ -24,12 +24,12 @@ export default function HomeScreen({navigation}) {
     return (
         <View style={{...styles['screen-container']}}>
         {/* Background */}
-        <Background />
+        {/* <Background /> */}
 
         {/* Screen Content */}
         <ScreenContent>
             <View style={{...styles['al-items-c']}}>
-                <Text font='Harmattan' style={{fontSize:40}}>
+                <Text font='accent' style={{width:"100%",textAlign:"center",fontSize:40}}>
                     {translate("home.welcome_message")}
                 </Text>
                 {
@@ -39,7 +39,7 @@ export default function HomeScreen({navigation}) {
                     <Text style={{...styles['fs-2'],...styles['col-accent']}}>
                         {user.username}
                     </Text> :
-                    <View style={{...styles['gap-1'],...styles['al-items-c']}}>
+                    <View style={{...styles['gap-1'],...styles['mt-2'],...styles['al-items-c']}}>
                         <Text weight='sb' style={{...styles['fs-3'],...styles['text-center']}}>
                             {translate("home.login_prompt")}
                         </Text>

@@ -1204,10 +1204,20 @@
   resolved "https://registry.yarnpkg.com/@expo-google-fonts/cairo/-/cairo-0.2.3.tgz#fcd6bc90fe597de370a73c5f94e7c788918a8684"
   integrity sha512-z4FoaGpwudrPbFTbA/QgZTn7kHXhlI7QhLLEZqeG8PkMGeHbaqufJ6W6uvsp6yK1DVCILM0o2s8JGf/I2RFwnw==
 
+"@expo-google-fonts/caveat@^0.2.3":
+  version "0.2.3"
+  resolved "https://registry.yarnpkg.com/@expo-google-fonts/caveat/-/caveat-0.2.3.tgz#5c75b6b746f54721c7a2d1cefb688340481c448c"
+  integrity sha512-Hx57R3t309cj/QUbwWclyD7j+S2cA7C01e/VG/Xue9aO7exQF2zqwp+hlmnuPqxbbwL1+gOJhs3Nb86wdX0c2w==
+
 "@expo-google-fonts/harmattan@^0.2.3":
   version "0.2.3"
   resolved "https://registry.yarnpkg.com/@expo-google-fonts/harmattan/-/harmattan-0.2.3.tgz#2bcc1df43f0fdbb05e39bdcf5c6da8d52a44d0fc"
   integrity sha512-elBvEHLHyuU76cu13V2CIF+Nzo+KIqGlhzXvhBZ/vG4Viv29fw9odposB3JzAs13ejyx+SCCg7gfVyqhsv3riQ==
+
+"@expo-google-fonts/ubuntu@^0.2.3":
+  version "0.2.3"
+  resolved "https://registry.yarnpkg.com/@expo-google-fonts/ubuntu/-/ubuntu-0.2.3.tgz#90a4dead400c69d09fe988e799a6a75264d8bf77"
+  integrity sha512-VN3Dv4cKVsstAFw76x8YWHvAdomvlEWbIKSjWHiFzwdP+DJ/Scodp8M947m8YHHSqGwkXNFZn2fXJGOPhHvPmQ==
 
 "@expo/bunyan@4.0.0", "@expo/bunyan@^4.0.0":
   version "4.0.0"

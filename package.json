@@ -9,7 +9,9 @@
   },
   "dependencies": {
     "@expo-google-fonts/cairo": "^0.2.3",
+    "@expo-google-fonts/caveat": "^0.2.3",
     "@expo-google-fonts/harmattan": "^0.2.3",
+    "@expo-google-fonts/ubuntu": "^0.2.3",
     "@expo/webpack-config": "^19.0.0",
     "@react-native-community/async-storage": "^1.12.1",
     "@react-native-google-signin/google-signin": "^12.2.1",

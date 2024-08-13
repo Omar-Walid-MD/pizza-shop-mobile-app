@@ -64,7 +64,7 @@ export default function CheckoutScreen({navigation}) {
     return(
         <View style={{...styles['screen-container']}}>
             {/* Background */}
-            <Background />
+            {/* <Background /> */}
             
             {/* Screen Content */}
             <ScreenContent
@@ -72,7 +72,7 @@ export default function CheckoutScreen({navigation}) {
                     <View
                         style={{...styles['w-100'], ...styles['flex-row'], ...styles['al-items-c'], ...styles['j-content-b'], ...styles['px-2']}}
                     >
-                        <Text font="Harmattan" style={{fontSize: 35}}>
+                        <Text font="accent" style={{fontSize: 40}}>
                             {translate("checkout.title")}
                         </Text>
 

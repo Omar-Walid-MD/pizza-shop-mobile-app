@@ -81,12 +81,12 @@ export default function MenuScreen({navigation}) {
     return (
         <View style={{...styles['screen-container']}}>
             {/* Background */}
-            <Background />
+            {/* <Background /> */}
             
             {/* Screen Content */}
             <ScreenContent
                 header={
-                    <Text font="Harmattan" style={{fontSize:40}}>
+                    <Text font="accent" style={{fontSize:40}}>
                         {translate("menu.title")}
                     </Text>
                 }

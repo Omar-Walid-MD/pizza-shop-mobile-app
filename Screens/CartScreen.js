@@ -71,7 +71,7 @@ export default function CartScreen({navigation}) {
     return(
         <View style={{...styles['screen-container']}}>
             {/* Background */}
-            <Background />
+            {/* <Background /> */}
             
             {
                 ordersLoading ?
@@ -82,7 +82,7 @@ export default function CartScreen({navigation}) {
                 screenType === "cart" ?
                 <>
                     {/* Screen Content */}
-                    <ScreenContent header={<Text font="Harmattan" style={{fontSize:40}}>{translate("cart.title")}</Text>}>
+                    <ScreenContent header={<Text font="accent" style={{fontSize:40}}>{translate("cart.title")}</Text>}>
                     {
                         cart.length ?
                         <>
@@ -136,7 +136,7 @@ export default function CartScreen({navigation}) {
                     <ScreenContent header={<Text style={{...styles['fs-2']}}>{translate("cart.title")}</Text>}>
 
                         <View style={{...styles['h-100'], ...styles['w-100'], ...styles['al-items-c'], ...styles['j-content-c']}}>
-                            <Text font='Harmattan' style={{...styles['col-accent'], ...styles['mb-3'], fontSize: 55}}>
+                            <Text font='accent' style={{...styles['col-accent'], ...styles['mb-3'], fontSize: 55}}>
                                 {translate(deliveryStatusStrings[currentOrder.deliveryStatus])}
                             </Text>
 
@@ -192,7 +192,7 @@ function DeliveryTimer({order})
         let m = Math.abs(parseInt(timeElapsed / (1000 * 60) % 60));
         let s = Math.abs(parseInt(timeElapsed / 1000 % 60));
 
-        return `${h ? h+"س" : ""} ${m ? m+"د" : ""} ${s ? s+"ث" : ""}`;
+        return `${h ? h+translate("time.h") : ""} ${m ? m+translate("time.m") : ""} ${s ? s+translate("time.s") : ""}`;
     }
 
 

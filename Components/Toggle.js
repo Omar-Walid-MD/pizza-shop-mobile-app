@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import styles from "../styles";
-import { Animated, Pressable, View } from "react-native"
+import { Animated, I18nManager, Pressable, View } from "react-native"
 
 export default function Toggle({})
 {
@@ -32,7 +32,7 @@ export default function Toggle({})
                 </Animated.View>
                 <Animated.View
                 style={{height:"80%",...styles['w-50'],...styles['bg-white'],...styles['pos-abs'],...styles['shadow'],right:3,borderRadius:35,
-                    transform: [{translateX:Animated.multiply(toggleSwitch,23)}]
+                    transform: [{translateX:Animated.multiply(toggleSwitch,23*(I18nManager.isRTL ? 1 : -1))}]
                 }}
                 ></Animated.View>        
             </View>

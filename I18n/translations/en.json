@@ -9,6 +9,12 @@
         "l": "large"
     },
 
+    "time":{
+        "s": "s",
+        "m": "m",
+        "h": "h"
+    },
+
     "home": {
         "welcome_message": "Welcome",
         "login_prompt": "Log in to your account to make ordering easier",

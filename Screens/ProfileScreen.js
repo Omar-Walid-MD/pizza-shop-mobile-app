@@ -59,12 +59,12 @@ export default function ProfileScreen({navigation}) {
     return(
         <View style={{...styles['screen-container']}}>
         {/* Background */}
-        <Background />
+        {/* <Background /> */}
 
         {/* Screen Content */}
         <ScreenContent
             header={
-                <Text font="Harmattan" style={{fontSize:35}}>
+                <Text font='accent' style={{width:"100%",textAlign:"center",fontSize:40}}>
                     {translate("profile.title")}
                 </Text>
             }

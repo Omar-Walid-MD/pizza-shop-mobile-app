@@ -5,8 +5,7 @@ const styles = StyleSheet.create({
     "screen-container": {
         direction:"rtl",
         flex: 1,
-        alignItems: 'center',
-        backgroundColor:"white"
+        alignItems: 'center'
     },
 
     "screen-content":

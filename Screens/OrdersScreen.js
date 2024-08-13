@@ -38,7 +38,7 @@ export default function OrdersScreen({navigation}) {
     return (
         <View style={{...styles['screen-container']}}>
             {/* Background */}
-            <Background />
+            {/* <Background /> */}
 
             {/* Screen Content */}
             <ScreenContent
@@ -46,7 +46,7 @@ export default function OrdersScreen({navigation}) {
                     <View
                         style={{...styles['w-100'], ...styles['flex-row'], ...styles['al-items-c'], ...styles['j-content-b'], ...styles['px-2']}}
                     >
-                        <Text font="Harmattan" style={{fontSize: 35}}>
+                        <Text font='accent' style={{width:"100%",textAlign:"center",fontSize:40}}>
                             {translate("orders.title")}
                         </Text>
 

@@ -35,12 +35,12 @@ export default function SettingsScreen({navigation}) {
     return (
         <View style={{...styles['screen-container']}}>
         {/* Background */}
-        <Background />
+        {/* <Background /> */}
 
         {/* Screen Content */}
         <ScreenContent
             header={
-                <Text font="Harmattan" style={{fontSize:35}}>{translate("settings.title")}</Text>
+                <Text font='accent' style={{width:"100%",textAlign:"center",fontSize:40}}>{translate("settings.title")}</Text>
             }
         >
             <View
