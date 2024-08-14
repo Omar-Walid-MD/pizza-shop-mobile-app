@@ -5,7 +5,7 @@ import { child, get, ref } from 'firebase/database';
 import { database } from '../../Firebase/firebase';
 
 const initialState = {
-    items: [],
+    items: {},
     itemsCategorized: {},
     categories: {},
     menuItemToShow: null,
@@ -44,6 +44,7 @@ export const itemsSlice = createSlice({
     extraReducers: (builder) => {
         builder
         .addCase(getItems.fulfilled, (state, {payload}) => {
+            console.log("Items fetched");
             state.items = payload.items;
             state.categories = payload.categories;
             state.itemsCategorized = getCategorizedItems(payload.items);

@@ -23,7 +23,7 @@ export default function Toggle({})
         >
             <View
             //style[toggle]
-            style={{...styles['toggle']}}
+            style={{...styles['toggle'],borderColor: toggled ? "#4B8237" : "#555555"}}
             >
                 <Animated.View
                 style={{...styles['h-100'],...styles['w-100'],backgroundColor:"#589941",opacity:toggleSwitch}}

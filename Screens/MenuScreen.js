@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { Modal, View, Image, Pressable, ScrollView, FlatList } from 'react-native';
+import { Modal, View, Image, Pressable, ScrollView, FlatList, I18nManager } from 'react-native';
 import styles from "../styles";
 import { LinearGradient } from 'expo-linear-gradient';
 import Input from '../Components/Input';
@@ -63,12 +63,6 @@ export default function MenuScreen({navigation}) {
 
     });
 
-    useEffect(()=>{
-
-        return ()=>{
-            dispatch(setMenuItemToShow(null));
-        }
-    },[]);
 
     useEffect(()=>{
         if(itemsCategorized && !Object.keys(resultItemsCategorized).length) setResultItemsCategorized(itemsCategorized);
@@ -148,7 +142,8 @@ function MenuItemModal({})
     
     function getSizeKeys()
     {
-        return [...Object.keys(itemToShow.prices)].sort();
+        const keys = [...Object.keys(itemToShow.prices)].sort().reverse();
+        return keys;
     }
 
     function handleAddToCart()
@@ -156,7 +151,7 @@ function MenuItemModal({})
         const itemInCart = cart.find((cartItem) => cartItem.id===itemId && cartItem.size===itemOptions.size);
         if(itemInCart)
         {
-            console.log(itemOptions.count+itemInCart.count)
+            // console.log(itemOptions.count+itemInCart.count)
             dispatch(setItemCount({id: itemId,size:itemOptions.size,count:itemOptions.count+itemInCart.count}))
         }
         else
@@ -169,11 +164,18 @@ function MenuItemModal({})
         if(itemToShow)
         {
             setItemOptions({
-                size: Object.keys(itemToShow.prices)[0],
+                size: Object.keys(itemToShow.prices)[Object.keys(itemToShow.prices).length-1],
                 count: 1
             });
         }
     },[itemToShow]);
+
+    useEffect(()=>{
+
+        return ()=>{
+            dispatch(setMenuItemToShow(null));
+        }
+    },[]);
 
     return (
         <Modal visible={itemId !== null} animationType='slide' onRequestClose={() => dispatch(setMenuItemToShow(null))}>
@@ -232,14 +234,21 @@ function MenuItemModal({})
                                     {translate("menu.quantity_selection")}
                                 </Text>
 
-                                <View style={{...styles['w-75'], ...styles['flex-row'], ...styles['j-content-b'], ...styles['border-3'], ...styles['border-danger'], ...styles['rounded'], ...styles['shadow'], ...styles['bg-white'], ...styles['overflow-hidden']}}>
-                                    <Pressable onPress={() => setItemOptions(i => ({...i, count: i.count - 1 ? i.count - 1 : i.count}))}>
-                                        <Text style={{...styles['fs-3'], ...styles['bg-accent'], ...styles['px-2'], ...styles['col-white']}}>-</Text>
-                                    </Pressable>
-                                    <Text style={{...styles['fs-3']}}>{itemOptions?.count}</Text>
-                                    <Pressable onPress={() => setItemOptions(i => ({...i, count: i.count < 5 ? i.count + 1 : i.count}))}>
-                                        <Text style={{...styles['fs-3'], ...styles['bg-accent'], ...styles['px-2'], ...styles['col-white']}}>+</Text>
-                                    </Pressable>
+                                <View style={{flexDirection: I18nManager.isRTL ? "row-reverse" : "row",...styles['w-100'], ...styles['j-content-b'], ...styles['al-items-c'],...styles['gap-3']}}>
+
+                                    <Button variant='green' onPress={() => setItemOptions(i => ({...i, count: i.count - 1 ? i.count - 1 : i.count}))}>
+                                        <Text style={{...styles['fs-3'], ...styles['px-2'], ...styles['col-white']}}>-</Text>
+                                    </Button>
+                                    
+                                    <View
+                                    style={{flex:1,...styles['py-1'],...styles['j-content-c'],...styles['al-items-c'],...styles['bg-white'],...styles['rounded'],...styles['shadow']}}
+                                    >
+                                        <Text style={{...styles['fs-3']}}>{itemOptions?.count}</Text>
+                                    </View>
+
+                                    <Button onPress={() => setItemOptions(i => ({...i, count: i.count < 5 ? i.count + 1 : i.count}))}>
+                                        <Text style={{...styles['fs-3'], ...styles['px-2'], ...styles['col-white']}}>+</Text>
+                                    </Button>
                                 </View>
                             </View>
 
@@ -252,15 +261,13 @@ function MenuItemModal({})
                     </ScrollView>
                 }
 
-                <View style={{...styles['pos-abs'], ...styles['w-100'], ...styles['al-items-s']}}>
+                <View style={{...styles['pos-abs'], ...styles['w-100'], ...styles['al-items-e']}}>
                     <Button style={{...styles['m-2']}} onPress={() => dispatch(setMenuItemToShow(null))}>
                         <MaterialCommunityIcons name="close" color="white" size={25} />
                     </Button>
                 </View>
             </View>
         </Modal>
-
-
     )
 }
  

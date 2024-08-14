@@ -56,6 +56,8 @@
         "view_orders": "عرض طلباتي",
         "incomplete_info": "معلومات ملفك غير مكتملة",
         "user_info": "معلومات المستخدم",
+        "name_placeholder": "إسم العميل",
+        "email_placeholder": "البريد الإلكتروني",
         "username_placeholder": "إسم المستخدم",
         "mobile_placeholder": "رقم الهاتف",
         "no_delivery_point": "لا نقطة توصيل محددة",
@@ -102,7 +104,8 @@
         "order_total": "إجمالي الطلب",
         "shipping_fee": "مبلغ الشحن",
         "total_amount": "المبلغ كاملا",
-        "confirm_payment": "تأكيد الدفع"
+        "confirm_payment": "تأكيد الدفع",
+        "next": "التالي"
         
     },
     "order_success":

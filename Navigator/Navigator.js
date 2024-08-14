@@ -33,6 +33,7 @@ export default function Navigator()
 {
     const dispatch = useDispatch();
 
+    const user = useSelector(store => store.auth.user);
     const userId = useSelector(store => store.auth.userId);
     const currentLang = useSelector(store => store.settings.lang);
     const [initialLangChange,setInitialLangChange] = useState(false);
@@ -58,6 +59,11 @@ export default function Navigator()
                 {
                     dispatch(setUser(null));
                 }
+
+                console.log(userId);
+                dispatch(getCart());
+                dispatch(getOrders());
+
 				
 			}
 			else
@@ -78,10 +84,13 @@ export default function Navigator()
         dispatch(getItems());
     },[]);
 
-    useEffect(()=>{
-        dispatch(getCart());
-        dispatch(getOrders());
-    },[auth.currentUser]);
+    // useEffect(()=>{
+    //     if(userId)
+    //     {
+    //         dispatch(getCart());
+    //         dispatch(getOrders());
+    //     }
+    // },[userId,user]);
 
     useEffect(()=>{
         if(currentLang && !initialLangChange)

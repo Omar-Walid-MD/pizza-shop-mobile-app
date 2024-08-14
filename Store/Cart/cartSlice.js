@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import AsyncStorage from '@react-native-community/async-storage'
 import {auth, database} from "../../Firebase/firebase"
-import { ref, remove, set } from 'firebase/database';
+import { child, get, ref, remove, set } from 'firebase/database';
 
 const initialState = {
     cart: [],
@@ -13,14 +13,27 @@ export const getCart = createAsyncThunk(
     'cart/getCart',
     async (args,{getState}) => {
 
-        if(auth.currentUser)
+        const userId = getState().auth.userId;
+        console.log("getting cart for",userId);
+        if(userId)
         {
-            const userCart = getState().auth.user.cart;
-            return Object.keys(userCart || {}).map((itemId) => ({id:itemId,...userCart[itemId]}));
-        }
-        else
-        {
-            return JSON.parse(await AsyncStorage.getItem("userCart")  || []);
+            if(userId!=="anonymous")
+            {
+                let cart;
+                await get(child(ref(database), `carts/${userId}`)).then((snapshot) => {
+                    if(snapshot.exists())
+                    {
+                        cart = snapshot.val();
+                    }
+                });
+                return Object.keys(cart || {}).map((itemId) => ({id:itemId,...cart[itemId]}));
+            }
+            else
+            {
+                let cart = JSON.parse(await AsyncStorage.getItem("userCart")) || [];
+                console.log("anonymous cart worked");
+                return cart;
+            }
         }
     }
 );
@@ -32,15 +45,19 @@ export const addToCart = createAsyncThunk(
         let cart = getState().cart.cart;
         cart = [...cart,addedItem];
 
-        if(auth.currentUser)
+        const userId = getState().auth.userId;
+        if(userId)
         {
-            const itemWithoutId = JSON.parse(JSON.stringify(addedItem));
-            delete itemWithoutId.id;
-            set(ref(database,`users/${auth.currentUser.uid}/cart/${addedItem.id}`), itemWithoutId);
-        }
-        else
-        {
-            await AsyncStorage.setItem("userCart",JSON.stringify(cart));
+            if(userId!=="anonymous")
+            {
+                const itemWithoutId = JSON.parse(JSON.stringify(addedItem));
+                delete itemWithoutId.id;
+                set(ref(database,`carts/${userId}/${addedItem.id}`), itemWithoutId);
+            }
+            else
+            {
+                await AsyncStorage.setItem("userCart",JSON.stringify(cart));
+            }
         }
         
         return cart;
@@ -54,13 +71,17 @@ export const removeFromCart = createAsyncThunk(
 
         let cart = getState().cart.cart.filter((cartItem) => cartItem.id!==item.id || cartItem.size!==item.size);
 
-        if(auth.currentUser)
+        const userId = getState().auth.userId;
+        if(userId)
         {
-            remove(ref(database,`users/${auth.currentUser.uid}/cart/${item.id}`));
-        }
-        else
-        {
-            await AsyncStorage.setItem("userCart",JSON.stringify(cart));
+            if(userId!=="anonymous")
+            {
+                remove(ref(database,`carts/${userId}/${item.id}`));
+            }
+            else
+            {
+                await AsyncStorage.setItem("userCart",JSON.stringify(cart));
+            }
         }
         
         return cart;
@@ -76,13 +97,17 @@ export const setItemCount = createAsyncThunk(
         let cart = getState().cart.cart.map((cartItem) => 
             (cartItem.id===item.id && cartItem.size===item.size) ? ({...cartItem,count:item.count}) : cartItem);
 
-        if(auth.currentUser)
+        const userId = getState().auth.userId;
+        if(userId)
         {
-            set(ref(database,`users/${auth.currentUser.uid}/cart/${item.id}/count`),item.count);
-        }
-        else
-        {
-            await AsyncStorage.setItem("userCart",JSON.stringify(cart));
+            if(userId!=="anonymous")
+            {
+                set(ref(database,`carts/${userId}/${item.id}/count`),item.count);
+            }
+            else
+            {
+                await AsyncStorage.setItem("userCart",JSON.stringify(cart));
+            }
         }
 
         return cart;
@@ -93,16 +118,18 @@ export const emptyCart = createAsyncThunk(
     'cart/emptyCart',
     async (args, {getState}) => {
 
-
-        if(auth.currentUser)
+        const userId = getState().auth.userId;
+        if(userId)
         {
-            remove(ref(database,`users/${auth.currentUser.uid}/cart`));
+            if(userId!=="anonymous")
+            {
+                remove(ref(database,`carts/${userId}`));
+            }
+            else
+            {
+                await AsyncStorage.setItem("userCart",JSON.stringify([]));
+            }
         }
-        else
-        {
-            await AsyncStorage.setItem("userCart",JSON.stringify([]));
-        }
-
         return cart;
     }
 );

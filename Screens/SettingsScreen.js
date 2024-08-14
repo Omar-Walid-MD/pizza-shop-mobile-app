@@ -97,8 +97,8 @@ export default function SettingsScreen({navigation}) {
                             {
                                 languageOptions.map((lang,i)=>
                                     <Pressable
-                                        style={{...styles['flex-row'],...styles['j-content-b'],...styles['rounded'],...styles['shadow'],...styles['p-1'],...styles['px-2'],
-                                        backgroundColor: currentLang===lang ? "#589941" : "#FEF7EA"}}
+                                        style={{...styles['flex-row'],...styles['j-content-b'],...styles['al-items-c'],...styles['rounded'],...styles['shadow'],...styles['p-1'],...styles['px-2'],
+                                        backgroundColor: currentLang===lang ? "#589941" : "white"}}
                                         key={`language-option-${i}`}
                                         onPress={() => {
                                             dispatch(setLanguage({lang}));

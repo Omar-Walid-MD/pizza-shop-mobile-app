@@ -125,13 +125,14 @@ export default function ProfileScreen({navigation}) {
 
                                         <View style={{...styles['w-100'], ...styles['j-content-c'], ...styles['al-items-c'], ...styles['rounded'], backgroundColor:"lightgray", height:250}}>
                                             {user.location ? (
-                                                <MapView
-                                                    style={{...styles['w-100'], flex:1}}
-                                                    scrollEnabled={false}
-                                                    region={{...user.location, latitudeDelta:0.01, longitudeDelta:0.01}}
-                                                >
-                                                    <Marker coordinate={user.location || {longitude:0, latitude:0}} />
-                                                </MapView>
+                                                null
+                                                // <MapView
+                                                //     style={{...styles['w-100'], flex:1}}
+                                                //     scrollEnabled={false}
+                                                //     region={{...user.location, latitudeDelta:0.01, longitudeDelta:0.01}}
+                                                // >
+                                                //     <Marker coordinate={user.location || {longitude:0, latitude:0}} />
+                                                // </MapView>
                                             ) : (
                                                 <Text>{translate("profile.no_delivery_point")}</Text>
                                             )}
@@ -164,13 +165,13 @@ export default function ProfileScreen({navigation}) {
                                         >
                                             {editInfo.location ? (
                                                 <>
-                                                    <MapView
+                                                    {/* <MapView
                                                         style={{...styles['w-100'], ...styles['h-100'], flex:1}}
                                                         scrollEnabled={false}
                                                         region={{...editInfo.location, latitudeDelta:0.01, longitudeDelta:0.01}}
                                                     >
                                                         <Marker coordinate={editInfo.location} />
-                                                    </MapView>
+                                                    </MapView> */}
 
                                                     <Button style={{...styles['pos-abs'], bottom:5}} onPress={() => setDeliveryLocationModal(true)}>
                                                         <Text style={{...styles['col-white'], ...styles['fs-4']}}>
@@ -204,6 +205,12 @@ export default function ProfileScreen({navigation}) {
                 </>
             ) : (
                 <>
+                    <View
+                    //style[w-100 al-items-c]
+                    style={{...styles['w-100'],...styles['al-items-c']}}
+                    >
+                        <MaterialIcons name="person-outline" color="#943030" style={{fontSize:200}} />
+                    </View>
                     <Button variant='green' onPress={() => navigation.navigate("Register")}>
                         <Text style={{...styles['col-white'], ...styles['fs-3']}}>
                             {translate("profile.create_account")}
@@ -267,13 +274,12 @@ function DeliveryLocationModal({deliveryLocationModal,setDeliveryLocationModal,s
                 </Text>
 
                 <View style={{...styles['w-100'], ...styles['p-2'], ...styles['al-items-c'], ...styles['j-content-c'], flex:1}}>
-                    <MapView
+                    {/* <MapView
                         style={{...styles['w-100'], flex:1}}
                         region={mapInitialRegion}
                         onRegionChangeComplete={(newRegion) => setDeliveryLocation({latitude: newRegion.latitude, longitude: newRegion.longitude})}
                     >
-                        {/* <Marker coordinate={deliveryLocation || {longitude:0,latitude:0}} /> */}
-                    </MapView>
+                    </MapView> */}
 
                     <View style={{...styles['pos-abs'], transform:"translateY(-42px)translateX(-0.5px)"}}>
                         <Image source={require("../assets/img/map-marker.png")} style={{height:70}} resizeMode='contain'/>

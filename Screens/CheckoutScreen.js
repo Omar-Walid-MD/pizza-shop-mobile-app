@@ -3,7 +3,7 @@ import { Modal, View, Image, Pressable, ScrollView, FlatList } from 'react-nativ
 import styles from "../styles";
 import { useMemo, useState } from 'react';
 import Button from '../Components/Button';
-import Background from '../Components/Background';
+import  { MaterialCommunityIcons, MaterialIcons } from "react-native-vector-icons";
 import Text from '../Components/Text';
 import CheckBox from '../Components/CheckBox';
 import ScreenContent from '../Components/Layout/ScreenContent';
@@ -12,16 +12,20 @@ import { useDispatch, useSelector } from 'react-redux';
 import { addOrder } from '../Store/Orders/ordersSlice';
 import { emptyCart } from '../Store/Cart/cartSlice';
 import { useTranslation } from 'react-i18next';
+import i18n from '../I18n/i18n';
+import Input from '../Components/Input';
 
 
 export default function CheckoutScreen({navigation}) {
 
+    const dispatch = useDispatch();
     const { t: translate} = useTranslation();
+
     const items = useSelector(store => store.items.items);
     const cart = useSelector(store => store.cart.cart);
     const user = useSelector(store => store.auth.user);
+    const userId = useSelector(store => store.auth.userId);
 
-    const dispatch = useDispatch();
 
     const deliveryOptions = [
         {
@@ -55,6 +59,13 @@ export default function CheckoutScreen({navigation}) {
     const [paymentIndex,setPaymentIndex] = useState(0);
 
     const colors = ["#589941","#C0851A","#C03E3E"];
+
+    const [checkoutInfoModalShown,setCheckoutInfoModalShown] = useState(false);
+    const [checkoutUserInfo,setCheckoutUserInfo] = useState({
+        name: "",
+        email: "",
+        mobileNo: ""
+    });
 
     const subtotal = useMemo(()=>{
         return cart.reduce((sum,item) => sum + items[item.id].prices[item.size] * item.count,0)
@@ -96,10 +107,10 @@ export default function CheckoutScreen({navigation}) {
                                         key={`order-item-${index}`}
                                     >
                                         <Text style={{...styles['fs-3'], ...styles['col-gray'], width: "65%"}}>
-                                            {`- ${items[item.id].name} x${item.count}`}
+                                            {`- ${items[item.id].name[i18n.language]} x${item.count}`}
                                         </Text>
                                         <Text style={{...styles['fs-3'], ...styles['col-gray']}}>
-                                            {items[item.id].prices[item.size] * item.count} {translate("checkout.currency")}
+                                            {items[item.id].prices[item.size] * item.count} {translate("currency")}
                                         </Text>
                                     </View>
                                 )}
@@ -136,7 +147,7 @@ export default function CheckoutScreen({navigation}) {
                                                 {option.price}
                                             </Text>
                                             <Text style={{fontSize: 12, marginBottom: 5, ...styles[`col-${deliveryIndex === i ? "white" : "black"}`]}} weight="sb">
-                                                {translate("checkout.currency")}
+                                                {translate("currency")}
                                             </Text>
                                         </View>
                                     </View>
@@ -186,7 +197,7 @@ export default function CheckoutScreen({navigation}) {
                                 {translate("checkout.order_total")}:
                             </Text>
                             <Text style={{...styles['text-center'], ...styles['fs-3']}}>
-                                {subtotal} {translate("checkout.currency")}
+                                {subtotal} {translate("currency")}
                             </Text>
                         </View>
 
@@ -195,22 +206,96 @@ export default function CheckoutScreen({navigation}) {
                                 {translate("checkout.shipping_fee")}:
                             </Text>
                             <Text style={{...styles['text-center'], ...styles['fs-3']}}>
-                                {deliveryOptions[deliveryIndex].price} {translate("checkout.currency")}
+                                {deliveryOptions[deliveryIndex].price} {translate("currency")}
                             </Text>
                         </View>
 
                         <View style={{...styles['w-100'], ...styles['flex-row'], ...styles['j-content-b'], ...styles['px-2']}}>
-                            <Text style={{...styles['text-center'], ...styles['fs-3']}}>
+                            <Text weight='b' style={{...styles['text-center'], ...styles['fs-3']}}>
                                 {translate("checkout.total_amount")}:
                             </Text>
-                            <Text style={{...styles['text-center'], ...styles['fs-2']}}>
-                                {(subtotal + deliveryOptions[deliveryIndex].price).toFixed(2)} {translate("checkout.currency")}
+                            <Text weight='b' style={{...styles['text-center'], ...styles['fs-2']}}>
+                                {(subtotal + deliveryOptions[deliveryIndex].price).toFixed(2)} {translate("currency")}
                             </Text>
                         </View>
                     </View>
+                    
+                    {
+                        userId!=="anonymous"
+                        ?
+                        <Button style={{...styles['w-100'], ...styles['mt-3']}} onPress={() => {
+                            navigation.navigate("OrderSuccess");
+                            dispatch(addOrder({
+                                items: cart.map(cartItem => ({...cartItem, unitPrice: items[cartItem.id].prices[cartItem.size]})),
+                                orderStatus: "pending",
+                                deliveryStatus: "baking",
+                                date: Date.now(),
+                                deliveryType: deliveryOptions[deliveryIndex].type,
+                                paymentType: paymentOptions[paymentIndex].type,
+                                subtotal,
+                                deliveryFees: deliveryOptions[deliveryIndex].price,
+                                total: subtotal + deliveryOptions[deliveryIndex].price,
+                                deliveryLocation: user.location
+                            }));
+                            dispatch(emptyCart());
+                        }}>
+                            <Text style={{...styles['fs-3'], ...styles['col-white']}}>
+                                {translate("checkout.confirm_payment")}
+                            </Text>
+                        </Button>
+                        :
+                        <Button style={{...styles['w-100'], ...styles['mt-3']}} onPress={()=>setCheckoutInfoModalShown(true)}>
+                            <Text style={{...styles['fs-3'], ...styles['col-white']}}>
+                                {translate("checkout.next")}
+                            </Text>
+                        </Button>
+                    }
+                </View>
+            </ScreenContent>
 
-                    <Button style={{...styles['w-100'], ...styles['mt-3']}} onPress={() => {
-                        navigation.navigate("OrderSuccess");
+            {/* Modals */}
+            <CheckoutInfoModal
+            checkoutInfoModalShown={checkoutInfoModalShown}
+            setCheckoutInfoModalShown={setCheckoutInfoModalShown}
+            info={checkoutUserInfo}
+            setInfo={setCheckoutUserInfo}
+            />
+        </View>
+
+    )
+}
+
+function CheckoutInfoModal({checkoutInfoModalShown,setCheckoutInfoModalShown,info,setInfo})
+{
+    const dispatch = useDispatch();
+    const { t: translate} = useTranslation();
+
+
+    function handleInfo(text,property)
+    {
+        setInfo(e => ({...e,[property]:text.trim()}));
+    }
+
+
+    return (
+        <Modal visible={checkoutInfoModalShown} animationType='slide' onRequestClose={() => setCheckoutInfoModalShown(false)}>
+            <View style={{...styles['w-100'], ...styles['h-100'], ...styles['bg-white'], ...styles['shadow'], ...styles['al-items-c']}}>
+
+                <View style={{...styles['w-100'], ...styles['al-items-c'], ...styles['gap-2'], ...styles['p-4'], ...styles['mb-1']}}>
+                    <Text
+                    //style[text-center fs-2 mt-4 mb-2]
+                    style={{...styles['text-center'],...styles['fs-2'],...styles['mt-4'],...styles['mb-2']}}
+                    >فضلا إملأ البيانات لتأكيد الطلب</Text>
+
+                    <View style={{...styles['w-100'], ...styles['gap-3']}}>
+                        <Input value={info.name} onChangeText={(t) => handleInfo(t, "name")} placeholder={translate("profile.username_placeholder")} label />
+                        <Input value={info.email} onChangeText={(t) => handleInfo(t, "email")} placeholder={translate("profile.email_placeholder")} label />
+                        <Input value={info.mobileNo} onChangeText={(t) => handleInfo(t, "mobileNo")} placeholder={translate("profile.mobile_placeholder")} label keyboardType="phone-pad" />
+
+                    </View>
+
+                    <Button style={{...styles['w-100'], ...styles['mt-2']}}
+                    onPress={()=>{
                         dispatch(addOrder({
                             items: cart.map(cartItem => ({...cartItem, unitPrice: items[cartItem.id].prices[cartItem.size]})),
                             orderStatus: "pending",
@@ -224,14 +309,22 @@ export default function CheckoutScreen({navigation}) {
                             deliveryLocation: user.location
                         }));
                         dispatch(emptyCart());
-                    }}>
-                        <Text style={{...styles['fs-3'], ...styles['col-white']}}>
+                    }}
+                    >
+                        <Text style={{...styles['col-white'], ...styles['fs-3']}}>
                             {translate("checkout.confirm_payment")}
                         </Text>
                     </Button>
-                </View>
-            </ScreenContent>
-        </View>
+                </View>  
 
+                <View style={{...styles['pos-abs'], ...styles['w-100'], ...styles['al-items-e']}}>
+                    <Button variant='green' style={{...styles['m-2']}} onPress={() => setCheckoutInfoModalShown(false)}>
+                        <Text style={{...styles['col-white']}}>
+                            {translate("checkout.back_button")}
+                        </Text>
+                    </Button>
+                </View>
+            </View>
+        </Modal>
     )
 }

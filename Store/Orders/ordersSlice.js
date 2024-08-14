@@ -12,29 +12,36 @@ const initialState = {
 
 export const getOrders = createAsyncThunk(
     'orders/getOrders',
-    async (args) => {
+    async (args,{getState}) => {
 
-        if(auth.currentUser)
+        const userId = getState().auth.userId;
+        if(userId)
         {
-            let orders;
-            await get(child(ref(database), `orders/${auth.currentUser.uid}`)).then((snapshot) => {
-                if(snapshot.exists())
-                {
-                    orders = snapshot.val();
-                }
-            });
-            Object.keys(orders).forEach(async (orderID)=>{
-                if(orders[orderID].orderStatus==="pending" && Date.now() >= orders[orderID].date + 2 * 3600 * 1000)
-                {
-                    orders[orderID].orderStatus = "success";
-                    orders[orderID].deliveryStatus = "delivered";
-                    await update(ref(database, `orders/${auth.currentUser.uid}/${orderID}`),orders[orderID]);
-                }
-            });
-            return orders;
-
+            if(userId!=="anonymous")
+            {
+                let orders;
+                await get(child(ref(database), `orders/${auth.currentUser.uid}`)).then((snapshot) => {
+                    if(snapshot.exists())
+                    {
+                        orders = snapshot.val();
+                    }
+                });
+                Object.keys(orders).forEach(async (orderID)=>{
+                    if(orders[orderID].orderStatus==="pending" && Date.now() >= orders[orderID].date + 2 * 3600 * 1000)
+                    {
+                        orders[orderID].orderStatus = "success";
+                        orders[orderID].deliveryStatus = "delivered";
+                        await update(ref(database, `orders/${auth.currentUser.uid}/${orderID}`),orders[orderID]);
+                    }
+                });
+                return orders;
+    
+            }
+            else
+            {
+                return JSON.parse(await AsyncStorage.getItem("userOrders")) || {};
+            }
         }
-        else return {};
     }
 );
 
@@ -42,13 +49,24 @@ export const addOrder = createAsyncThunk(
     'orders/addOrder',
     async (order) => {
 
-        let orderID = uuid.v4();
-        if(auth.currentUser)
+        
+        const userId = getState().auth.userId;
+        if(userId)
         {
-            await set(ref(database, `orders/${auth.currentUser.uid}/${orderID}`),order);
+            let orderID = uuid.v4();
+            if(userId!=="anonymous")
+            {
+                await set(ref(database, `orders/${userId}/${orderID}`),order);
+            }
+            else
+            {
+                const orders = getState().orders.orders;
+                orders[orderID] = order;
+                await AsyncStorage.setItem("userOrders",JSON.stringify(orders));
+            }
+            return {order,orderID};
         }
 
-        return {order,orderID};
     }
 );
 

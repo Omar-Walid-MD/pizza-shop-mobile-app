@@ -44,9 +44,10 @@ export default function CartScreen({navigation}) {
 
     const [screenType,setScreenType] = useState("cart");
 
+
     const totalCost = useMemo(()=>{
-        return cart.reduce((sum,item) => sum + items[item.id].prices[item.size] * item.count,0)
-    },[cart]);
+        return (cart && Object.keys(items).length) ? cart.reduce((sum,item) => sum + items[item.id].prices[item.size] * item.count,0) : 0;
+    },[cart,items]);
 
 
     useEffect(()=>{
@@ -74,11 +75,7 @@ export default function CartScreen({navigation}) {
             {/* <Background /> */}
             
             {
-                ordersLoading ?
-                <>
-                    <Text>{translate("cart.loading")}</Text>
-                </>
-                :
+                !ordersLoading &&
                 screenType === "cart" ?
                 <>
                     {/* Screen Content */}
@@ -113,6 +110,8 @@ export default function CartScreen({navigation}) {
                         :
                         <>
                             <View style={{...styles['h-100'], ...styles['al-items-c'], ...styles['j-content-c'], ...styles['gap-2']}}>
+
+                                <MaterialCommunityIcons name="cart-outline" color="#943030" style={{fontSize:200}} />
                                 <Text style={{...styles['fs-1']}}>
                                     {translate("cart.empty")}
                                 </Text>
@@ -145,19 +144,12 @@ export default function CartScreen({navigation}) {
 
                                 <View style={{...styles['w-100'], ...styles['my-2'], ...styles['al-items-c'], ...styles['j-content-c'], flex:1}}>
                                     <View style={{...styles['w-100'], ...styles['j-content-c'], ...styles['al-items-c'], ...styles['rounded'], ...styles['shadow'], backgroundColor:"lightgray", height:250, overflow:"hidden"}}>
-                                        <MapView
+                                        {/* <MapView
                                             style={{...styles['w-100'], flex:1}}
                                             scrollEnabled={false}
                                             region={{...user?.location, latitudeDelta:0.01, longitudeDelta:0.01}}
                                         >
-                                            {/* <MapViewDirections
-                                            origin={{latitude:31.194849,longitude:29.8972593}}
-                                            destination={user.location}
-                                            apikey={process.env.EXPO_PUBLIC_GOOGLE_MAPS_API_KEY}
-                                            strokeWidth={10}
-                                            strokeColor='black'
-                                            /> */}
-                                        </MapView>
+                                        </MapView> */}
                                     </View>
                                 </View>
 
@@ -284,7 +276,7 @@ function CartItemModal({})
                     </ScrollView>
                 }
 
-                <View style={{...styles['pos-abs'], ...styles['w-100'], ...styles['al-items-s']}}>
+                <View style={{...styles['pos-abs'], ...styles['w-100'], ...styles['al-items-e']}}>
                     <Button style={{...styles['m-2']}} onPress={() => dispatch(setCartItemToShow(null))}>
                         <MaterialCommunityIcons name="close" color="white" size={25} />
                     </Button>

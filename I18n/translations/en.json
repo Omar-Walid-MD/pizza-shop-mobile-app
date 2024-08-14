@@ -52,6 +52,8 @@
         "view_orders": "View My Orders",
         "incomplete_info": "Your profile information is incomplete",
         "user_info": "User Information",
+        "name_placeholder": "Customer Name",
+        "email_placeholder": "Email",
         "username_placeholder": "Username",
         "mobile_placeholder": "Phone Number",
         "no_delivery_point": "No delivery point specified",
@@ -94,7 +96,8 @@
         "order_total": "Order Total",
         "shipping_fee": "Shipping Fee",
         "total_amount": "Total Amount",
-        "confirm_payment": "Confirm Payment"
+        "confirm_payment": "Confirm Payment",
+        "next": "Next"
     },
     "order_success": {
         "order_success": "Order Successfully Placed",
